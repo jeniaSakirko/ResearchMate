@@ -5,6 +5,8 @@ from django.core.exceptions import ValidationError
 
 @pytest.mark.django_db
 class TestResearchModel:
+    # todo: Add test for field_id validation
+
     def test_unique_research_name(self, research_fixture, research_data):
         with pytest.raises(ValidationError, match='Invalid research nane - research already exist.'):
             Research.create(name=pytest.research_name, field_id=pytest.research_filed_id,
