@@ -81,6 +81,20 @@ class Research(models.Model):
     def get_all():
         return Research.objects.all()
 
+    def update(self, name=None, field_id=None, capacity=None):
+        if name is None:
+            name = self.name
+        if field_id is None:
+            field_id = self.field.id
+        if capacity is None:
+            capacity = self.capacity
+
+        ValidateResearch(name=name, field_id=field_id).start_validation()
+        self.name = name
+        self.field = ResearchField.get_field_by_id(field_id=field_id)
+        self.capacity = capacity
+        self.save()
+
 
 class ResearchAttending(models.Model):
     participant = models.ForeignKey(Participant, on_delete=models.SET_NULL, null=True)

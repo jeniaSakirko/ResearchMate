@@ -37,3 +37,38 @@ class TestResearchModel:
 
         Research.create(name='test_get_all', field_id=pytest.research_filed_id, capacity=20)
         assert len(original) + 1 == len(list(Research.get_all()))
+
+    def test_update_name_successful(self, research_fixture):
+        assert research_fixture.name == pytest.research_name
+        assert research_fixture.field.id == pytest.research_filed_id
+        assert research_fixture.capacity == pytest.research_capacity
+
+        research_fixture.update(name='test_update')
+
+        assert research_fixture.name == 'test_update'
+        assert research_fixture.field.id == pytest.research_filed_id
+        assert research_fixture.capacity == pytest.research_capacity
+
+    def test_update_field_id_successful(self, research_fixture, research_field):
+        assert research_fixture.name == pytest.research_name
+        assert research_fixture.field.id == pytest.research_filed_id
+        assert research_fixture.capacity == pytest.research_capacity
+        assert pytest.research_filed_id != 1
+
+        research_fixture.update(field_id=1)
+
+        assert research_fixture.name == pytest.research_name
+        assert research_fixture.field.id == 1
+        assert research_fixture.capacity == pytest.research_capacity
+
+    def test_update_capacity_successful(self, research_fixture):
+        assert research_fixture.name == pytest.research_name
+        assert research_fixture.field.id == pytest.research_filed_id
+        assert research_fixture.capacity == pytest.research_capacity
+        assert research_fixture.capacity != 2
+
+        research_fixture.update(capacity=2)
+
+        assert research_fixture.name == pytest.research_name
+        assert research_fixture.field.id == pytest.research_filed_id
+        assert research_fixture.capacity == 2
