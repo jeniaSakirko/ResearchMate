@@ -15,17 +15,19 @@ class ValidateFormMetadata:
 
     def validate_form_name_unique_for_research(self):
         from .models import FormMetadata
+
         if FormMetadata.is_form_name_exist(name=self.name):
-            raise ValidationError('Invalid form name - name already exist.')
+            raise ValidationError("Invalid form name - name already exist.")
 
     def validate_form_url(self):
         try:
             validator = URLValidator()
             validator(self.url)
         except ValidationError:
-            raise ValidationError('Invalid form URL.')
+            raise ValidationError("Invalid form URL.")
 
     def validate_research_exist(self):
         from .models import Research
+
         if not Research.is_research_id_exist(research_id=self.research_id):
-            raise ValidationError('Invalid research id - id does not exist.')
+            raise ValidationError("Invalid research id - id does not exist.")

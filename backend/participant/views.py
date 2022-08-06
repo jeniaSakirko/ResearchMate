@@ -1,8 +1,10 @@
+import logging
+
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
-from .serializers import ParticipantSerializer
-import logging
+
 from .models import Participant
+from .serializers import ParticipantSerializer
 
 
 class ParticipantRegisterAPI(generics.GenericAPIView):
@@ -29,7 +31,7 @@ class ParticipantAPI(generics.UpdateAPIView):
 
             if serializer.is_valid():
                 serializer.save()
-                return Response('Ok')
+                return Response("Ok")
             else:
                 return Response({"message": "failed", "details": serializer.errors})
         except Exception as e:

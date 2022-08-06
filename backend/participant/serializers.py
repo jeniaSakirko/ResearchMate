@@ -1,7 +1,8 @@
-from rest_framework import serializers
-from django.core.exceptions import ValidationError, PermissionDenied
-from .models import Participant
+from django.core.exceptions import PermissionDenied, ValidationError
 from researcher.models import Researcher
+from rest_framework import serializers
+
+from .models import Participant
 
 
 class ParticipantSerializer(serializers.Serializer):
@@ -14,7 +15,7 @@ class ParticipantSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         try:
-            req_user = self.context['request'].user
+            req_user = self.context["request"].user
             can_update = False
             if Researcher.objects.filter(base_user=req_user.baseuser).exists():
                 can_update = True
@@ -27,19 +28,21 @@ class ParticipantSerializer(serializers.Serializer):
                 raise PermissionDenied()
             return instance
         except Exception as e:
-            raise Exception('Internal Error {}'.format(str(e)))
+            raise Exception("Internal Error {}".format(str(e)))
 
     def create(self, validated_data):
         try:
-            participant = Participant.create(email=validated_data['email'],
-                                             username=validated_data['username'],
-                                             password=validated_data['password'],
-                                             first_name=validated_data['first_name'],
-                                             last_name=validated_data['last_name'],
-                                             phone_number=validated_data['phone_number'])
+            participant = Participant.create(
+                email=validated_data["email"],
+                username=validated_data["username"],
+                password=validated_data["password"],
+                first_name=validated_data["first_name"],
+                last_name=validated_data["last_name"],
+                phone_number=validated_data["phone_number"],
+            )
 
             return participant
 
         except ValidationError as e:
-            error = {'message': str(e) if len(e.args) > 0 else 'Unknown Error'}
+            error = {"message": str(e) if len(e.args) > 0 else "Unknown Error"}
             raise serializers.ValidationError(error)

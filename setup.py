@@ -69,7 +69,7 @@ setup(
         "backports.weakref",
     ],
     extras_require={
-        "dev": ["pre-commit", "flake8", "black", "isort", "pytest-django"],
+        "dev": ["flake8", "black", "isort", "pytest-django"],
         "test": ["pytest", "tox"],
     },
 )

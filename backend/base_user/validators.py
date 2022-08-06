@@ -1,5 +1,5 @@
-from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 
 
@@ -21,17 +21,17 @@ class ValidateBaseUser:
     def validate_participant_username_unique(self):
         # TODO: add the value name to the error
         if User.objects.filter(username=self.username).exists():
-            raise ValidationError('Invalid username - username already exist.')
+            raise ValidationError("Invalid username - username already exist.")
 
     def validate_participant_email_unique(self):
         # TODO: add the value name to the error
         if User.objects.filter(email=self.email).exists():
-            raise ValidationError('Invalid email - email already exist.')
+            raise ValidationError("Invalid email - email already exist.")
 
     def validate_phone(self):
         value = self.phone_number
         if isinstance(value, str):
             if len(value) != 10:
-                raise ValidationError('Invalid phone - phone should be 10 digits.')
+                raise ValidationError("Invalid phone - phone should be 10 digits.")
         else:
-            raise ValidationError('Invalid phone - phone should be string.')
+            raise ValidationError("Invalid phone - phone should be string.")

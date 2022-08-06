@@ -1,8 +1,10 @@
-from .models import Research
-from .serializers import ResearchAssignSerializer, ResearchSerializer
+import logging
+
 from rest_framework import generics, permissions, status, viewsets
 from rest_framework.response import Response
-import logging
+
+from .models import Research
+from .serializers import ResearchAssignSerializer, ResearchSerializer
 
 
 class ResearchViewSet(viewsets.ModelViewSet):

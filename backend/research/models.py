@@ -1,8 +1,9 @@
-from django.db import models
-from .validators import ValidateResearch, ValidateResearchField
 from django.core.exceptions import ObjectDoesNotExist
-from participant.models import Participant
+from django.db import models
 from django.utils import timezone
+from participant.models import Participant
+
+from .validators import ValidateResearch, ValidateResearchField
 
 
 class ResearchField(models.Model):
@@ -89,29 +90,30 @@ class Research(models.Model):
 
 
 class ResearchAttendingStatus(models.TextChoices):
-    assigned = 'AS', 'Assigned'
-    in_progress = 'IP', 'InProgress'
-    drop = 'DR', 'Drop'
-    done = 'DO', 'Done'
+    assigned = "AS", "Assigned"
+    in_progress = "IP", "InProgress"
+    drop = "DR", "Drop"
+    done = "DO", "Done"
 
 
 class ResearchAttending(models.Model):
     participant = models.ForeignKey(Participant, on_delete=models.SET_NULL, null=True)
     research = models.ForeignKey(Research, on_delete=models.SET_NULL, null=True)
     date = models.DateTimeField(default=timezone.now, blank=True)
-    status = models.CharField(max_length=2, choices=ResearchAttendingStatus.choices, default='AS', blank=False)
+    status = models.CharField(max_length=2, choices=ResearchAttendingStatus.choices, default="AS", blank=False)
 
     @staticmethod
     def create(research, participant_id):
         if Participant.get_by_id(participant_id=participant_id) is None:
-            raise Exception('Participant with id {0} does not exist'.format(participant_id))
+            raise Exception("Participant with id {0} does not exist".format(participant_id))
         if ResearchAttending.is_participant_free(participant_id=participant_id):
             res = ResearchAttending(participant=Participant.get_by_id(participant_id=participant_id), research=research)
             res.save()
 
         else:
             raise Exception(
-                '{0} cannot be assigned to research'.format(Participant.get_by_id(participant_id=participant_id)))
+                "{0} cannot be assigned to research".format(Participant.get_by_id(participant_id=participant_id))
+            )
 
     @staticmethod
     def is_participant_free(participant_id):
