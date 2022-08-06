@@ -1,7 +1,7 @@
 import pytest
 from django.core.exceptions import ValidationError
 
-from .models import Research, ResearchAttending, ResearchField
+from .models import Research, ResearchAttending, ResearchField, ResearchAttendingStatus
 
 
 @pytest.mark.django_db
@@ -48,3 +48,12 @@ class TestResearchModel:
         assert len(ResearchAttending.objects.filter(research=research_gal)) == 0
         research_gal.assign_participant(participant_id=participant_fixture.id)
         assert len(ResearchAttending.objects.filter(research=research_gal)) == 1
+
+    @pytest.mark.parametrize('value, expected_value', [
+        ("as", "AS"), ("Assigned", "AS"), ("assigned", "AS"), ("ASSIGNED", "AS"),
+        ("ip", "IP"), ("Inprogress", "IP"), ("inprogress", "IP"), ("INPROGRESS", "IP"),
+        ("dr", "DR"), ("Drop", "DR"), ("drop", "DR"), ("DROP", "DR"),
+        ("do", "DO"), ("Done", "DO"), ("done", "DO"), ("DONE", "DO"),
+    ])
+    def test_get_valid_name_from_status(self, value, expected_value):
+        assert ResearchAttendingStatus.get_valid_name_from_status(value) == expected_value

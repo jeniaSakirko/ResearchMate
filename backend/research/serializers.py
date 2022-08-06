@@ -1,7 +1,9 @@
 from django.core.exceptions import ValidationError
 from rest_framework import serializers
+from rest_framework.exceptions import MethodNotAllowed
 
-from .models import Research
+from .models import Research, ResearchAttending, ResearchAttendingStatus
+from participant.serializers import ParticipantSerializer
 
 
 class ResearchSerializer(serializers.ModelSerializer):
@@ -26,16 +28,48 @@ class ResearchSerializer(serializers.ModelSerializer):
 class ResearchAssignSerializer(serializers.Serializer):
     participant_id = serializers.IntegerField()
 
+    def get(self):
+        pass
+
     def update(self, instance, validated_data):
         try:
-            instance.assign_participant(participant_id=validated_data["participant_id"])
-            return instance
+            if self.context["method"] == "GET":
+                search_status = None
+                if "status" in validated_data:
+                    search_status = validated_data["status"][0]
+                return ResearchAttending.get_participant_list(instance.id, status=search_status)
+            if self.context["method"] == "POST":
+                instance.assign_participant(participant_id=validated_data["participant_id"])
+                return instance
         except Exception as e:
             raise serializers.ValidationError(e)
 
     def validate(self, data):
-        if "participant_id" not in data.keys():
-            raise serializers.ValidationError("participant_id is missing")
-        if not isinstance(data["participant_id"], int):
-            raise serializers.ValidationError("Id must be integer")
-        return data
+        if self.context["method"] == "GET":
+            return dict(self.context["query_params"])
+        if self.context["method"] == "POST":
+            if "participant_id" not in data.keys():
+                raise serializers.ValidationError("participant_id is missing")
+            if not isinstance(data["participant_id"], int):
+                raise serializers.ValidationError("Id must be integer")
+            return data
+        raise MethodNotAllowed(self.context["request"].method)
+
+
+class ResearchAttendingSerializer(serializers.ModelSerializer):
+    participant = ParticipantSerializer()
+    status = serializers.SerializerMethodField()
+    date = serializers.SerializerMethodField()
+
+    def get_status(self, instance):
+        for key, val in ResearchAttendingStatus.choices:
+            if key == instance.status:
+                return val
+        return instance.status
+
+    def get_date(self, instance):
+        return instance.date.strftime("%Y-%m-%d %H:%M:%S")
+
+    class Meta:
+        model = ResearchAttending
+        fields = ["participant", "date", "status"]
