@@ -4,11 +4,11 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 
 from .models import Participant
-from .serializers import ParticipantSerializer
+from .serializers import ParticipantCleanSerializer
 
 
 class ParticipantRegisterAPI(generics.GenericAPIView):
-    serializer_class = ParticipantSerializer
+    serializer_class = ParticipantCleanSerializer
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -22,7 +22,7 @@ class ParticipantAPI(generics.UpdateAPIView):
         permissions.IsAuthenticated,
     ]
     queryset = Participant.objects.all()
-    serializer_class = ParticipantSerializer
+    serializer_class = ParticipantCleanSerializer
 
     def update(self, request, *args, **kwargs):
         try:

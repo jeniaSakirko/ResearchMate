@@ -1,11 +1,20 @@
 from django.core.exceptions import PermissionDenied, ValidationError
 from researcher.models import Researcher
+from base_user.serializers import BaseUserSerializer
 from rest_framework import serializers
 
 from .models import Participant
 
 
-class ParticipantSerializer(serializers.Serializer):
+class ParticipantSerializer(serializers.ModelSerializer):
+    base_user = BaseUserSerializer()
+
+    class Meta:
+        model = Participant
+        fields = ("id", "base_user")
+
+
+class ParticipantCleanSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
     email = serializers.CharField()
