@@ -10,15 +10,15 @@ class Migration(migrations.Migration):
         from research.models import Research, ResearchField
 
         field_test_data = ["Brain"]
-        research_test_data = [("Plasticity of the motor network", 1, 50)]
+        research_test_data = [("Plasticity of the motor network", 1)]
 
         with transaction.atomic():
             for name in field_test_data:
                 field = ResearchField.create(name=name)
                 field.save()
 
-            for name, field_id, capacity in research_test_data:
-                research = Research.create(name=name, field_id=field_id, capacity=capacity)
+            for name, field_id in research_test_data:
+                research = Research.create(name=name, field_id=field_id)
                 research.save()
 
     operations = [

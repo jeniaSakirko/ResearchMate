@@ -10,7 +10,6 @@ class ResearchSerializer(serializers.ModelSerializer):
             research = Research.create(
                 name=validated_data.get("name"),
                 field_id=validated_data.get("field").id,
-                capacity=validated_data.get("capacity"),
             )
             return research
 
@@ -20,7 +19,7 @@ class ResearchSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Research
-        fields = ("id", "name", "field", "capacity")
+        fields = ("id", "name", "field")
 
 
 class ResearchAssignSerializer(serializers.Serializer):

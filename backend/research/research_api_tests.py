@@ -9,7 +9,7 @@ class TestResearchModelAPI:
         all_before = list(Research.get_all())
         response = client.post(
             "/api/research/",
-            {"name": pytest.research_name, "field": pytest.research_filed_id, "capacity": pytest.research_capacity},
+            {"name": pytest.research_name, "field": pytest.research_filed_id},
         )
         assert response.status_code == 201
 
@@ -20,7 +20,7 @@ class TestResearchModelAPI:
         all_before = list(Research.get_all())
         response = client.post(
             "/api/research/",
-            {"name": pytest.research_name, "field": pytest.research_filed_id, "capacity": pytest.research_capacity},
+            {"name": pytest.research_name, "field": pytest.research_filed_id},
         )
         assert response.status_code == 400
 

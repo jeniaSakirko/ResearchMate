@@ -54,7 +54,6 @@ def participant_fixture(participant_data):
 def research_data():
     pytest.research_filed_name = "test field"
     pytest.research_name = "test research"
-    pytest.research_capacity = 25
 
 
 @pytest.fixture
@@ -66,9 +65,7 @@ def research_field(research_data):
 
 @pytest.fixture
 def research_fixture(research_field, research_data):
-    return Research.create(
-        name=pytest.research_name, field_id=pytest.research_filed_id, capacity=pytest.research_capacity
-    )
+    return Research.create(name=pytest.research_name, field_id=pytest.research_filed_id)
 
 
 @pytest.fixture
