@@ -3,13 +3,14 @@ from django.db import migrations, transaction
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('research', '0001_initial'),
+        ("research", "0001_initial"),
     ]
 
     def generate_data(apps, schema_editor):
-        from research.models import ResearchField, Research
-        field_test_data = ['Brain']
-        research_test_data = [('Plasticity of the motor network', 1, 50)]
+        from research.models import Research, ResearchField
+
+        field_test_data = ["Brain"]
+        research_test_data = [("Plasticity of the motor network", 1, 50)]
 
         with transaction.atomic():
             for name in field_test_data:

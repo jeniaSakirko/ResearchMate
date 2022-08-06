@@ -1,7 +1,6 @@
-from django.db import models
 from base_user.models import BaseUser
+from django.db import models
 from research.models import Research
-
 
 # from validators import ValidateUser
 
@@ -11,9 +10,16 @@ class Researcher(models.Model):
 
     @staticmethod
     def create(email, username, password, first_name, last_name, phone_number):
-        res = Researcher(base_user=BaseUser.create(email=email, username=username, password=password,
-                                                   first_name=first_name, last_name=last_name,
-                                                   phone_number=phone_number))
+        res = Researcher(
+            base_user=BaseUser.create(
+                email=email,
+                username=username,
+                password=password,
+                first_name=first_name,
+                last_name=last_name,
+                phone_number=phone_number,
+            )
+        )
         res.save()
         return res
 

@@ -7,8 +7,9 @@ class ValidateResearchField:
 
     def start_validation(self):
         from .models import ResearchField
+
         if ResearchField.is_name_exist(name=self.name):
-            raise ValidationError('Invalid research field nane - research field already exist.')
+            raise ValidationError("Invalid research field nane - research field already exist.")
 
 
 class ValidateResearch:
@@ -22,10 +23,12 @@ class ValidateResearch:
 
     def validate_research_name_unique(self):
         from .models import Research
+
         if Research.is_research_name_exist(name=self.name):
-            raise ValidationError('Invalid research nane - research already exist.')
+            raise ValidationError("Invalid research nane - research already exist.")
 
     def validate_field_exist(self):
         from .models import ResearchField
+
         if not ResearchField.is_id_exist(field_id=self.field_id):
-            raise ValidationError('Invalid research field id - id does not exist.')
+            raise ValidationError("Invalid research field id - id does not exist.")

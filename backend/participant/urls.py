@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import ParticipantRegisterAPI, ParticipantAPI
+
+from .views import ParticipantAPI, ParticipantRegisterAPI
 
 urlpatterns = [
-    path('participant/register', ParticipantRegisterAPI.as_view()),
-    path('participant/<int:pk>', ParticipantAPI.as_view()),
+    path("participant/register", ParticipantRegisterAPI.as_view()),
+    path("participant/<int:pk>", ParticipantAPI.as_view()),
 ]

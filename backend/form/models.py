@@ -1,8 +1,9 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils import timezone
-from django.core.exceptions import ObjectDoesNotExist
 from participant.models import Participant
 from research.models import Research
+
 from .validators import ValidateFormMetadata
 
 
@@ -36,15 +37,15 @@ class FormMetadata(models.Model):
 
 
 class Status(models.TextChoices):
-    new = 'N', 'New'
-    under_review = 'R', 'Under Review'
-    done = 'D', 'Done'
+    new = "N", "New"
+    under_review = "R", "Under Review"
+    done = "D", "Done"
 
 
 class FormParticipantMap(models.Model):
     form = models.ForeignKey(FormMetadata, on_delete=models.SET_NULL, null=True)
     participant = models.ForeignKey(Participant, on_delete=models.SET_NULL, null=True)
-    status = models.CharField(max_length=1, choices=Status.choices, default='N', blank=True)
+    status = models.CharField(max_length=1, choices=Status.choices, default="N", blank=True)
     date = models.DateTimeField(default=timezone.now, blank=True)
 
     @staticmethod

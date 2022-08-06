@@ -5,15 +5,17 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('research', '0003_researchattending'),
+        ("research", "0003_researchattending"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='researchattending',
-            name='status',
+            model_name="researchattending",
+            name="status",
             field=models.CharField(
-                choices=[('AS', 'Assigned'), ('IP', 'InProgress'), ('DR', 'InProgress'), ('DO', 'Done')], default='AS',
-                max_length=2),
+                choices=[("AS", "Assigned"), ("IP", "InProgress"), ("DR", "InProgress"), ("DO", "Done")],
+                default="AS",
+                max_length=2,
+            ),
         ),
     ]
