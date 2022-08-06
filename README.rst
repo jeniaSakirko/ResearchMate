@@ -57,7 +57,6 @@ TLDR:
 * Explain your suggestion/bug so we'll know what your working on (`open an issue`_)
 * `Fork`_ the repository.
 * `Clone`_ your fork locally.
-* Install `pre-commit`_ hooks to avoid styling issues.
 * `Commit`_ & `push`_ your changes to your fork.
 * Create a `Pull Request`_ associated with your suggested issue.
 
@@ -68,7 +67,6 @@ TLDR:
 .. _open an issue: https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue
 .. _Fork: https://docs.github.com/en/get-started/quickstart/fork-a-repo
 .. _Clone: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
-.. _pre-commit: https://pre-commit.com/
 .. _Commit: https://github.com/git-guides/git-commit
 .. _push: https://github.com/git-guides/git-push
 .. _Pull Request: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests
