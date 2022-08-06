@@ -95,6 +95,13 @@ class ResearchAttendingStatus(models.TextChoices):
     drop = "DR", "Drop"
     done = "DO", "Done"
 
+    @staticmethod
+    def get_valid_name_from_status(status):
+        for val, name in ResearchAttendingStatus.choices:
+            if name.lower() == status.lower() or val.lower() == status.lower():
+                return val
+        return status
+
 
 class ResearchAttending(models.Model):
     participant = models.ForeignKey(Participant, on_delete=models.SET_NULL, null=True)
@@ -123,3 +130,22 @@ class ResearchAttending(models.Model):
             if st == ResearchAttendingStatus.assigned or st == ResearchAttendingStatus.in_progress:
                 return False
         return True
+
+    @staticmethod
+    def get_participant_list(research_id, status=None):
+        if status is None:
+            return ResearchAttending.objects.filter(research_id=research_id,
+                                                    status__in=[ResearchAttendingStatus.assigned,
+                                                                ResearchAttendingStatus.in_progress]
+                                                    )
+        if status == 'all':
+            return ResearchAttending.objects.filter(research_id=research_id)
+        status = ResearchAttendingStatus.get_valid_name_from_status(status=status)
+
+        if status in ResearchAttendingStatus.values:
+            return ResearchAttending.objects.filter(research_id=research_id, status=status)
+
+        message = "Status is invalid, valid options are: (" + \
+                  "), (".join(map(lambda opt: str(opt[0]) + ' / ' + str(opt[1]), ResearchAttendingStatus.choices)) + \
+                  ") (All)"
+        raise Exception(message)
