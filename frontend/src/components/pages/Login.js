@@ -1,25 +1,35 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
 import {Link} from 'react-router-dom';
-
+import {UserContext} from "../common/UserContext";
+import {login} from "../api/auth";
+import {Navigate} from 'react-router-dom';
 
 
 export const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const {userToken, setToken} = useContext(UserContext);
+
+
+    const onLogin = async () => {
+        const token = await login(username, password);
+        setToken(token)
+    }
 
     return (
-        <div className="flex justify-content-center aligned-items-center vertical-align-middle" style={{
-            marginTop: "35%"
-        }}>
+
+        <div className="flex justify-content-center aligned-items-center vertical-align-middle">
+            {userToken ? <Navigate to="/test/"/> : null}
             <div className="card">
                 <div className="flex flex-column align-items-center justify-content-center card-container gap-3
                 surface-overlay border-round border-1 shadow-1 p-5 py-0 m-3 ">
                     <h3 className="align-items-center">Login</h3>
                     <span className="p-input-icon-left">
                         <i className="pi pi-user"/>
-                        <InputText value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username"/>
+                        <InputText value={username} onChange={(e) => setUsername(e.target.value)}
+                                   placeholder="Username"/>
                     </span>
 
                     <span className="p-input-icon-left">
@@ -27,7 +37,7 @@ export const Login = () => {
                         <InputText type="password" value={password} onChange={(e) => setPassword(e.target.value)}
                                    placeholder="Password"/>
                     </span>
-                    <Button label="Login" className="p-button-rounded"/>
+                    <Button onClick={onLogin} label="Login" className="p-button-rounded"/>
                     <div>
                         <p>First time? <Link to="/register">Create an account</Link>.</p>
                     </div>
