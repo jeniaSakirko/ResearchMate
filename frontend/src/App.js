@@ -4,13 +4,15 @@ import 'primereact/resources/primereact.css';
 import 'primeflex/primeflex.css';
 
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import './App.css';
-
-
-import {Login} from './components/pages/Login';
-import {UserContext} from "./components/common/UserContext";
 import {useMemo, useState} from "react";
+
+
+import {UserContext} from "./components/common/UserContext";
 import {Test} from "./components/pages/test";
+import {Login} from './components/pages/Login';
+import {Register} from './components/pages/Register';
+
+import './App.css';
 
 
 function App() {
@@ -26,6 +28,7 @@ function App() {
                     <Routes>
                         {/*<Route path='/' element={<LandingPage/>} exact/>*/}
                         <Route path='/' element={<Login/>} exact/>
+                        <Route path='/register' element={<Register/>} exact/>
                         <Route path='/test' element={<Test/>} exact/>
                         {/*<Route path='/signup' element={<Signup/>} exact/>*/}
                         {/*<Route path='/logout' element={<Logout/>} exact/>*/}
