@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 django = "*"
 django-cors-headers = "*"
-"backports.weakref" = "*"
 djangorestframework = "*"
 django-rest-knox = "*"
 django-phonenumbers = "*"
