@@ -1,43 +1,48 @@
+import 'primeicons/primeicons.css';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import 'primereact/resources/primereact.css';
+import 'primeflex/primeflex.css';
+
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import {useMemo, useState} from "react";
+
+
+import {UserContext} from "./components/common/UserContext";
+import {Test} from "./components/pages/test";
+import {Login} from './components/pages/Login';
+import {Register} from './components/pages/Register';
+
 import './App.css';
 
-import PageNotFound from './components/pages/PageNotFound';
-import LandingPage from './components/pages/LandingPage';
-import LoginPage from './components/pages/Login';
-import ListPage from './components/researcher/list';
+
+function App() {
+    const [userToken, setToken] = useState(null);
+    const contextValue = useMemo(() => ({userToken, setToken}), [userToken, setToken]);
 
 
-import {Provider} from 'react-redux';
-import store from './store';
-import {loadUser} from './actions/auth'
-import {Component} from "react";
+    return (
+        <div id="app">
+            <Router>
+                <UserContext.Provider value={contextValue}>
+                    {/*/*<Navbar/>*!/*/}
+                    <Routes>
+                        {/*<Route path='/' element={<LandingPage/>} exact/>*/}
+                        <Route path='/' element={<Login/>} exact/>
+                        <Route path='/register' element={<Register/>} exact/>
+                        <Route path='/test' element={<Test/>} exact/>
+                        {/*<Route path='/signup' element={<Signup/>} exact/>*/}
+                        {/*<Route path='/logout' element={<Logout/>} exact/>*/}
+                        {/*<Route path='/list' element={<ListPage/>} exact/>*/}
+                        {/**/}
+                        {/*<Route path='*' element={<PageNotFound/>} exact/>*/}
 
-class App extends Component {
-    componentDidMount() {
-        store.dispatch(loadUser());
-    }
+                    </Routes>
+                </UserContext.Provider>
+            </Router>
 
-    render() {
-        return (
-            <Provider store={store}>
-                <div className="App">
-                    <Router>
-                        {/*<Navbar/>*/}
-                        <Routes>
-                            <Route path='/' element={<LandingPage/>} exact/>
-                            <Route path='/login' element={<LoginPage/>} exact/>
-                            {/*<Route path='/signup' element={<Signup/>} exact/>*/}
-                            {/*<Route path='/logout' element={<Logout/>} exact/>*/}
-                            <Route path='/list' element={<ListPage/>} exact/>
-
-                            <Route path='*' element={<PageNotFound/>} exact/>
-
-                        </Routes>
-                    </Router>
-                </div>
-            </Provider>
-        );
-    }
+            {/*<Footer/>*/}
+        </div>
+    );
 }
 
 export default App;

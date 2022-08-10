@@ -1,78 +1,48 @@
-import React, {Component} from 'react';
-import {Link, Navigate} from 'react-router-dom';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
-import {login} from '../../actions/auth';
-
-import '../../stylesheets/LandingPage.css'
-
-export class Login extends Component {
-    state = {
-        username: '',
-        password: '',
-    };
-
-    static propTypes = {
-        login: PropTypes.func.isRequired,
-        isAuthenticated: PropTypes.bool,
-    };
-
-    onSubmit = (e) => {
-        e.preventDefault();
-        this.props.login(this.state.username, this.state.password);
-    };
-
-    onChange = (e) => this.setState({[e.target.name]: e.target.value});
+import React, {useContext, useState} from 'react';
+import {InputText} from 'primereact/inputtext';
+import {Button} from 'primereact/button';
+import {Link} from 'react-router-dom';
+import {UserContext} from "../common/UserContext";
+import {login} from "../api/auth";
+import {Navigate} from 'react-router-dom';
 
 
-    render() {
-        if (this.props.isAuthenticated) {
-            return <Navigate to="/list"/>;
-        }
-        const {username, password} = this.state;
-        return (
-            <div className="text-center m-5-auto">
-                <h2>Sign in to us</h2>
-                <form onSubmit={this.onSubmit}>
-                    <div className="form-group">
-                        <label>Username</label><br/>
-                        <input
-                            type="text"
-                            className="form-control"
-                            name="username"
-                            onChange={this.onChange}
-                            value={username}
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Password</label>
-                        <Link to="/forget-password"><label className="right-label">Forget password?</label></Link>
-                        <br/>
-                        <input
-                            type="password"
-                            className="form-control"
-                            name="password"
-                            onChange={this.onChange}
-                            value={password}
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <button id="sub_btn" type="submit">Login</button>
-                    </div>
-                </form>
-                <footer>
-                    <p>First time? <Link to="/register">Create an account</Link>.</p>
-                    <p><Link to="/">Back to Homepage</Link>.</p>
-                </footer>
-            </div>
-        )
+export const Login = () => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const {userToken, setToken} = useContext(UserContext);
+
+
+    const onLogin = async () => {
+        const token = await login(username, password);
+        setToken(token)
     }
+
+    return (
+
+        <div className="flex justify-content-center aligned-items-center vertical-align-middle">
+            {userToken ? <Navigate to="/test/"/> : null}
+            <div className="card">
+                <div className="flex flex-column align-items-center justify-content-center card-container gap-3
+                surface-overlay border-round border-1 shadow-1 p-5 py-0 m-3 ">
+                    <h3 className="align-items-center">Login</h3>
+                    <span className="p-input-icon-left">
+                        <i className="pi pi-user"/>
+                        <InputText value={username} onChange={(e) => setUsername(e.target.value)}
+                                   placeholder="Username"/>
+                    </span>
+
+                    <span className="p-input-icon-left">
+                        <i className="pi pi-lock"/>
+                        <InputText type="password" value={password} onChange={(e) => setPassword(e.target.value)}
+                                   placeholder="Password"/>
+                    </span>
+                    <Button onClick={onLogin} label="Login" className="p-button-rounded"/>
+                    <div>
+                        <p>First time? <Link to="/register">Create an account</Link>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 }
-
-const mapStateToProps = (state) => ({
-    isAuthenticated: state.auth.isAuthenticated,
-});
-
-export default connect(mapStateToProps, {login})(Login);
