@@ -20,6 +20,6 @@ pipenv run python manage.py migrate
 (setsid pipenv run python manage.py runserver 0.0.0.0:8000 > runserver.log 2>&1 &)
 
 cd /vagrant/frontend
-npm install
+npm install $1
 (setsid npm start > runserver.log 2>&1 &)
 
