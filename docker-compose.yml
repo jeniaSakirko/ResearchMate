@@ -15,3 +15,4 @@ services:
       - ./frontend:/frontend
     links:
       - backend
+    entrypoint: sh -c "/frontend/startup.sh"
