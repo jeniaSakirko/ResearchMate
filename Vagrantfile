@@ -24,10 +24,12 @@ Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox" do |vb|
     vb.memory = "1024"
   end
-  
-  # Make vagrant run setup.sh file for automates our enviorment
-  config.vm.provision "shell", path: "setup.sh", privileged: false
-  
+
+  if Vagrant::Util::Platform.windows? then
+    config.vm.provision "shell", path: "setup.sh", args:"--no-bin-links", privileged: false
+  else
+    config.vm.provision "shell", path: "setup.sh", privileged: false
+  end
   
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
