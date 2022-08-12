@@ -1,18 +1,26 @@
 version: "3.9"
 services:
   backend:
-    image: "nikolaik/python-nodejs"
+    build: .
     ports:
       - "8000:8000"
     volumes:
       - .:/server
-    entrypoint: sh -c "/server/backend/startup.sh"
+    entrypoint: >
+      sh -c "
+             dos2unix /server/**/*  &&
+             /server/backend/startup.sh
+      "
   frontend:
-    image: "nikolaik/python-nodejs"
+    build: .
     ports:
       - "3000:3000"
     volumes:
       - ./frontend:/frontend
     links:
       - backend
-    entrypoint: sh -c "/frontend/startup.sh"
+    entrypoint: >
+      sh -c "
+             dos2unix /frontend/**/*  &&
+             /frontend/startup.sh
+      " 
