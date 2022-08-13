@@ -2,13 +2,14 @@ version: "3.9"
 services:
   backend:
     build: .
+    working_dir: /server
     ports:
       - "8000:8000"
     volumes:
       - .:/server
     entrypoint: >
       sh -c "
-             dos2unix /server/**/*  &&
+             dos2unix /server/backend/startup.sh  &&
              /server/backend/startup.sh
       "
   frontend:
@@ -19,8 +20,11 @@ services:
       - ./frontend:/frontend
     links:
       - backend
+    environment:
+      - WATCHPACK_POLLING=true
+    working_dir: /frontend
     entrypoint: >
       sh -c "
-             dos2unix /frontend/**/*  &&
+             dos2unix /frontend/startup.sh  &&
              /frontend/startup.sh
       " 
