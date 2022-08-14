@@ -9,7 +9,7 @@ services:
       - .:/server
     entrypoint: >
       sh -c "
-             dos2unix /server/backend/startup.sh  &&
+             dos2unix /server/**/* &&
              /server/backend/startup.sh
       "
   frontend:
@@ -25,6 +25,6 @@ services:
     working_dir: /frontend
     entrypoint: >
       sh -c "
-             dos2unix /frontend/startup.sh  &&
+             dos2unix /frontend/**/* &&
              /frontend/startup.sh
-      " 
+      "
