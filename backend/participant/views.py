@@ -68,6 +68,9 @@ class ParticipantAttendingAPI(generics.GenericAPIView):
         response = []
         list_res = ResearchAttending.get_research_list(instance.id)
         for entry in list_res:
-            response.append(ResearchSerializer(entry.research, context=self.get_serializer_context()).data)
+            data = {}
+            data.update(ResearchSerializer(entry.research, context=self.get_serializer_context()).data)
+            data.update({"status": entry.get_status_full_name()})
+            response.append(data)
 
         return Response(response)

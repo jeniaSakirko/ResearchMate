@@ -102,6 +102,13 @@ class ResearchAttendingStatus(models.TextChoices):
                 return val
         return status
 
+    @staticmethod
+    def get_full_name_from_status(status):
+        for val, name in ResearchAttendingStatus.choices:
+            if val.lower() == status.lower():
+                return name
+        return status
+
 
 class ResearchAttending(models.Model):
     participant = models.ForeignKey(Participant, on_delete=models.SET_NULL, null=True)
@@ -168,3 +175,6 @@ class ResearchAttending(models.Model):
                   "), (".join(map(lambda opt: str(opt[0]) + ' / ' + str(opt[1]), ResearchAttendingStatus.choices)) + \
                   ") (All)"
         raise Exception(message)
+
+    def get_status_full_name(self):
+        return ResearchAttendingStatus.get_full_name_from_status(self.status)
