@@ -11,6 +11,9 @@ import {UserContext} from "./components/common/UserContext";
 import {Test} from "./components/pages/test";
 import {Login} from './components/pages/Login';
 import {Register} from './components/pages/Register';
+import {MenubarNav} from './components/pages/MenubarNav';
+import {ChangeStatus} from './components/pages/ChangeStatus';
+
 
 import './App.css';
 
@@ -30,6 +33,8 @@ function App() {
                         <Route path='/' element={<Login/>} exact/>
                         <Route path='/register' element={<Register/>} exact/>
                         <Route path='/test' element={<Test/>} exact/>
+                        <Route path='/menubarNav' element={<MenubarNav/>} exact/>
+                        <Route path='/changestatus' element={<ChangeStatus/>} exact/>
                         {/*<Route path='/signup' element={<Signup/>} exact/>*/}
                         {/*<Route path='/logout' element={<Logout/>} exact/>*/}
                         {/*<Route path='/list' element={<ListPage/>} exact/>*/}
