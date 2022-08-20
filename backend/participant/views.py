@@ -1,10 +1,18 @@
 import logging
 
-from rest_framework import generics, permissions, status
+from rest_framework import generics, permissions, status, viewsets
 from rest_framework.response import Response
 
 from .models import Participant
-from .serializers import ParticipantCleanSerializer
+from .serializers import ParticipantCleanSerializer, ParticipantSerializer
+
+
+class ParticipantViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+    serializer_class = ParticipantSerializer
+    queryset = Participant.get_all()
 
 
 class ParticipantRegisterAPI(generics.GenericAPIView):

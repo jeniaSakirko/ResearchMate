@@ -1,4 +1,4 @@
-import {REGISTER_URL} from "../common/consts";
+import {PARTICIPANT_REGISTER_URL, PARTICIPANT_GET_ALL_URL} from "../common/consts";
 import axios from "axios";
 
 
@@ -12,8 +12,26 @@ export const register = async (username, password, email, first_name, last_name,
     const body = JSON.stringify({username, password, email, first_name, last_name, phone_number});
     try {
         const res = await axios
-            .post(REGISTER_URL, body, config);
+            .post(PARTICIPANT_REGISTER_URL, body, config);
         return res;
+    } catch (e) {
+        console.log(e);
+    }
+};
+
+
+export const getAll = async (token) => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`,
+        },
+    };
+
+    try {
+        const res = await axios
+            .get(PARTICIPANT_GET_ALL_URL, config);
+        return res.data;
     } catch (e) {
         console.log(e);
     }
