@@ -15,6 +15,7 @@ import {Login} from './components/pages/Login';
 import {Register} from './components/pages/Register';
 import {LandingPage} from "./components/pages/LandingPage";
 import {ParticipantTable} from "./components/frames/ParticipantTable";
+import {ChangeStatus} from './components/pages/ChangeStatus';
 
 
 function App() {
@@ -33,6 +34,8 @@ function App() {
                         <Route path='/register' element={<Register/>} exact/>
                         <Route path='/test' element={<Test/>} exact/>
                         <Route path='/list' element={<ParticipantTable/>} exact/>
+                        <Route path='/changestatus' element={<ChangeStatus/>} exact/>
+                        
                         {/*<Route path='/signup' element={<Signup/>} exact/>*/}
                         {/*<Route path='/logout' element={<Logout/>} exact/>*/}
                         {/*<Route path='/list' element={<ListPage/>} exact/>*/}
