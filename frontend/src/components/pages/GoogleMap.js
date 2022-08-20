@@ -1,4 +1,4 @@
-
+/*global google*/ 
 import React, { useEffect, useState, useRef } from 'react';
 import { GMap } from 'primereact/gmap';
 import { Dialog } from 'primereact/dialog';
@@ -6,9 +6,9 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
 import { Toast } from 'primereact/toast';
-import { loadGoogleMaps, removeGoogleMaps } from '../api/GoogleMaps.js';
+import { loadGoogleMaps, removeGoogleMaps } from '../api/GoogleMaps';
 
-export const GMap = () => {
+export const GoogleMap = () => {
 
     const [googleMapsReady, setGoogleMapsReady] = useState(false);
     const [dialogVisible, setDialogVisible] = useState(false);
@@ -16,7 +16,8 @@ export const GMap = () => {
     const [draggableMarker, setDraggableMarker] = useState(false);
     const [overlays, setOverlays] = useState(null);
     const [selectedPosition, setSelectedPosition] = useState(null);
-
+    const google=window.google;
+    
     const toast = useRef(null);
     const infoWindow = useRef(null);
 

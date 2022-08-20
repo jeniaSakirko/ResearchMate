@@ -11,7 +11,6 @@ export const loadGoogleMaps = (callback) => {
         script.async = true;
         script.defer = true;
         document.body.appendChild(script);
-
         script.onload = () => {
             if (callback) callback();
         };
