@@ -149,3 +149,22 @@ class ResearchAttending(models.Model):
                   "), (".join(map(lambda opt: str(opt[0]) + ' / ' + str(opt[1]), ResearchAttendingStatus.choices)) + \
                   ") (All)"
         raise Exception(message)
+
+    @staticmethod
+    def get_research_list(participant_id, status=None):
+        if status is None:
+            return ResearchAttending.objects.filter(participant_id=participant_id,
+                                                    status__in=[ResearchAttendingStatus.assigned,
+                                                                ResearchAttendingStatus.in_progress]
+                                                    )
+        if status == 'all':
+            return ResearchAttending.objects.filter(participant_id=participant_id)
+        status = ResearchAttendingStatus.get_valid_name_from_status(status=status)
+
+        if status in ResearchAttendingStatus.values:
+            return ResearchAttending.objects.filter(participant_id=participant_id, status=status)
+
+        message = "Status is invalid, valid options are: (" + \
+                  "), (".join(map(lambda opt: str(opt[0]) + ' / ' + str(opt[1]), ResearchAttendingStatus.choices)) + \
+                  ") (All)"
+        raise Exception(message)

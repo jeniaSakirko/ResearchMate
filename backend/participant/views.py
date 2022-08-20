@@ -51,3 +51,23 @@ class ParticipantAPI(generics.UpdateAPIView):
         except Exception as e:
             logging.warning("Exception in update participant [{0}]".format(str(e)))
             return Response(data={"message": "failed"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class ParticipantAttendingAPI(generics.GenericAPIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+    queryset = Participant.objects.all()
+    serializer_class = ParticipantCleanSerializer
+
+    def get(self, request, *args, **kwargs):
+        from research.models import ResearchAttending
+        from research.serializers import ResearchSerializer
+
+        instance = self.get_object()
+        response = []
+        list_res = ResearchAttending.get_research_list(instance.id)
+        for entry in list_res:
+            response.append(ResearchSerializer(entry.research, context=self.get_serializer_context()).data)
+
+        return Response(response)
