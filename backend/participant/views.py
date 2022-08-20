@@ -32,6 +32,12 @@ class ParticipantAPI(generics.UpdateAPIView):
     queryset = Participant.objects.all()
     serializer_class = ParticipantCleanSerializer
 
+    def get(self, request, *args, **kwargs):
+        instance = self.get_object()
+        return Response(
+            {"user": ParticipantSerializer(instance, context=self.get_serializer_context()).data}
+        )
+
     def update(self, request, *args, **kwargs):
         try:
             instance = self.get_object()
