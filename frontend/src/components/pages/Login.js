@@ -2,7 +2,6 @@ import React, {useContext, useState} from 'react';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
 import {Link} from 'react-router-dom';
-import {UserContext} from "../common/UserContext";
 import {login} from "../api/auth";
 import {Navigate} from 'react-router-dom';
 
@@ -10,13 +9,10 @@ import {Navigate} from 'react-router-dom';
 export const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const {userToken, setUserToken} = useContext(UserContext);
 
 
     const onLogin = async () => {
         const data = await login(username, password);
-        setUserToken(data.token);
-
         localStorage.setItem("userToken", data.token);
     }
 

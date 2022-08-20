@@ -17,6 +17,4 @@ export const login = async (username, password) => {
     } catch (e) {
         console.log(e);
     }
-
-
 };
