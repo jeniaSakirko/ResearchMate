@@ -13,7 +13,7 @@ export const login = async (username, password) => {
     try {
         const res = await axios
             .post(LOGIN_URL, body, config);
-        return res.data.token;
+        return res.data;
     } catch (e) {
         console.log(e);
     }

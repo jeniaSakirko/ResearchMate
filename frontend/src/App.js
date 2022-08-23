@@ -4,7 +4,7 @@ import 'primereact/resources/primereact.css';
 import 'primeflex/primeflex.css';
 
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import {useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 
 import './App.css';
 
@@ -19,10 +19,16 @@ import {ChangeStatus} from './components/pages/ChangeStatus';
 
 
 function App() {
-    const [userToken, setToken] = useState(null);
-    const contextValue = useMemo(() => ({userToken, setToken}), [userToken, setToken]);
+    const [userToken, setUserToken] = useState(null);
+    const contextValue = useMemo(() => ({userToken, setUserToken}), [userToken, setUserToken]);
 
-
+    useEffect(() => {
+        const token = localStorage.getItem("userToken")
+        if (token) {
+            setUserToken(token);
+        }
+        console.log(localStorage);
+    }, [setUserToken]);
     return (
         <div id="app">
             <Router>
@@ -35,7 +41,7 @@ function App() {
                         <Route path='/test' element={<Test/>} exact/>
                         <Route path='/list' element={<ParticipantTable/>} exact/>
                         <Route path='/changestatus' element={<ChangeStatus/>} exact/>
-                        
+
                         {/*<Route path='/signup' element={<Signup/>} exact/>*/}
                         {/*<Route path='/logout' element={<Logout/>} exact/>*/}
                         {/*<Route path='/list' element={<ListPage/>} exact/>*/}
