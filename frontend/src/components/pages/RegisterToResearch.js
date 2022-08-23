@@ -14,21 +14,6 @@ export const RegisterToResearch = () => {
     const [selectedResearch, setSelectedResearch] = useState(null);
     const [researchs, setResearchs] = useState(null);
 
-    const researchList=[
-        {
-            "id": 1,
-            "name": "Plasticity of the motor network",
-            "field": 1,
-            "capacity": 50
-        },
-        {
-            "id": 2,
-            "name": "lior not responsible for servers ",
-            "field": 1,
-            "capacity": 50
-        }
-    ];
-
     const onResearchChange = (e) => {
         setSelectedResearch(e.value);
     }
