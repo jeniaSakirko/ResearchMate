@@ -18,3 +18,24 @@ export const getAll = async (token) => {
         console.log(e);
     } 
 };
+
+export const assign = async (token, participant_id,research_id) => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`,
+        },
+    };
+
+    const body = JSON.stringify({participant_id});
+    try {
+        const assign = RESEARCH_GET_ALL+"/research_id"+RESEARCH_ASSIGH;
+        const res = await axios
+            .post(assign, body, config);
+        return res.data.token;
+    } catch (e) {
+        console.log(e);
+    }
+
+
+};

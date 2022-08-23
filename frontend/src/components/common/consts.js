@@ -10,4 +10,5 @@ export const PARTICIPANT_GET_ALL_URL = '/api/participant';
 
 //Research
 export const  RESEARCH_GET_ALL = '/api/research';
+export const  RESEARCH_ASSIGH = '/assign';
 
