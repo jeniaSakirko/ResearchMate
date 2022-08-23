@@ -8,7 +8,6 @@ import {useEffect, useMemo, useState} from "react";
 
 import './App.css';
 
-
 import {UserContext} from "./components/common/UserContext";
 import {Test} from "./components/pages/test";
 import {Login} from './components/pages/Login';
@@ -16,7 +15,7 @@ import {Register} from './components/pages/Register';
 import {LandingPage} from "./components/pages/LandingPage";
 import {ParticipantTable} from "./components/frames/ParticipantTable";
 import {ChangeStatus} from './components/pages/ChangeStatus';
-
+import {RegisterToResearch} from './components/pages/RegisterToResearch';
 
 function App() {
     const [userToken, setUserToken] = useState(null);
@@ -29,6 +28,7 @@ function App() {
         }
         console.log(localStorage);
     }, [setUserToken]);
+
     return (
         <div id="app">
             <Router>
@@ -41,7 +41,8 @@ function App() {
                         <Route path='/test' element={<Test/>} exact/>
                         <Route path='/list' element={<ParticipantTable/>} exact/>
                         <Route path='/changestatus' element={<ChangeStatus/>} exact/>
-
+                        <Route path='/registertoresearch' element={<RegisterToResearch/>} exact/>
+                        
                         {/*<Route path='/signup' element={<Signup/>} exact/>*/}
                         {/*<Route path='/logout' element={<Logout/>} exact/>*/}
                         {/*<Route path='/list' element={<ListPage/>} exact/>*/}

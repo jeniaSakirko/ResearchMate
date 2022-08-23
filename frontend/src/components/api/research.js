@@ -16,5 +16,5 @@ export const getAll = async (token) => {
         return res.data;
     } catch (e) {
         console.log(e);
-    }
+    } 
 };
