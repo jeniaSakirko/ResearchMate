@@ -10,18 +10,20 @@ import {Navigate} from 'react-router-dom';
 export const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const {userToken, setToken} = useContext(UserContext);
+    const {userToken, setUserToken} = useContext(UserContext);
 
 
     const onLogin = async () => {
-        const token = await login(username, password);
-        setToken(token)
+        const data = await login(username, password);
+        setUserToken(data.token);
+
+        localStorage.setItem("userToken", data.token);
     }
 
     return (
 
         <div className="flex justify-content-center aligned-items-center vertical-align-middle">
-            {userToken ? <Navigate to="/test/"/> : null}
+            {/* TODO: uncomment! {userToken ? <Navigate to="/test/"/> : null}*/}
             <div className="card">
                 <div className="flex flex-column align-items-center justify-content-center card-container gap-3
                 surface-overlay border-round border-1 shadow-1 p-5 py-0 m-3 ">
