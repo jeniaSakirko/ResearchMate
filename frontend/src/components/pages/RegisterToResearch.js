@@ -3,7 +3,7 @@ import { Dropdown } from 'primereact/dropdown';
 import '../css/ChangeStatus.css';
 import {getAll,assign} from '../api/research';
 import {Button} from 'primereact/button';
-const token ="5c2c225b4743d12b4e5d29b7be8df7d817ef39b67dfacf0219755463c7a03392";
+const token ="5d3a364c8096f0c6e167f763e58464793f008bdb3500044975dc3a98979a5e48";
 export const RegisterToResearch = () => {
 
     useEffect(() => {
@@ -15,16 +15,17 @@ export const RegisterToResearch = () => {
 
     const [selectedResearch, setSelectedResearch] = useState(null);
     const [researchs, setResearchs] = useState(null);
-
-    const onAssign = async () => {
-        const vla = await assign(token,"6","1")
-        console.log(vla)
-    }
-
+    
     const onResearchChange = (e) => {
         setSelectedResearch(e.value);
     }
 
+    const onAssign = async () => {
+        const vla = await assign(token,"9",selectedResearch.id)
+        console.log(vla)
+    }
+
+  
     return (
         <div  className="flex justify-content-center aligned-items-center vertical-align-middle">
             <div className="card">
