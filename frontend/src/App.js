@@ -18,21 +18,10 @@ import {ChangeStatus} from './components/pages/ChangeStatus';
 import {RegisterToResearch} from './components/pages/RegisterToResearch';
 
 function App() {
-    const [userToken, setUserToken] = useState(null);
-    const contextValue = useMemo(() => ({userToken, setUserToken}), [userToken, setUserToken]);
-
-    useEffect(() => {
-        const token = localStorage.getItem("userToken")
-        if (token) {
-            setUserToken(token);
-        }
-        console.log(localStorage);
-    }, [setUserToken]);
-
     return (
         <div id="app">
             <Router>
-                <UserContext.Provider value={contextValue}>
+                <UserContext.Provider>
                     {/*/*<Navbar/>*!/*/}
                     <Routes>
                         <Route path='/' element={<LandingPage/>} exact/>
@@ -42,11 +31,6 @@ function App() {
                         <Route path='/list' element={<ParticipantTable/>} exact/>
                         <Route path='/changestatus' element={<ChangeStatus/>} exact/>
                         <Route path='/registertoresearch' element={<RegisterToResearch/>} exact/>
-                        
-                        {/*<Route path='/signup' element={<Signup/>} exact/>*/}
-                        {/*<Route path='/logout' element={<Logout/>} exact/>*/}
-                        {/*<Route path='/list' element={<ListPage/>} exact/>*/}
-                        {/**/}
                         {/*<Route path='*' element={<PageNotFound/>} exact/>*/}
 
                     </Routes>
