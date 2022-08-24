@@ -1,4 +1,4 @@
-import {RESEARCH_GET_ALL} from "../common/consts";
+import {RESEARCH_GET_ALL,RESEARCH_ASSIGH} from "../common/consts";
 import axios from "axios";
 
 
@@ -29,7 +29,7 @@ export const assign = async (token, participant_id,research_id) => {
 
     const body = JSON.stringify({participant_id});
     try {
-        const assign = RESEARCH_GET_ALL+"/research_id"+RESEARCH_ASSIGH;
+        const assign = RESEARCH_GET_ALL+"/"+research_id+RESEARCH_ASSIGH;
         const res = await axios
             .post(assign, body, config);
         return res.data.token;
