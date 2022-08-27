@@ -16,13 +16,14 @@ import {LandingPage} from "./components/pages/LandingPage";
 import {ParticipantTable} from "./components/frames/ParticipantTable";
 import {ChangeStatus} from './components/pages/ChangeStatus';
 import {RegisterToResearch} from './components/pages/RegisterToResearch';
+import {MenubarNav} from './components/pages/MenubarNav';
 
 function App() {
     return (
         <div id="app">
             <Router>
                 <UserContext.Provider>
-                    {/*/*<Navbar/>*!/*/}
+                    {<MenubarNav/>}
                     <Routes>
                         <Route path='/' element={<LandingPage/>} exact/>
                         <Route path='/login' element={<Login/>} exact/>
