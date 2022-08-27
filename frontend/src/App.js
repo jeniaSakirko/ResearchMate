@@ -20,7 +20,8 @@ import {MenubarNav} from './components/pages/MenubarNav';
 
 function App() {
     return (
-        <div id="app">
+        // <div id="app">
+            <div>
             <Router>
                 <UserContext.Provider>
                     {<MenubarNav/>}
