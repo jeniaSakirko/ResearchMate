@@ -41,6 +41,20 @@ class Status(models.TextChoices):
     under_review = "R", "Under Review"
     done = "D", "Done"
 
+    @staticmethod
+    def get_valid_name_from_status(status):
+        for val, name in Status.choices:
+            if name.lower() == status.lower() or val.lower() == status.lower():
+                return val
+        return status
+
+    @staticmethod
+    def get_full_name_from_status(status):
+        for val, name in Status.choices:
+            if val.lower() == status.lower():
+                return name
+        return status
+
 
 class FormParticipantMap(models.Model):
     form = models.ForeignKey(FormMetadata, on_delete=models.SET_NULL, null=True)
@@ -54,3 +68,23 @@ class FormParticipantMap(models.Model):
         for form in form_list:
             res = FormParticipantMap(form=form, participant=Participant.get_by_id(participant_id=participant_id))
             res.save()
+
+    @staticmethod
+    def get_participant_forms(participant_id, status=None):
+        if status is None:
+            return FormParticipantMap.objects.filter(participant_id=participant_id,
+                                                     status__in=[Status.new, Status.under_review])
+        if status == 'all':
+            return FormParticipantMap.objects.filter(participant_id=participant_id)
+        status = Status.get_valid_name_from_status(status=status)
+
+        if status in Status.values:
+            return FormParticipantMap.objects.filter(participant_id=participant_id, status=status)
+
+        message = "Status is invalid, valid options are: (" + \
+                  "), (".join(map(lambda opt: str(opt[0]) + ' / ' + str(opt[1]), Status.choices)) + \
+                  ") (All)"
+        raise Exception(message)
+
+    def get_status_full_name(self):
+        return Status.get_full_name_from_status(self.status)
