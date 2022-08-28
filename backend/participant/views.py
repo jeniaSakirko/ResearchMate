@@ -74,3 +74,24 @@ class ParticipantAttendingAPI(generics.GenericAPIView):
             response.append(data)
 
         return Response(response)
+
+
+class ParticipantFormAPI(generics.GenericAPIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+    queryset = Participant.objects.all()
+    serializer_class = ParticipantCleanSerializer
+
+    def get(self, request, *args, **kwargs):
+        from form.models import FormParticipantMap
+        from form.serializers import FormMetadataSerializer
+        instance = self.get_object()
+        response = []
+        list_res = FormParticipantMap.get_participant_forms(instance.id)
+        for entry in list_res:
+            data = {}
+            data.update(FormMetadataSerializer(entry.form, context=self.get_serializer_context()).data)
+            data.update({"status": entry.get_status_full_name()})
+            response.append(data)
+        return Response(response)
