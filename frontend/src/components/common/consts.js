@@ -1,7 +1,7 @@
 // Auth
 export const LOGIN_URL = '/api/auth/login';
 export const USER_URL = '/api/auth/user';
-
+export const LOGOUT_URL = '/api/auth/logout';
 
 
 // Participant

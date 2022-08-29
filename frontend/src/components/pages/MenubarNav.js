@@ -1,8 +1,31 @@
-import React from 'react';
 import { Menubar } from 'primereact/menubar';
 import { InputText } from 'primereact/inputtext';
+import {Button} from 'primereact/button';
+import {useNavigate} from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import {Link} from 'react-router-dom';
+import {logout} from "../api/auth";
+import {getUserToken} from "../common/UserContext";
+
 
 export const MenubarNav = () => {
+
+    const [token, setToken] = useState('');
+
+    const onLogout = async () => {
+        const data = await logout(token);
+        localStorage.removeItem("userToken");
+    }
+
+    useEffect(() => {
+        getUserToken().then(myToken => {
+            setToken(myToken);
+        
+        });
+    }, []);
+
+
+
     const items = [
         {
             label: 'File',
@@ -126,8 +149,11 @@ export const MenubarNav = () => {
             ]
         },
         {
-            label: 'Quit',
-            icon: 'pi pi-fw pi-power-off'
+            label: 'Logout',
+            icon: 'pi pi-fw pi-power-off',
+            command:(e) => {
+                onLogout().then(()=>{window.location = "/login" })
+            }
         }
     ];
     const start = <img alt="logo" src="showcase/images/logo.png" onError={(e) => e.target.src='https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} height="40" className="mr-2"></img>;
