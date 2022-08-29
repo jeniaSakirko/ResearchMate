@@ -43,9 +43,9 @@ export const ParticipantTable = () => {
     useEffect(() => {
         getUserToken().then(token => {
             getAll(token).then(data => {
-            setParticipants(data);
-            setLoading(false)
-        })
+                setParticipants(data);
+                setLoading(false)
+            })
         });
     }, []);
 
@@ -61,7 +61,7 @@ export const ParticipantTable = () => {
     const renderHeader = () => {
         return (
             <div className="flex justify-content-between align-items-center">
-                <h5 className="m-0">Customers</h5>
+                <h5 className="m-0">Participants</h5>
                 <span className="p-input-icon-left">
                     <i className="pi pi-search"/>
                     <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search"/>
