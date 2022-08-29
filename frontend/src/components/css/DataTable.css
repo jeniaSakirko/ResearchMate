@@ -1,0 +1,59 @@
+
+.datatable-base .p-paginator .p-paginator-current {
+    margin-left: auto;
+}
+.datatable-base .p-progressbar {
+    height: 0.5rem;
+    background-color: #d8dadc;
+}
+.datatable-base .p-progressbar .p-progressbar-value {
+    background-color: #607d8b;
+}
+.datatable-base .p-datepicker {
+    min-width: 25rem;
+}
+.datatable-base .p-datepicker td {
+    font-weight: 400;
+}
+.datatable-base .p-datatable.p-datatable-customers .p-datatable-header {
+    padding: 1rem;
+    text-align: left;
+    font-size: 1.5rem;
+}
+.datatable-base .p-datatable.p-datatable-customers .p-paginator {
+    padding: 1rem;
+}
+.datatable-base .p-datatable.p-datatable-customers .p-datatable-thead > tr > th {
+    text-align: left;
+}
+.datatable-base .p-datatable.p-datatable-customers .p-dropdown-label:not(.p-placeholder) {
+    text-transform: uppercase;
+}
+
+.p-column-filter {
+    width: 100%;
+}
+
+.form-badge {
+    border-radius: 2px;
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+}
+
+.form-badge.status-done {
+    background-color: #C8E6C9;
+    color: #256029;
+}
+
+.form-badge.status-new {
+    background-color: #B3E5FC;
+    color: #23547B;
+}
+
+.form-badge.status-underreview {
+    background-color: #ECCFFF;
+    color: #694382;
+}

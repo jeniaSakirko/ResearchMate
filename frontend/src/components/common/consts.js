@@ -7,6 +7,7 @@ export const LOGOUT_URL = '/api/auth/logout';
 // Participant
 export const PARTICIPANT_REGISTER_URL = '/api/participant/register';
 export const PARTICIPANT_GET_ALL_URL = '/api/participant';
+export const PARTICIPANT_GET_ALL_FORMS_URL = (id) => `/api/participant/${id}/form?status=all`;
 
 //Research
 export const  RESEARCH_GET_ALL = '/api/research';

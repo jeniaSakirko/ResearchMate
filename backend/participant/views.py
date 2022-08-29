@@ -88,7 +88,10 @@ class ParticipantFormAPI(generics.GenericAPIView):
         from form.serializers import FormMetadataSerializer
         instance = self.get_object()
         response = []
-        list_res = FormParticipantMap.get_participant_forms(instance.id)
+        status = None
+        if "status" in request.GET:
+            status = request.GET["status"]
+        list_res = FormParticipantMap.get_participant_forms(participant_id=instance.id, status=status)
         for entry in list_res:
             data = {}
             data.update(FormMetadataSerializer(entry.form, context=self.get_serializer_context()).data)

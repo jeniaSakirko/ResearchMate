@@ -10,7 +10,7 @@ import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
-import './DataTableDemo.css';
+import '../css/DataTable.css';
 
 import {getAll} from '../api/participant'
 import {getUserToken} from "../common/UserContext";
@@ -43,9 +43,9 @@ export const ParticipantTable = () => {
     useEffect(() => {
         getUserToken().then(token => {
             getAll(token).then(data => {
-            setParticipants(data);
-            setLoading(false)
-        })
+                setParticipants(data);
+                setLoading(false)
+            })
         });
     }, []);
 
@@ -61,7 +61,7 @@ export const ParticipantTable = () => {
     const renderHeader = () => {
         return (
             <div className="flex justify-content-between align-items-center">
-                <h5 className="m-0">Customers</h5>
+                <h5 className="m-0">Participants</h5>
                 <span className="p-input-icon-left">
                     <i className="pi pi-search"/>
                     <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search"/>
@@ -77,7 +77,7 @@ export const ParticipantTable = () => {
     const header = renderHeader();
 
     return (
-        <div className="datatable-doc-demo">
+        <div className="datatable-base">
             <div className="card">
                 <DataTable value={Participants} paginator className="p-datatable-customers" header={header} rows={10}
                            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
