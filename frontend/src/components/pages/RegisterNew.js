@@ -9,6 +9,11 @@ import { Dialog } from 'primereact/dialog';
 import { Divider } from 'primereact/divider';
 import { classNames } from 'primereact/utils';
 import {register} from "../api/participant";
+<<<<<<< HEAD
+=======
+import { Messages } from 'primereact/messages';
+
+>>>>>>> 3a5ac92 (create new register)
 
 
 import '../css/FormDemo.css';
