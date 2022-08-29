@@ -10,42 +10,37 @@ import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
-import './DataTableDemo.css';
+import {Dropdown} from 'primereact/dropdown';
+import '../css/DataTable.css';
 
-import {getAll} from '../api/participant'
+import {getAllForms} from '../api/participant'
 import {getUserToken} from "../common/UserContext";
 
-export const ParticipantTable = () => {
-    const [Participants, setParticipants] = useState(null);
+export const FormTable = () => {
+    const [Form, setForm] = useState(null);
     const [filters, setFilters] = useState({
         'global': {value: null, matchMode: FilterMatchMode.CONTAINS},
-        'base_user.user.first_name': {
+        'name': {
             operator: FilterOperator.AND,
             constraints: [{value: null, matchMode: FilterMatchMode.STARTS_WITH}]
         },
-        'base_user.user.last_name': {
+        'research.name': {
             operator: FilterOperator.AND,
             constraints: [{value: null, matchMode: FilterMatchMode.STARTS_WITH}]
         },
-        'base_user.user.email': {
-            operator: FilterOperator.AND,
-            constraints: [{value: null, matchMode: FilterMatchMode.STARTS_WITH}]
-        },
-        'base_user.phone_number': {
-            operator: FilterOperator.AND,
-            constraints: [{value: null, matchMode: FilterMatchMode.EQUALS}]
-        },
+        'status': {operator: FilterOperator.OR, constraints: [{value: null, matchMode: FilterMatchMode.EQUALS}]},
+
     });
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     const [loading, setLoading] = useState(true);
-
+    const statuses = ['new', 'underreview', 'done'];
 
     useEffect(() => {
         getUserToken().then(token => {
-            getAll(token).then(data => {
-            setParticipants(data);
-            setLoading(false)
-        })
+            getAllForms(1, token).then(data => {
+                setForm(data);
+                setLoading(false)
+            })
         });
     }, []);
 
@@ -61,7 +56,7 @@ export const ParticipantTable = () => {
     const renderHeader = () => {
         return (
             <div className="flex justify-content-between align-items-center">
-                <h5 className="m-0">Customers</h5>
+                <h5 className="m-0">Forms</h5>
                 <span className="p-input-icon-left">
                     <i className="pi pi-search"/>
                     <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search"/>
@@ -74,24 +69,40 @@ export const ParticipantTable = () => {
         return <Button type="button" icon="pi pi-cog"></Button>;
     }
 
+    const statusBodyTemplate = (rowData) => {
+        return <span
+            className={`form-badge status-${rowData.status.toLowerCase().replace(/ /g, "")}`}>{rowData.status}</span>;
+    }
+
+    const statusFilterTemplate = (options) => {
+        return <Dropdown value={options.value} options={statuses}
+                         onChange={(e) => options.filterCallback(e.value, options.index)}
+                         itemTemplate={statusItemTemplate} placeholder="Select a Status" className="p-column-filter"
+                         showClear/>;
+    }
+
+    const statusItemTemplate = (option) => {
+        return <span className={`form-badge status-${option.toLowerCase().replace(/ /g, "")}`}>{option}</span>;
+    }
+
     const header = renderHeader();
 
     return (
-        <div className="datatable-doc-demo">
+        <div className="datatable-base">
             <div className="card">
-                <DataTable value={Participants} paginator className="p-datatable-customers" header={header} rows={10}
+                <DataTable value={Form} paginator className="p-datatable-customers" header={header} rows={10}
                            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                            rowsPerPageOptions={[10, 25, 50]}
                            dataKey="id" rowHover
                            filters={filters} filterDisplay="menu" loading={loading} responsiveLayout="scroll"
-                           globalFilterFields={['base_user.user.first_name', 'base_user.user.last_name', 'base_user.user.email', 'base_user.phone_number']}
+                           globalFilterFields={['name', 'research.name', 'status']}
                            emptyMessage="No participants found."
                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                    <Column field="base_user.user.first_name" header="First Name" sortable style={{minWidth: '14rem'}}/>
-                    <Column field="base_user.user.last_name" header="Last Name" sortable style={{minWidth: '14rem'}}/>
-                    <Column field="base_user.user.email" header="Email" sortable style={{minWidth: '14rem'}}/>
-                    <Column field="base_user.phone_number" header="Phone" sortable dataType="numeric"
-                            style={{minWidth: '8rem'}}/>
+                    <Column field="name" header="Form Name" sortable style={{minWidth: '14rem'}}/>
+                    <Column field="research.name" header="Research Name" sortable style={{minWidth: '14rem'}}/>
+                    <Column field="status" header="Status" sortable filterMenuStyle={{width: '14rem'}}
+                            style={{minWidth: '10rem'}} body={statusBodyTemplate} filter
+                            filterElement={statusFilterTemplate}/>
                     <Column headerStyle={{width: '4rem', textAlign: 'center'}}
                             bodyStyle={{textAlign: 'center', overflow: 'visible'}} body={actionBodyTemplate}/>
                 </DataTable>
