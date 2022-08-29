@@ -13,7 +13,8 @@ import {Test} from "./components/pages/test";
 import {Login} from './components/pages/Login';
 import {Register} from './components/pages/Register';
 import {LandingPage} from "./components/pages/LandingPage";
-import {ParticipantTable} from "./components/frames/ParticipantTable";
+import {ParticipantTable} from "./components/pages/ParticipantTable";
+import {FormTable} from "./components/pages/FormTable";
 import {ChangeStatus} from './components/pages/ChangeStatus';
 import {RegisterToResearch} from './components/pages/RegisterToResearch';
 import {MenubarNav} from './components/pages/MenubarNav';
@@ -31,6 +32,7 @@ function App() {
                         <Route path='/register' element={<Register/>} exact/>
                         <Route path='/test' element={<Test/>} exact/>
                         <Route path='/list' element={<ParticipantTable/>} exact/>
+                        <Route path='/forms' element={<FormTable/>} exact/>
                         <Route path='/changestatus' element={<ChangeStatus/>} exact/>
                         <Route path='/registertoresearch' element={<RegisterToResearch/>} exact/>
                         {/*<Route path='*' element={<PageNotFound/>} exact/>*/}

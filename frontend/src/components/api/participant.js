@@ -1,5 +1,6 @@
-import {PARTICIPANT_REGISTER_URL, PARTICIPANT_GET_ALL_URL} from "../common/consts";
+import {PARTICIPANT_REGISTER_URL, PARTICIPANT_GET_ALL_URL, PARTICIPANT_GET_ALL_FORMS_URL} from "../common/consts";
 import axios from "axios";
+
 
 
 export const register = async (username, password, email, first_name, last_name, phone_number) => {
@@ -32,6 +33,23 @@ export const getAll = async (token) => {
     try {
         const res = await axios
             .get(PARTICIPANT_GET_ALL_URL, config);
+        return res.data;
+    } catch (e) {
+        console.log(e);
+    }
+};
+
+export const getAllForms = async (participant_id, token) => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`,
+        },
+    };
+    let url = PARTICIPANT_GET_ALL_FORMS_URL(participant_id);
+    try {
+        const res = await axios
+            .get(url, config);
         return res.data;
     } catch (e) {
         console.log(e);
