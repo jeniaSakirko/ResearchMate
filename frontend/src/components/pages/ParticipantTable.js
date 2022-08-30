@@ -70,8 +70,13 @@ export const ParticipantTable = () => {
         )
     }
 
-    const actionBodyTemplate = () => {
-        return <Button type="button" icon="pi pi-cog"></Button>;
+    const navigateToProfile = (rowData) => {
+        // <Navigate
+    }
+
+
+    const actionBodyTemplate = (rowData) => {
+        return <Button type="button" onClick={() => navigateToProfile(rowData)} icon="pi pi-cog"></Button>;
     }
 
     const header = renderHeader();
