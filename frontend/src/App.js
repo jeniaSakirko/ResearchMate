@@ -19,6 +19,8 @@ import {ChangeStatus} from './components/pages/ChangeStatus';
 import {RegisterToResearch} from './components/pages/RegisterToResearch';
 import {MenubarNav} from './components/pages/MenubarNav';
 import {RegisterNew} from './components/pages/RegisterNew';
+import {Profile} from "./components/pages/Profile";
+
 
 function App() {
     return (
@@ -37,6 +39,7 @@ function App() {
                         <Route path='/changestatus' element={<ChangeStatus/>} exact/>
                         <Route path='/registertoresearch' element={<RegisterToResearch/>} exact/>
                         <Route path='/registernew' element={<RegisterNew/>} exact/>
+                        <Route path='/profile' element={<Profile/>} exact/>
                         {/*<Route path='*' element={<PageNotFound/>} exact/>*/}
 
                     </Routes>
