@@ -18,6 +18,7 @@ import {FormTable} from "./components/pages/FormTable";
 import {ChangeStatus} from './components/pages/ChangeStatus';
 import {RegisterToResearch} from './components/pages/RegisterToResearch';
 import {MenubarNav} from './components/pages/MenubarNav';
+import {RegisterNew} from './components/pages/RegisterNew';
 
 function App() {
     return (
@@ -35,6 +36,7 @@ function App() {
                         <Route path='/forms' element={<FormTable/>} exact/>
                         <Route path='/changestatus' element={<ChangeStatus/>} exact/>
                         <Route path='/registertoresearch' element={<RegisterToResearch/>} exact/>
+                        <Route path='/registernew' element={<RegisterNew/>} exact/>
                         {/*<Route path='*' element={<PageNotFound/>} exact/>*/}
 
                     </Routes>
