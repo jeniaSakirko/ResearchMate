@@ -23,6 +23,14 @@ class Researcher(models.Model):
         res.save()
         return res
 
+    @staticmethod
+    def is_base_user_researcher(base_user_id):
+        try:
+            Researcher.objects.get(base_user_id=base_user_id)
+            return True
+        except Exception:
+            return False
+
 
 class ManageResearch(models.Model):
     researcher = models.ForeignKey(Researcher, on_delete=models.SET_NULL, null=True)

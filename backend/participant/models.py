@@ -39,3 +39,11 @@ class Participant(models.Model):
     def update_data(self, data):
         self.base_user.update_data(data)
         self.save()
+
+    @staticmethod
+    def is_base_user_participant(base_user_id):
+        try:
+            Participant.objects.get(base_user_id=base_user_id)
+            return True
+        except Exception:
+            return False
