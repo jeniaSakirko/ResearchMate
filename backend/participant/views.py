@@ -99,3 +99,13 @@ class ParticipantFormAPI(generics.GenericAPIView):
             data.update({"id": entry.form_id})
             response.append(data)
         return Response(response)
+
+    def put(self, request, *args, **kwargs):
+        try:
+            from form.models import FormParticipantMap
+            instance = request.user
+            FormParticipantMap.update_form_status(instance.id, request.data['form_id'], "R")
+            return Response("Ok")
+        except Exception as e:
+            logging.warning("Exception in update participant [{0}]".format(str(e)))
+            return Response(data={"message": "failed"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

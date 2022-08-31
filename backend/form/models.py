@@ -88,3 +88,9 @@ class FormParticipantMap(models.Model):
 
     def get_status_full_name(self):
         return Status.get_full_name_from_status(self.status)
+
+    @staticmethod
+    def update_form_status(participant_id, form_id, new_status):
+        entry = FormParticipantMap.objects.get(participant_id=participant_id, form_id=form_id)
+        entry.status = Status.get_valid_name_from_status(new_status)
+        entry.save()
