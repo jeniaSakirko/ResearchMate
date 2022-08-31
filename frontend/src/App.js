@@ -9,16 +9,14 @@ import {useEffect, useMemo, useState} from "react";
 import './App.css';
 
 import {UserContext} from "./components/common/UserContext";
-import {Test} from "./components/pages/test";
 import {Login} from './components/pages/Login';
-import {Register} from './components/pages/Register';
-import {LandingPage} from "./components/pages/LandingPage";
+import {RegisterOld} from './components/pages/RegisterOld';
 import {ParticipantTable} from "./components/pages/ParticipantTable";
 import {FormTable} from "./components/pages/FormTable";
 import {ChangeStatus} from './components/pages/ChangeStatus';
 import {RegisterToResearch} from './components/pages/RegisterToResearch';
 import {MenubarNav} from './components/pages/MenubarNav';
-import {RegisterNew} from './components/pages/RegisterNew';
+import {Register} from './components/pages/Register';
 
 function App() {
     return (
@@ -28,15 +26,14 @@ function App() {
                 <UserContext.Provider>
                     {<MenubarNav/>}
                     <Routes>
-                        <Route path='/' element={<LandingPage/>} exact/>
+                        <Route path='/' element={<Login/>} exact/>
                         <Route path='/login' element={<Login/>} exact/>
                         <Route path='/register' element={<Register/>} exact/>
-                        <Route path='/test' element={<Test/>} exact/>
-                        <Route path='/list' element={<ParticipantTable/>} exact/>
+                        <Route path='/register' element={<RegisterOld/>} exact/>
+                        <Route path='/participantList' element={<ParticipantTable/>} exact/>
                         <Route path='/forms' element={<FormTable/>} exact/>
                         <Route path='/changestatus' element={<ChangeStatus/>} exact/>
                         <Route path='/registertoresearch' element={<RegisterToResearch/>} exact/>
-                        <Route path='/registernew' element={<RegisterNew/>} exact/>
                         {/*<Route path='*' element={<PageNotFound/>} exact/>*/}
 
                     </Routes>
