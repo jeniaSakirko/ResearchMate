@@ -9,4 +9,5 @@ router.register(r"research", ResearchViewSet)
 urlpatterns = [
     path("", include(router.urls)),
     path("research/<int:pk>/assign", ResearchAssignAPI.as_view()),
+    path("research/<int:pk>/unassign", ResearchAssignAPI.as_view()),
 ]
