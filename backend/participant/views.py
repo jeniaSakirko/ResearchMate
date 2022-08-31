@@ -86,7 +86,7 @@ class ParticipantFormAPI(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         from form.models import FormParticipantMap
         from form.serializers import FormMetadataSerializer
-        instance = self.get_object()
+        instance = request.user
         response = []
         status = None
         if "status" in request.GET:

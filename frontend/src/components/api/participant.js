@@ -46,10 +46,9 @@ export const getAllForms = async (participant_id, token) => {
             'Authorization': `Token ${token}`,
         },
     };
-    let url = PARTICIPANT_GET_ALL_FORMS_URL(participant_id);
     try {
         const res = await axios
-            .get(url, config);
+            .get(PARTICIPANT_GET_ALL_FORMS_URL, config);
         return res.data;
     } catch (e) {
         console.log(e);
