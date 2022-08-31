@@ -32,6 +32,10 @@ class Participant(models.Model):
     def get_all():
         return Participant.objects.all()
 
+    @staticmethod
+    def update_active_status(participant_id, is_active):
+        Participant.objects.get(id=participant_id).update_data(data={"is_active": is_active})
+
     def update_data(self, data):
         self.base_user.update_data(data)
         self.save()

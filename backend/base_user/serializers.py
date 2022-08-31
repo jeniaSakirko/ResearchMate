@@ -9,7 +9,7 @@ from .models import BaseUser
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("id", "username", "email", "password", "first_name", "last_name")
+        fields = ("id", "username", "email", "password", "first_name", "last_name", "is_active")
         extra_kwargs = {"password": {"write_only": True}}
 
 
@@ -46,4 +46,12 @@ class LoginSerializer(serializers.Serializer):
         user = authenticate(**data)
         if user and user.is_active:
             return user
+        try:
+            users = User.objects.filter(username=data['username'])
+            if len(users) > 0:
+                user = users.first()
+                if not user.is_active:
+                    raise serializers.ValidationError("User is not active")
+        except Exception as e:
+            raise e
         raise serializers.ValidationError("Incorrect Credentials")
