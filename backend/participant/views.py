@@ -96,5 +96,6 @@ class ParticipantFormAPI(generics.GenericAPIView):
             data = {}
             data.update(FormMetadataSerializer(entry.form, context=self.get_serializer_context()).data)
             data.update({"status": entry.get_status_full_name()})
+            data.update({"id": entry.form_id})
             response.append(data)
         return Response(response)
