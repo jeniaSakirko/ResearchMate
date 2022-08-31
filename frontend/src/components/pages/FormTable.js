@@ -11,13 +11,17 @@ import {Column} from 'primereact/column';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
 import {Dropdown} from 'primereact/dropdown';
-import '../css/DataTable.css';
+import {Dialog} from 'primereact/dialog';
 
 import {getAllForms} from '../api/participant'
 import {getUserToken} from "../common/UserContext";
 
 export const FormTable = () => {
-    const [Form, setForm] = useState(null);
+    const [displayForm, setDisplayForm] = useState(false);
+    const [isNewForm, setIsNewForm] = useState(false);
+    const [formRow, setFormRow] = useState(false);
+
+    const [formsList, setFormsList] = useState(null);
     const [filters, setFilters] = useState({
         'global': {value: null, matchMode: FilterMatchMode.CONTAINS},
         'name': {
@@ -38,7 +42,7 @@ export const FormTable = () => {
     useEffect(() => {
         getUserToken().then(token => {
             getAllForms(1, token).then(data => {
-                setForm(data);
+                setFormsList(data);
                 setLoading(false)
             })
         });
@@ -65,8 +69,49 @@ export const FormTable = () => {
         )
     }
 
-    const actionBodyTemplate = () => {
-        return <Button type="button" icon="pi pi-cog"></Button>;
+    const onHide = () => {
+        setDisplayForm(false);
+    }
+
+    const acceptForm = () => {
+        console.log("Accepted");
+        setDisplayForm(false);
+    }
+
+    const renderFooter = () => {
+        if (isNewForm) {
+            return (
+                <div>
+                    <Button label="No" icon="pi pi-times" onClick={() => onHide()} className="p-button-text"/>
+                    <Button label="Accept" icon="pi pi-check" onClick={() => acceptForm()} autoFocus/>
+                </div>
+            );
+        }
+        return (
+            <div>
+                <Button label="Done" icon="pi pi-check" onClick={() => acceptForm()} autoFocus/>
+            </div>
+        );
+    }
+
+    const showFullDialog = (rowData, newItem) => {
+        setFormRow(rowData);
+        setIsNewForm(newItem);
+        setDisplayForm(true);
+    }
+
+
+    const actionBodyTemplate = (rowData) => {
+        let newItem = false;
+        let icon = "pi pi-eye"
+        let className = "p-button-success"
+        if (rowData.status === "New") {
+            newItem = true;
+            icon = "pi pi-check-square"
+            className = ""
+        }
+        return <Button type="button" onClick={() => showFullDialog(rowData, newItem)} icon={icon}
+                       className={className}></Button>;
     }
 
     const statusBodyTemplate = (rowData) => {
@@ -90,7 +135,15 @@ export const FormTable = () => {
     return (
         <div className="datatable-base">
             <div className="card">
-                <DataTable value={Form} paginator className="p-datatable-customers" header={header} rows={10}
+                <Dialog header={formRow.name} visible={displayForm} style={{width: '50vw'}} footer={renderFooter()}
+                        onHide={() => onHide()}>
+                    <iframe
+                        style={{width: '100%', minHeight: '540px'}}
+                        width="100%"
+                        src={formRow.url}
+                    />
+                </Dialog>
+                <DataTable value={formsList} paginator className="p-datatable-customers" header={header} rows={10}
                            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                            rowsPerPageOptions={[10, 25, 50]}
                            dataKey="id" rowHover

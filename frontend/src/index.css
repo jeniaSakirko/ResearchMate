@@ -50,6 +50,7 @@ p {
 
 .card {
     margin-bottom: 2rem;
+    height: 100%;
 }
 
 input[type="number"] {

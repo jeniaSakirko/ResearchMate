@@ -10,8 +10,8 @@ class Migration(migrations.Migration):
         from form.models import FormMetadata
 
         test_data = [
-            ("Research Protocol", "https://docs.google.com/document/d/15CpB07ah0GaWBQ4aY8hZQsedYm-LHIHo/edit", 1),
-            ("Written Consent", "https://docs.google.com/document/d/1wUWfYI2IgiyhY3W8qn7Hoe0g9H4tHV-D/edit", 1),
+            ("Research Protocol", "resources/protocol.pdf", 1),
+            ("Written Consent", "resources/consent.pdf", 1),
         ]
 
         with transaction.atomic():
