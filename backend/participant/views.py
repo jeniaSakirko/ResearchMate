@@ -103,6 +103,7 @@ class ParticipantFormAPI(generics.GenericAPIView):
     def put(self, request, *args, **kwargs):
         try:
             from form.models import FormParticipantMap
+            # TODO: fix the user this should be using Participant.objects.filter(base_user__user=request.user)
             instance = request.user
             FormParticipantMap.update_form_status(instance.id, request.data['form_id'], "R")
             return Response("Ok")

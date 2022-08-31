@@ -43,6 +43,8 @@ class BaseUser(models.Model):
             self.user.first_name = data["first_name"]
         if "last_name" in data.keys():
             self.user.last_name = data["last_name"]
+        if "is_active" in data.keys():
+            self.user.is_active = data["is_active"]
         if "phone_number" in data.keys():
             self.phone_number = data["phone_number"]
         self.user.save()
