@@ -88,6 +88,9 @@ class Research(models.Model):
         ResearchAttending.create(research=self, participant_id=participant_id)
         FormParticipantMap.create(research=self, participant_id=participant_id)
 
+    def un_assign_participant(self, participant_id):
+        ResearchAttending.drop_participant(research_id=self.id, participant_id=participant_id)
+
 
 class ResearchAttendingStatus(models.TextChoices):
     assigned = "AS", "Assigned"
@@ -175,6 +178,12 @@ class ResearchAttending(models.Model):
                   "), (".join(map(lambda opt: str(opt[0]) + ' / ' + str(opt[1]), ResearchAttendingStatus.choices)) + \
                   ") (All)"
         raise Exception(message)
+
+    @staticmethod
+    def drop_participant(research_id, participant_id):
+        entry = ResearchAttending.objects.get(research_id=research_id, participant_id=participant_id)
+        entry.status = ResearchAttendingStatus.drop
+        entry.save()
 
     def get_status_full_name(self):
         return ResearchAttendingStatus.get_full_name_from_status(self.status)

@@ -32,10 +32,11 @@ class ResearchAssignAPI(generics.GenericAPIView):
         try:
             instance = self.get_object()
             serializer = self.get_serializer(instance, data=request.data, partial=True,
-                                             context={"request": request, "method": request.method})
+                                             context={"request": request, "method": request.method,
+                                                      "operation": request.stream.path.split('/')[-1]})
             serializer.is_valid(raise_exception=True)
             serializer.save()
-            return Response({"message": "Added"}, status=status.HTTP_201_CREATED)
+            return Response({"message": "Done"}, status=status.HTTP_200_OK)
         except Exception as e:
             logging.warning("Exception in assign to research. Error: [{0}]".format(str(e)))
             raise e

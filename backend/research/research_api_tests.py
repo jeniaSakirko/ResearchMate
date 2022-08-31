@@ -35,8 +35,8 @@ class TestResearchModelAPI:
             **researcher_token_fixture
         )
 
-        assert response.status_code == 201
-        assert response.data == {"message": "Added"}
+        assert response.status_code == 200
+        assert response.data == {"message": "Done"}
 
     def test_assign_api_non_existing_participant(self, client, research_gal, researcher_token_fixture):
         response = client.post(
@@ -56,8 +56,8 @@ class TestResearchModelAPI:
             **researcher_token_fixture
         )
 
-        assert response.status_code == 201
-        assert response.data == {"message": "Added"}
+        assert response.status_code == 200
+        assert response.data == {"message": "Done"}
 
         response = client.post(
             "/api/research/{}/assign".format(research_gal.id),
