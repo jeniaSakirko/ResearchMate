@@ -33,7 +33,7 @@ export const RegisterToResearch = () => {
                 surface-overlay border-round border-1 shadow-1 p-5 py-0 m-3 ">
                 <h5>Select a research</h5>
                 <Dropdown value={selectedResearch} options={researchs} onChange={onResearchChange} optionLabel="name" placeholder="Select a research" />
-                <Button onClick={onAssign} label="Register To Research" className="p-button-rounded"/>
+                <Button onClick={onAssign} label="RegisterOld To Research" className="p-button-rounded"/>
                 </div> 
             </div>       
         </div>
