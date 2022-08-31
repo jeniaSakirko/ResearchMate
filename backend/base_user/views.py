@@ -32,10 +32,24 @@ class LoginAPI(generics.GenericAPIView):
     serializer_class = LoginSerializer
 
     def post(self, request, *args, **kwargs):
+        from researcher.models import Researcher
+        from participant.models import Participant
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data
         _, token = AuthToken.objects.create(user)
+        user_data = BaseUserSerializer(user.baseuser, context=self.get_serializer_context()).data
+
+        if Researcher.is_base_user_researcher(user.id):
+            user_data.update({"type": "Researcher"})
+        elif Participant.is_base_user_participant(user.id):
+            user_data.update({"type": "Participant"})
+        else:
+            user_data.update({"type": "Unknown"})
         return Response(
-            {"user": BaseUserSerializer(user.baseuser, context=self.get_serializer_context()).data, "token": token}
+            {
+                "user": user_data,
+                "token": token
+            }
         )
