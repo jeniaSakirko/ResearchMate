@@ -13,7 +13,7 @@ import {Button} from 'primereact/button';
 import {Dropdown} from 'primereact/dropdown';
 import {Dialog} from 'primereact/dialog';
 
-import {getAllForms} from '../api/participant'
+import {getAllForms, agreeOnForm} from '../api/participant'
 import {getUserToken} from "../common/UserContext";
 
 export const FormTable = () => {
@@ -40,13 +40,18 @@ export const FormTable = () => {
     const statuses = ['new', 'underreview', 'done'];
 
     useEffect(() => {
+        reloadForms();
+    }, []);
+
+    const reloadForms = () => {
+        setLoading(true)
         getUserToken().then(token => {
-            getAllForms(1, token).then(data => {
+            getAllForms(token).then(data => {
                 setFormsList(data);
                 setLoading(false)
             })
         });
-    }, []);
+    }
 
     const onGlobalFilterChange = (e) => {
         const value = e.target.value;
@@ -74,8 +79,10 @@ export const FormTable = () => {
     }
 
     const acceptForm = () => {
-        console.log("Accepted");
-        setDisplayForm(false);
+        agreeOnForm(formRow.id).then(() => {
+            setDisplayForm(false)
+            reloadForms();
+        })
     }
 
     const renderFooter = () => {

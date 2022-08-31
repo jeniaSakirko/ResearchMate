@@ -12,5 +12,6 @@ urlpatterns = [
     path("participant/register", ParticipantRegisterAPI.as_view()),
     path("participant/<int:pk>", ParticipantAPI.as_view()),
     path("participant/<int:pk>/research", ParticipantAttendingAPI.as_view()),
-    path("participant/<int:pk>/form", ParticipantFormAPI.as_view()),
+    path("participant/forms", ParticipantFormAPI.as_view()),
+    path("participant/forms/agree", ParticipantFormAPI.as_view()),
 ]

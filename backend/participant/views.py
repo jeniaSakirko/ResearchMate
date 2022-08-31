@@ -86,7 +86,7 @@ class ParticipantFormAPI(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         from form.models import FormParticipantMap
         from form.serializers import FormMetadataSerializer
-        instance = self.get_object()
+        instance = request.user
         response = []
         status = None
         if "status" in request.GET:
@@ -96,5 +96,16 @@ class ParticipantFormAPI(generics.GenericAPIView):
             data = {}
             data.update(FormMetadataSerializer(entry.form, context=self.get_serializer_context()).data)
             data.update({"status": entry.get_status_full_name()})
+            data.update({"id": entry.form_id})
             response.append(data)
         return Response(response)
+
+    def put(self, request, *args, **kwargs):
+        try:
+            from form.models import FormParticipantMap
+            instance = request.user
+            FormParticipantMap.update_form_status(instance.id, request.data['form_id'], "R")
+            return Response("Ok")
+        except Exception as e:
+            logging.warning("Exception in update participant [{0}]".format(str(e)))
+            return Response(data={"message": "failed"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
