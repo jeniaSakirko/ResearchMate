@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Dropdown } from 'primereact/dropdown';
 import '../css/ChangeStatus.css';
-import {getAll,assign} from '../api/research';
+import {getAll,assign,unassign} from '../api/research';
 import {Button} from 'primereact/button';
-const token ="5d3a364c8096f0c6e167f763e58464793f008bdb3500044975dc3a98979a5e48";
+const token ="5d9065cf8a1b554f1e79ce9b07e8b9017b79406427b91e35dee0d0a857d0fe54";
 export const RegisterToResearch = () => {
 
     useEffect(() => {
@@ -21,12 +21,12 @@ export const RegisterToResearch = () => {
     }
 
     const onAssign = async () => {
-        const vla = await assign(token,"9",selectedResearch.id)
+        const vla = await assign(token,"16",selectedResearch.id)
         console.log(vla)
     }
 
     const unAssign = async () => {
-        const vla = await unassign(token,"9")
+        const vla = await unassign(token,"16",selectedResearch.id)
         console.log(vla)
     }
 
@@ -38,7 +38,6 @@ export const RegisterToResearch = () => {
                 surface-overlay border-round border-1 shadow-1 p-5 py-0 m-3 ">
                 <h5>Select a research</h5>
                 <Dropdown value={selectedResearch} options={researchs} onChange={onResearchChange} optionLabel="name" placeholder="Select a research" />
-                <Button onClick={onAssign} label="RegisterOld To Research" className="p-button-rounded"/>
                 <Button onClick={onAssign} label="Register To Research" className="p-button-rounded"/>
                 <Button onClick={unAssign} label="Cancel Register To Research" className="p-button-rounded"/>
                 </div> 
