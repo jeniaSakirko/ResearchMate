@@ -25,6 +25,11 @@ export const RegisterToResearch = () => {
         console.log(vla)
     }
 
+    const unAssign = async () => {
+        const vla = await unassign(token,"9")
+        console.log(vla)
+    }
+
   
     return (
         <div  className="flex justify-content-center aligned-items-center vertical-align-middle">
@@ -34,6 +39,8 @@ export const RegisterToResearch = () => {
                 <h5>Select a research</h5>
                 <Dropdown value={selectedResearch} options={researchs} onChange={onResearchChange} optionLabel="name" placeholder="Select a research" />
                 <Button onClick={onAssign} label="RegisterOld To Research" className="p-button-rounded"/>
+                <Button onClick={onAssign} label="Register To Research" className="p-button-rounded"/>
+                <Button onClick={unAssign} label="Cancel Register To Research" className="p-button-rounded"/>
                 </div> 
             </div>       
         </div>
