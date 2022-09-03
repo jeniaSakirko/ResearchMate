@@ -16,6 +16,8 @@ export const Login = () => {
         const data = await login(username, password);
         localStorage.setItem("userToken", data.token);
         setUserToken(data.token);
+
+        localStorage.setItem("userType", data.user.type);
     }
 
     return (
