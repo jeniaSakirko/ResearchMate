@@ -29,58 +29,16 @@ export const MenubarNav = () => {
 
     const items = [
         {
-            label: 'File',
+            label: 'Research',
             icon: 'pi pi-fw pi-file',
             items: [
                 {
-                    label: 'New',
-                    icon: 'pi pi-fw pi-plus',
-                    items: [
-                        {
-                            label: 'Bookmark',
-                            icon: 'pi pi-fw pi-bookmark'
-                        },
-                        {
-                            label: 'Video',
-                            icon: 'pi pi-fw pi-video'
-                        },
-
-                    ]
+                    label: 'Lets see some of our research',
+                    icon: 'pi pi-fw pi-users',
+                    command:(e) => {
+                        window.location = "/ResearchDataView"
+                    }
                 },
-                {
-                    label: 'Delete',
-                    icon: 'pi pi-fw pi-trash'
-                },
-                {
-                    separator: true
-                },
-                {
-                    label: 'Export',
-                    icon: 'pi pi-fw pi-external-link'
-                }
-            ]
-        },
-        {
-            label: 'Edit',
-            icon: 'pi pi-fw pi-pencil',
-            items: [
-                {
-                    label: 'Left',
-                    icon: 'pi pi-fw pi-align-left'
-                },
-                {
-                    label: 'Right',
-                    icon: 'pi pi-fw pi-align-right'
-                },
-                {
-                    label: 'Center',
-                    icon: 'pi pi-fw pi-align-center'
-                },
-                {
-                    label: 'Justify',
-                    icon: 'pi pi-fw pi-align-justify'
-                },
-
             ]
         },
         {
@@ -88,35 +46,22 @@ export const MenubarNav = () => {
             icon: 'pi pi-fw pi-user',
             items: [
                 {
-                    label: 'New',
-                    icon: 'pi pi-fw pi-user-plus',
+                    label: 'Users profile',
+                    icon: 'pi pi-fw pi-user-plus',                   
+                    command:(e) => {
+                        window.location = "/profile"
+                    }
+
 
                 },
                 {
-                    label: 'Delete',
+                    label: 'participant List',
                     icon: 'pi pi-fw pi-user-minus',
+                    command:(e) => {
+                        window.location = "/participantList"
+                    }
 
                 },
-                {
-                    label: 'Search',
-                    icon: 'pi pi-fw pi-users',
-                    items: [
-                        {
-                            label: 'Filter',
-                            icon: 'pi pi-fw pi-filter',
-                            items: [
-                                {
-                                    label: 'Print',
-                                    icon: 'pi pi-fw pi-print'
-                                }
-                            ]
-                        },
-                        {
-                            icon: 'pi pi-fw pi-bars',
-                            label: 'List'
-                        }
-                    ]
-                }
             ]
         },
         {
@@ -157,7 +102,7 @@ export const MenubarNav = () => {
             }
         }
     ];
-    const start = <img alt="logo" src="showcase/images/logo.png" onError={(e) => e.target.src='https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} height="40" className="mr-2"></img>;
+    const start = <img alt="logo" src="images/product/logo.jpg" onError={(e) => e.target.src='https://blog.optimalworkshop.com/wp-content/uploads/2020/03/Qualitative-research-methods.png'} height="40" className="mr-2"></img>;
     const end = <InputText placeholder="Search" type="text" />;
 
     return (
