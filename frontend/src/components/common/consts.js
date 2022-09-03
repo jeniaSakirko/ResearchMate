@@ -13,4 +13,5 @@ export const PARTICIPANT_PUT_AGREE_ON_FORM_URL = '/api/participant/forms/agree';
 //Research
 export const  RESEARCH_GET_ALL = '/api/research';
 export const  RESEARCH_ASSIGH = '/assign';
+export const  RESEARCH_UNASSIGH = '/unassign';
 
