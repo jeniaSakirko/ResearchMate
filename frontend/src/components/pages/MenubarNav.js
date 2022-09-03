@@ -47,7 +47,11 @@ export const MenubarNav = () => {
             items: [
                 {
                     label: 'Users profile',
-                    icon: 'pi pi-fw pi-user-plus',
+                    icon: 'pi pi-fw pi-user-plus',                   
+                    command:(e) => {
+                        window.location = "/profile"
+                    }
+
 
                 },
                 {
@@ -58,26 +62,6 @@ export const MenubarNav = () => {
                     }
 
                 },
-                {
-                    label: 'Search',
-                    icon: 'pi pi-fw pi-users',
-                    items: [
-                        {
-                            label: 'Filter',
-                            icon: 'pi pi-fw pi-filter',
-                            items: [
-                                {
-                                    label: 'Print',
-                                    icon: 'pi pi-fw pi-print'
-                                }
-                            ]
-                        },
-                        {
-                            icon: 'pi pi-fw pi-bars',
-                            label: 'List'
-                        }
-                    ]
-                }
             ]
         },
         {
@@ -118,7 +102,7 @@ export const MenubarNav = () => {
             }
         }
     ];
-    const start = <img alt="logo" src="showcase/images/logo.png" onError={(e) => e.target.src='https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} height="40" className="mr-2"></img>;
+    const start = <img alt="logo" src="images/product/logo.jpg" onError={(e) => e.target.src='https://blog.optimalworkshop.com/wp-content/uploads/2020/03/Qualitative-research-methods.png'} height="40" className="mr-2"></img>;
     const end = <InputText placeholder="Search" type="text" />;
 
     return (

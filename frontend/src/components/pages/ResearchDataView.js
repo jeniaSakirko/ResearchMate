@@ -65,13 +65,9 @@ export const ResearchDataView = () => {
                         <div className="product-name">{data.name}</div>
                         <div className="product-description">{data.description}</div>
                         <Rating value={data.rating} readOnly cancel={false}></Rating>
-                        <i className="pi pi-tag product-category-icon"></i><span className="product-category">{data.category}</span>
+                        
                     </div>
-                    <div className="product-list-action">
-                        <span className="product-price">${data.price}</span>
-                        <Button icon="pi pi-shopping-cart" label="Add to Cart" disabled={data.inventoryStatus === 'OUTOFSTOCK'}></Button>
-                        <span className={`product-badge status-${data.inventoryStatus.toLowerCase()}`}>{data.inventoryStatus}</span>
-                    </div>
+  
                 </div>
             </div>
         );
@@ -83,8 +79,8 @@ export const ResearchDataView = () => {
                 <div className="product-grid-item card">
                     <div className="product-grid-item-top">
                         <div>
-                            <i className="pi pi-tag product-category-icon"></i>
-                            <span className="product-category">{data.category}</span>
+                            
+                            
                         </div>
                         <span className={`product-badge status-${data.inventoryStatus.toLowerCase()}`}>{data.inventoryStatus}</span>
                     </div>
@@ -93,10 +89,6 @@ export const ResearchDataView = () => {
                         <div className="product-name">{data.name}</div>
                         <div className="product-description">{data.description}</div>
                         <Rating value={data.rating} readOnly cancel={false}></Rating>
-                    </div>
-                    <div className="product-grid-item-bottom">
-                        <span className="product-price">${data.price}</span>
-                        <Button icon="pi pi-shopping-cart" label="Add to Cart" disabled={data.inventoryStatus === 'OUTOFSTOCK'}></Button>
                     </div>
                 </div>
             </div>
@@ -129,14 +121,18 @@ export const ResearchDataView = () => {
 
     const header = renderHeader();
 
-    return (
+    return (       
         <div className="dataview-demo">
             <div className="card">
+                <h3 className="align-items-center">Lets see some of our research</h3>
+                    
+             
                 <DataView value={products} layout={layout} header={header}
                         itemTemplate={itemTemplate} lazy paginator paginatorPosition={'both'} rows={rows.current}
                         totalRecords={totalRecords} first={first} onPage={onPage} loading={loading} />
+            
             </div>
-        </div>
+        </div>     
     );
 }
                  

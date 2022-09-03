@@ -19,6 +19,8 @@ import {MenubarNav} from './components/pages/MenubarNav';
 import {Register} from './components/pages/Register';
 import {RegisterNew} from './components/pages/RegisterNew';
 import {Profile} from "./components/pages/Profile";
+import {ResearchDataView} from "./components/pages/ResearchDataView";
+
 
 
 function App() {
@@ -39,6 +41,8 @@ function App() {
                         <Route path='/registertoresearch' element={<RegisterToResearch/>} exact/>
                         <Route path='/registernew' element={<RegisterNew/>} exact/>
                         <Route path='/profile' element={<Profile/>} exact/>
+                        <Route path='/researchdataview' element={<ResearchDataView/>} exact/>
+                        
                         {/*<Route path='*' element={<PageNotFound/>} exact/>*/}
 
                     </Routes>
