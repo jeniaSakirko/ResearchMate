@@ -15,6 +15,7 @@ export const MenubarNav = () => {
     const onLogout = async () => {
         const data = await logout(token);
         localStorage.removeItem("userToken");
+        localStorage.removeItem("userType");
     }
 
     useEffect(() => {
