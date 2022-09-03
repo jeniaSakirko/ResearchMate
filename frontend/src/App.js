@@ -3,8 +3,7 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.css';
 import 'primeflex/primeflex.css';
 
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import {useEffect, useMemo, useState} from "react";
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
 import './App.css';
 
@@ -26,8 +25,8 @@ import {ResearchDataView} from "./components/pages/ResearchDataView";
 function App() {
     return (
         // <div id="app">
-            <div>
-            <Router>
+        <div>
+            <BrowserRouter>
                 <UserContext.Provider>
                     {<MenubarNav/>}
                     <Routes>
@@ -35,19 +34,25 @@ function App() {
                         <Route path='/login' element={<Login/>} exact/>
                         <Route path='/register' element={<Register/>} exact/>
                         <Route path='/register' element={<RegisterOld/>} exact/>
-                        <Route path='/participantList' element={<ParticipantTable/>} exact/>
+                        <Route path="/participants" element={<ParticipantTable/>}/>
+                        <Route path="/participants/:participantId" element={<Profile/>}/>
                         <Route path='/forms' element={<FormTable/>} exact/>
                         <Route path='/changestatus' element={<ChangeStatus/>} exact/>
                         <Route path='/registertoresearch' element={<RegisterToResearch/>} exact/>
                         <Route path='/registernew' element={<RegisterNew/>} exact/>
                         <Route path='/profile' element={<Profile/>} exact/>
                         <Route path='/researchdataview' element={<ResearchDataView/>} exact/>
-                        
-                        {/*<Route path='*' element={<PageNotFound/>} exact/>*/}
-
+                        <Route
+                            path="*"
+                            element={
+                                <main style={{padding: "1rem"}}>
+                                    <p>There's nothing here!</p>
+                                </main>
+                            }
+                        />
                     </Routes>
                 </UserContext.Provider>
-            </Router>
+            </BrowserRouter>
 
             {/*<Footer/>*/}
         </div>

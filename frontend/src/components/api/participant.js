@@ -2,7 +2,8 @@ import {
     PARTICIPANT_REGISTER_URL,
     PARTICIPANT_GET_ALL_URL,
     PARTICIPANT_GET_ALL_FORMS_URL,
-    PARTICIPANT_PUT_AGREE_ON_FORM_URL
+    PARTICIPANT_PUT_AGREE_ON_FORM_URL,
+    BASE_PARTICIPANT_API
 } from "../common/consts";
 import axios from "axios";
 
@@ -39,6 +40,23 @@ export const getAll = async (token) => {
         const res = await axios
             .get(PARTICIPANT_GET_ALL_URL, config);
         return res.data;
+    } catch (e) {
+        console.log(e);
+    }
+};
+
+export const getParticipant = async (token, participantId) => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`,
+        },
+    };
+
+    try {
+        const res = await axios
+            .get(BASE_PARTICIPANT_API + '/' + participantId, config);
+        return res.data.user;
     } catch (e) {
         console.log(e);
     }

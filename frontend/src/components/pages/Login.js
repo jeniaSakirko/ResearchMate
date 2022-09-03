@@ -21,9 +21,8 @@ export const Login = () => {
     }
 
     return (
-
         <div className="flex justify-content-center aligned-items-center vertical-align-middle">
-            {userToken ? <Navigate to="/participantList/"/> : null}
+            {userToken ? <Navigate to="/participants/"/> : null}
             <div className="card">
                 <div className="flex flex-column align-items-center justify-content-center card-container gap-3
                 surface-overlay border-round border-1 shadow-1 p-5 py-0 m-3 ">
