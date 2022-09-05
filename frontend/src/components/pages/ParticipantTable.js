@@ -5,6 +5,7 @@ import 'primeflex/primeflex.css';
 import '../../index.css';
 
 import React, {useState, useEffect} from 'react';
+import {useNavigate} from "react-router-dom";
 import {FilterMatchMode, FilterOperator} from 'primereact/api';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
@@ -16,6 +17,8 @@ import {getAll} from '../api/participant'
 import {getUserToken} from "../common/UserContext";
 
 export const ParticipantTable = () => {
+    let navigate = useNavigate();
+
     const [Participants, setParticipants] = useState(null);
     const [filters, setFilters] = useState({
         'global': {value: null, matchMode: FilterMatchMode.CONTAINS},
@@ -71,7 +74,7 @@ export const ParticipantTable = () => {
     }
 
     const navigateToProfile = (rowData) => {
-        // <Navigate
+        navigate("/participants/" + rowData.id);
     }
 
 

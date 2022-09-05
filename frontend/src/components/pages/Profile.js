@@ -1,162 +1,129 @@
-import React, {useContext, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
-import {Link} from 'react-router-dom';
-import {login} from "../api/auth";
-import {Navigate} from 'react-router-dom';
-//####
-import myData from "./customers-large-backend.json";
-// import { InputText } from 'primereact/inputtext';
-import '../css/OrderListDemo.css';
+import {useParams} from "react-router-dom";
+import {Splitter, SplitterPanel} from 'primereact/splitter';
 
-// export const Login = () => {
+import {getUserToken} from "../common/UserContext";
+import {getParticipant} from "../api/participant";
+
 export const Profile = () => {
-    
-    console.log (myData)
-    const currentUser = myData[0];
-    console.log (currentUser);
+    const {participantId} = useParams()
+    const [currentUser, setCurrentUser] = useState('');
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-
-
-    const onLogin = async () => {
-        const data = await login(username, password);
-        localStorage.setItem("userToken", data.token);
-    }
+    useEffect(() => {
+        getUserToken().then(token => {
+            getParticipant(token, participantId).then(data => {
+                setCurrentUser(data);
+                console.log(data);
+            })
+        });
+    }, [])
 
     const onSuspendUser = async () => {
-        const data = await login(username, password);
-        localStorage.setItem("userToken", data.token);
+        console.log("onSuspendUser");
     }
 
     const onDisable = async () => {
-        const data = await login(username, password);
-        localStorage.setItem("userToken", data.token);
+        console.log("onDisable");
     }
 
     const onAssign = async () => {
-        const data = await login(username, password);
-        localStorage.setItem("userToken", data.token);
+        console.log("onAssign");
     }
 
     const onUnAssign = async () => {
-        const data = await login(username, password);
-        localStorage.setItem("userToken", data.token);
+        console.log("onUnAssign");
     }
 
     const onUpdateMeeting = async () => {
-        const data = await login(username, password);
-        localStorage.setItem("userToken", data.token);
+        console.log("onUpdateMeeting");
     }
 
     const onComment = async () => {
-        const data = await login(username, password);
-        localStorage.setItem("userToken", data.token);
+        console.log("onComment");
     }
-    
+
     return (
-
-        <div className="flex justify-content-center aligned-items-center vertical-align-middle"> {/* main div */}
-            {/* TODO: uncomment! {userToken ? <Navigate to="/test/"/> : null}*/}
-            <div className="card" style={{borderColor: "white"}}>
-
-                {/* start of blue */}
-                <div className="flex flex-column align-items-center justify-content-center card-container gap-3
-                surface-overlay border-round border-1 shadow-1 p-5 py-0 m-3 " style={{borderColor: "blue"}}>
+        <div className="card">
+            <Splitter style={{height: '740px'}}>
+                <SplitterPanel className="flex flex-column align-items-center justify-content-center gap-3" size={80}
+                               minSize={20}>
                     <h3 className="align-items-center">Profile Information</h3>
-
                     <span className="p-input-icon-left">
                         <label>Username</label> &emsp;
-                    <InputText value={currentUser.base_user.user.username} disabled={true} type="text" placeholder="Username" id="username" />
-                    </span>
+                        <InputText value={currentUser.base_user?.user.username} disabled={true} type="text"
+                                   placeholder="Username" id="username"/>
+                        </span>
 
                     <span className="p-input-icon-left">
-                    <label>Email</label> &emsp;
-                    <InputText value={currentUser.base_user.user.email} disabled={true} type="text" placeholder="Email" id="username" />
-                    </span>
+                         <label>Email</label> &emsp;
+                        <InputText value={currentUser.base_user?.user.email} disabled={true} type="text"
+                                   placeholder="Email" id="email"/>
+                        </span>
 
                     <span className="p-input-icon-left">
-                    <label>FirstName</label> &emsp;
-                    <InputText value={currentUser.base_user.user.first_name} disabled={true} type="text" placeholder="FirstName" id="username" />
-                    </span>
+                         <label>First Name</label> &emsp;
+                        <InputText value={currentUser.base_user?.user.first_name} disabled={true} type="text"
+                                   placeholder="First Name" id="fName"/>
+                        </span>
 
                     <span className="p-input-icon-left">
-                    <label>LastName</label> &emsp;
-                    <InputText value={currentUser.base_user.user.last_name} disabled={true} type="text" placeholder="LastName" id="username" />
-                    </span>
-            
+                         <label>Last Name</label> &emsp;
+                        <InputText value={currentUser.base_user?.user.last_name} disabled={true} type="text"
+                                   placeholder="Last Name" id="lName"/>
+                        </span>
                     <span className="p-input-icon-left">
-                    <label>PhoneNumber</label> &emsp;
-                    <InputText value={currentUser.base_user.phone_number} disabled={true} type="text" placeholder="PhoneNumber" id="username" />
-                    </span>
+                         <label>Phone Number</label> &emsp;
+                        <InputText value={currentUser.base_user?.phone_number} disabled={true} type="text"
+                                   placeholder="Phone Number" id="phone"/>
+                        </span>
+                    <div>
+                        <Button onClick={onSuspendUser} label="Suspend User" className="p-button-rounded"/>
+                        <Button onClick={onDisable} label="Disable User" className="p-button-rounded"/>
+                    </div>
+                </SplitterPanel>
+                <SplitterPanel size={80}>
+                    <Splitter layout="vertical">
+                        <SplitterPanel className="flex align-items-center justify-content-center" size={20} minSize={5}>
+                            <div className="flex flex-column align-items-center justify-content-center gap-3">
+                                <h3 className="align-items-center">Past Researches</h3>
+                                <span className="p-input-icon-left">
+                                    <label>*list of past researches.....*</label> &emsp;
+                                </span>
+                            </div>
+                        </SplitterPanel>
 
-                    <Button onClick={onSuspendUser} label="Suspend User" className="p-button-rounded"/>
-
-                    <Button onClick={onDisable} label="Disable User" className="p-button-rounded"/> 
-                    <br></br>
-                </div>  {/* end of blue */}
-                                
-
-            </div> {/* end of red */}
-
-
-            <div className="card" style={{borderColor: "white"}}>
-
-                {/* start of blue */}
-                <div className="flex flex-column align-items-center justify-content-center card-container gap-3
-                                surface-overlay border-round border-1 shadow-1 p-5 py-0 m-3 " style={{borderColor: "blue"}}>
-                                    <h3 className="align-items-center">Past Researches</h3>
-
-                                    <span className="p-input-icon-left">
-                                        <label>*list of past researches.....*</label> &emsp;
-                                    </span>
-
-                                    <br></br>
-                                </div>  {/* end of blue */}
-
-                {/* start of blue */}
-                <div className="flex flex-column align-items-center justify-content-center card-container gap-3
-                                surface-overlay border-round border-1 shadow-1 p-5 py-0 m-3 " style={{borderColor: "blue"}}>
-                                    <h3 className="align-items-center">Assign Research</h3>
-
-                                    <span className="p-input-icon-left">
-                                        <label>*list of researches.....*</label> &emsp;
-                                    </span>
+                        <SplitterPanel className="flex align-items-center justify-content-center" size={20} minSize={5}>
+                            <div className="flex flex-column align-items-center justify-content-center gap-3">
+                                <h3 className="align-items-center">Assign Research</h3>
+                                <span className="p-input-icon-left">
+                                    <label>*list of researches.....*</label> &emsp;
+                                </span>
+                                <div className="p-2">
                                     <Button onClick={onAssign} label="Assign" className="p-button-rounded"/>
+                                    <Button onClick={onUnAssign} label="UnAssign" className="p-button-rounded"/>
+                                </div>
+                            </div>
+                        </SplitterPanel>
 
-                                    <Button onClick={onUnAssign} label="UnAssign" className="p-button-rounded"/> 
-                                    <br></br>
-                                </div>  {/* end of blue */}
+                        <SplitterPanel className="flex align-items-center justify-content-center" size={20} minSize={5}>
+                            <div className="flex flex-column align-items-center justify-content-center gap-3">
+                                <h3 className="align-items-center">Update A Meeting</h3>
+                                <Button onClick={onUpdateMeeting} label="Update Meeting" className="p-button-rounded"/>
+                            </div>
+                        </SplitterPanel>
 
-                {/* start of blue */}
-                <div className="flex flex-column align-items-center justify-content-center card-container gap-3
-                                surface-overlay border-round border-1 shadow-1 p-5 py-0 m-3 " style={{borderColor: "blue"}}>
-                                    <h3 className="align-items-center">Update A Meeting</h3>
-
-                                    <Button onClick={onUpdateMeeting} label="Update Meeting" className="p-button-rounded"/>
-
-                                    <br></br>
-                                </div>  {/* end of blue */}
-
-                {/* start of blue */}
-                <div className="flex flex-column align-items-center justify-content-center card-container gap-3
-                                surface-overlay border-round border-1 shadow-1 p-5 py-0 m-3 " style={{borderColor: "blue"}}>
-                                    <h3 className="align-items-center">Add A Comment</h3>
-
-                                    <Button onClick={onComment} label="Add A Comment" className="p-button-rounded"/>
-
-                                    <br></br>
-                                </div>  {/* end of blue */}
-
-
-
-            </div> {/* end of red */}
-
-
-
-
-        </div> 
+                        <SplitterPanel className="flex align-items-center justify-content-center" size={20} minSize={5}>
+                            <div className="flex flex-column align-items-center justify-content-center gap-3">
+                                <h3 className="align-items-center">Add A Comment</h3>
+                                <Button onClick={onComment} label="Add A Comment" className="p-button-rounded"/>
+                            </div>
+                        </SplitterPanel>
+                    </Splitter>
+                </SplitterPanel>
+            </Splitter>
+        </div>
     );
 }
 
