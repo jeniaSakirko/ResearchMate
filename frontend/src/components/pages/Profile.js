@@ -13,6 +13,16 @@ import {getUserType} from "../common/UserContext";
 
 import "../css/DataTable.css"
 
+import {Link} from 'react-router-dom';
+import {login} from "../api/auth";
+import {Navigate} from 'react-router-dom';
+//####
+import myData from "./customers-large-backend.json";
+import '../css/OrderListDemo.css';
+//####
+import {getUserType} from "../common/UserContext";
+import {useEffect} from 'react';
+
 export const Profile = () => {
     const {participantId} = useParams()
     const [userInfoTbl, setUserInfoTbl] = useState([]);
@@ -23,6 +33,29 @@ export const Profile = () => {
     const [hideEditBtn, setHideEditBtn] = useState(true);
     const [pastResearch, setPastResearch] = useState([]);
 
+
+
+    const [isParticipant, setParticipant] = useState('');
+
+    const checkIfParticipant = () => {
+        // let newItem = false;
+        // let icon = "pi pi-eye"
+        // let className = "p-button-success"
+        if (getUserType.value == "Researcher") {
+            setParticipant(false);
+        }
+        if (getUserType.value == "Participant") {
+            setParticipant(true);
+        }
+        // return <Button type="button" onClick={() => showFullDialog(rowData, newItem)} icon={icon}
+        //                className={className}></Button>;
+    }
+    
+
+
+    console.log (myData)
+    const currentUser = myData[0];
+    console.log (currentUser);
 
     useEffect(() => {
         getParticipant(participantId).then(data => {
@@ -140,6 +173,7 @@ export const Profile = () => {
                         <Column rowEditor headerStyle={{width: '10%', minWidth: '8rem'}}
                                 bodyStyle={{textAlign: 'center'}} hidden={hideEditBtn} style={{border: "none"}}/>
                     </DataTable>
+
                     <div>
                         <Button onClick={onSuspendUser} label="Suspend User" className="p-button-rounded"/>
                         <Button onClick={onDisable} label="Disable User" className="p-button-rounded"/>
