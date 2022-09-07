@@ -14,7 +14,6 @@ import {Dropdown} from 'primereact/dropdown';
 import {Dialog} from 'primereact/dialog';
 
 import {getAllForms, agreeOnForm} from '../api/participant'
-import {getUserToken} from "../common/UserContext";
 
 export const FormTable = () => {
     const [displayForm, setDisplayForm] = useState(false);
@@ -45,11 +44,9 @@ export const FormTable = () => {
 
     const reloadForms = () => {
         setLoading(true)
-        getUserToken().then(token => {
-            getAllForms(token).then(data => {
-                setFormsList(data);
-                setLoading(false)
-            })
+        getAllForms().then(data => {
+            setFormsList(data);
+            setLoading(false)
         });
     }
 

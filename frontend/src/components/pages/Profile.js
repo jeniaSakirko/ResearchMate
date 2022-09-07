@@ -4,7 +4,6 @@ import {Button} from 'primereact/button';
 import {useParams} from "react-router-dom";
 import {Splitter, SplitterPanel} from 'primereact/splitter';
 
-import {getUserToken} from "../common/UserContext";
 import {getParticipant} from "../api/participant";
 
 export const Profile = () => {
@@ -12,11 +11,9 @@ export const Profile = () => {
     const [currentUser, setCurrentUser] = useState('');
 
     useEffect(() => {
-        getUserToken().then(token => {
-            getParticipant(token, participantId).then(data => {
-                setCurrentUser(data);
-                console.log(data);
-            })
+        getParticipant(participantId).then(data => {
+            setCurrentUser(data);
+            console.log(data);
         });
     }, [])
 
