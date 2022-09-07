@@ -9,14 +9,10 @@ import '../css/ChangeStatus.css';
 export const RegisterToResearch = () => {
     const [selectedResearch, setSelectedResearch] = useState(null);
     const [researches, setResearches] = useState(null);
-    const [userToken, setUserToken] = useState(null);
 
     useEffect(() => {
-        getUserToken().then(token => {
-            setUserToken(token);
-            getAll(token).then(data => {
-                setResearches(data);
-            })
+        getAll().then(data => {
+            setResearches(data);
         });
     }, []);
 
@@ -27,13 +23,13 @@ export const RegisterToResearch = () => {
     const onAssign = async () => {
         // TODO: change participant_id
         let participant_id = 16;
-        await assign(userToken, participant_id, selectedResearch.id)
+        await assign(participant_id, selectedResearch.id)
     }
 
     const unAssign = async () => {
         // TODO: change participant_id
         let participant_id = 16;
-        await unassign(userToken, participant_id, selectedResearch.id)
+        await unassign(participant_id, selectedResearch.id)
     }
 
 

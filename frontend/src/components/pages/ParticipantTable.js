@@ -14,7 +14,6 @@ import {Button} from 'primereact/button';
 import '../css/DataTable.css';
 
 import {getAll} from '../api/participant'
-import {getUserToken} from "../common/UserContext";
 
 export const ParticipantTable = () => {
     let navigate = useNavigate();
@@ -44,11 +43,9 @@ export const ParticipantTable = () => {
 
 
     useEffect(() => {
-        getUserToken().then(token => {
-            getAll(token).then(data => {
-                setParticipants(data);
-                setLoading(false)
-            })
+        getAll().then(data => {
+            setParticipants(data);
+            setLoading(false)
         });
     }, []);
 
