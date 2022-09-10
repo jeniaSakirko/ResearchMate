@@ -30,6 +30,10 @@
     text-transform: uppercase;
 }
 
+.noHeader table thead tr {
+    display: none;
+}
+
 .p-column-filter {
     width: 100%;
 }

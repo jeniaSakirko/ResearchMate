@@ -79,7 +79,7 @@ export const getParticipantResearchHistory = async (participantId, query_status 
     return getHeader(true).then(async config => {
         try {
             if (query_status) {
-                config.parms = {status: query_status};
+                config.params = {status: query_status};
             }
             const res = await axios
                 .get(BASE_PARTICIPANT_API + '/' + participantId + PARTICIPANT_GET_RESEARCH, config);

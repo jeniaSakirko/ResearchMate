@@ -7,5 +7,5 @@ export const getUserToken = async () => {
 };
 
 export const getUserType = async () => {
-    return localStorage.getItem("userTpe");
+    return localStorage.getItem("userType");
 };
