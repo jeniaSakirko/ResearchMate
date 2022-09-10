@@ -27,7 +27,7 @@ export const Login = () => {
             navigateRouth = "";
         }
     }
-
+עא
     return (
         <div className="flex justify-content-center aligned-items-center vertical-align-middle">
             {userToken ? <Navigate to={navigateRouth}/> : null}

@@ -21,11 +21,15 @@ class ParticipantInfoAPI(generics.UpdateAPIView):
     ]
     serializer_class = ParticipantCleanSerializer
 
+    def get(self, request, *args, **kwargs):
+        instance = self.get_object()
+        return Response({"user": ParticipantSerializer(instance, context=self.get_serializer_context()).data})
+
     def get_object(self):
         instance = self.request.user.baseuser.participant
-        data = ParticipantSerializer(instance, context=self.get_serializer_context()).data
-        return Response({"user": data})
-
+        ##data = ParticipantSerializer(instance, context=self.get_serializer_context()).data
+        ##return Response({"user": data})
+        return instance
 
 class ParticipantRegisterAPI(generics.GenericAPIView):
     serializer_class = ParticipantCleanSerializer
