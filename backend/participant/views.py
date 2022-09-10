@@ -15,6 +15,18 @@ class ParticipantViewSet(viewsets.ModelViewSet):
     queryset = Participant.get_all()
 
 
+class ParticipantInfoAPI(generics.UpdateAPIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+    serializer_class = ParticipantCleanSerializer
+
+    def get_object(self):
+        instance = self.request.user.baseuser.participant
+        data = ParticipantSerializer(instance, context=self.get_serializer_context()).data
+        return Response({"user": data})
+
+
 class ParticipantRegisterAPI(generics.GenericAPIView):
     serializer_class = ParticipantCleanSerializer
 
