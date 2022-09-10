@@ -4,28 +4,56 @@ import {Button} from 'primereact/button';
 import {useParams} from "react-router-dom";
 import {Splitter, SplitterPanel} from 'primereact/splitter';
 import {Dropdown} from "primereact/dropdown";
+import {DataTable} from 'primereact/datatable';
+import {Column} from 'primereact/column';
 
 import {getParticipant, getParticipantResearchHistory} from "../api/participant";
 import {assign, getAll, unassign} from "../api/research";
+import {getUserType} from "../common/UserContext";
 
 export const Profile = () => {
     const {participantId} = useParams()
     const [currentUser, setCurrentUser] = useState('');
+    const [userInfoTbl, setUserInfoTbl] = useState('');
     const [selectedResearch, setSelectedResearch] = useState(null);
     const [availableResearches, setAvailableResearches] = useState(null);
     const [userResearches, setUserResearches] = useState(null);
+    const [userProfileLoading, setUserProfileLoading] = useState(true);
+    const [userType, setUserType] = useState(true);
+    const [editingRows, setEditingRows] = useState({});
+
 
     useEffect(() => {
         getParticipant(participantId).then(data => {
-            setCurrentUser(data);
+            updateUserInfoTable(data).then(() => {
+                getParticipantResearchHistory(participantId, "all").then(data => {
+                    setUserResearches(data);
+                    getUserType().then(res => {
+                        if (res.toLowerCase() === "participant") {
+                            let _editingRows = {...editingRows, ...{[`1`]: true}};
+                            setEditingRows(_editingRows);
+                        }
+                    });
+                });
+            });
+            setUserProfileLoading(false);
         });
         getAll().then(data => {
             setAvailableResearches(data);
         });
-        getParticipantResearchHistory(participantId, "all").then(data => {
-            setUserResearches(data);
-        })
+
     }, [])
+
+    const updateUserInfoTable = async (data) => {
+        let userInfo = []
+
+        userInfo.push({key: "Username", value: data.base_user?.user.username});
+        userInfo.push({key: "Emil", value: data.base_user?.user.email});
+        userInfo.push({key: "First Name", value: data.base_user?.user.first_name});
+        userInfo.push({key: "Last Name", value: data.base_user?.user.last_name});
+        userInfo.push({key: "Phone", value: data.base_user?.phone_number});
+        setUserInfoTbl(userInfo);
+    }
 
     const onSuspendUser = async () => {
         console.log("onSuspendUser");
@@ -55,40 +83,40 @@ export const Profile = () => {
         await unassign(participantId, selectedResearch.id)
     }
 
+    const textEditor = (options) => {
+        return <InputText type="text" value={options.value} onChange={(e) => options.editorCallback(e.target.value)}/>;
+    }
+
+    const onRowEditChange = (e) => {
+        setEditingRows(e.data);
+    }
+
+    const onRowEditComplete2 = (e) => {
+        let _products3 = [...userInfoTbl];
+        let { newData, index } = e;
+
+        _products3[index] = newData;
+
+        setUserInfoTbl(_products3);
+    }
+
+
     return (
         <div className="card">
             <Splitter style={{height: '740px'}}>
                 <SplitterPanel className="flex flex-column align-items-center justify-content-center gap-3" size={80}
                                minSize={20}>
-                    <h3 className="align-items-center">Profile Information</h3>
-                    <span className="p-input-icon-left">
-                        <label>Username</label> &emsp;
-                        <InputText value={currentUser.base_user?.user.username} disabled={true} type="text"
-                                   placeholder="Username" id="username"/>
-                        </span>
-
-                    <span className="p-input-icon-left">
-                         <label>Email</label> &emsp;
-                        <InputText value={currentUser.base_user?.user.email} disabled={true} type="text"
-                                   placeholder="Email" id="email"/>
-                        </span>
-
-                    <span className="p-input-icon-left">
-                         <label>First Name</label> &emsp;
-                        <InputText value={currentUser.base_user?.user.first_name} disabled={true} type="text"
-                                   placeholder="First Name" id="fName"/>
-                        </span>
-
-                    <span className="p-input-icon-left">
-                         <label>Last Name</label> &emsp;
-                        <InputText value={currentUser.base_user?.user.last_name} disabled={true} type="text"
-                                   placeholder="Last Name" id="lName"/>
-                        </span>
-                    <span className="p-input-icon-left">
-                         <label>Phone Number</label> &emsp;
-                        <InputText value={currentUser.base_user?.phone_number} disabled={true} type="text"
-                                   placeholder="Phone Number" id="phone"/>
-                    </span>
+                    <DataTable className="p-datatable-user-profile" value={userInfoTbl} style={{width: "100%"}}
+                               rows={10}
+                               dataKey="id"
+                               loading={userProfileLoading}
+                               emptyMessage="No user info found."
+                               size="large" responsiveLayout="scroll"
+                               editingRows={editingRows} onRowEditChange={onRowEditChange}
+                               onRowEditComplete={onRowEditComplete2}>
+                        <Column field="key" header="key"/>
+                        <Column field="value" header="value" editor={(options) => textEditor(options)}/>
+                    </DataTable>
                     <div>
                         <Button onClick={onSuspendUser} label="Suspend User" className="p-button-rounded"/>
                         <Button onClick={onDisable} label="Disable User" className="p-button-rounded"/>

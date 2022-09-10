@@ -19,6 +19,7 @@ import {Register} from './components/pages/Register';
 import {RegisterNew} from './components/pages/RegisterNew';
 import {Profile} from "./components/pages/Profile";
 import {ResearchDataView} from "./components/pages/ResearchDataView";
+import {DataTableEditDemo} from "./components/pages/editTable";
 
 
 
@@ -42,6 +43,7 @@ function App() {
                         <Route path='/registernew' element={<RegisterNew/>} exact/>
                         <Route path='/profile' element={<Profile/>} exact/>
                         <Route path='/researchdataview' element={<ResearchDataView/>} exact/>
+                        <Route path='/edittbl' element={<DataTableEditDemo/>} exact/>
                         <Route
                             path="*"
                             element={
