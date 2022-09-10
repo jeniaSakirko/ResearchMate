@@ -20,7 +20,7 @@ import {Navigate} from 'react-router-dom';
 // import myData from "./customers-large-backend.json";
 // import '../css/OrderListDemo.css';
 //####
-import {getUserType} from "../common/UserContext";
+// import {getUserType} from "../common/UserContext";
 // import {useEffect} from 'react';
 
 export const Profile = () => {
@@ -75,7 +75,7 @@ export const Profile = () => {
         getAll().then(data => {
             setAvailableResearches(data);
         });
-        getUserType().then(userType => {selectRole(userType)});
+        // getUserType().then(userType => {selectRole(userType)});
     }, [])
 
     const generateUserInfoTable = async (data) => {
@@ -207,10 +207,14 @@ export const Profile = () => {
                           onChange={(e) => options.editorCallback(e.target.value)}/>;
     }
 
+    // console.log (`${hideEditBtn ? "flex flex-column align-items-center justify-content-center gap-3 m-3" : ""}`)
+    console.log (`${hideEditBtn}`)
+
     return (
         
         <div className="card">
-            {/* <div style={{ display: (items ? 'block' : 'none') }}>testtttttttttttttt</div> */}
+            {/* <div style={{ display: (hideEditBtn ? 'block' : 'none') }}>trueeeeeeeeee</div> */}
+
             <Splitter style={{height: '740px'}}>
                 <SplitterPanel className="flex flex-column align-items-center justify-content-center gap-3" size={80}
                                minSize={20}>
@@ -250,9 +254,13 @@ export const Profile = () => {
                             </div>
                         </SplitterPanel>
                         
-                        <div style={{ display: (hideEditBtn ? null : 'none') }}>
-                        <SplitterPanel className="flex align-items-center justify-content-center" size={20} minSize={5}>
+                        {/* <div style={{ display: (hideEditBtn ? 'inline' : 'none') }}>  */}
+                        <SplitterPanel style={{ display: (hideEditBtn ? 'block' : 'none') }} className={`${hideEditBtn ? "flex align-items-center justify-content-center" : ""}`} size={20} minSize={5}>
                             <div className="flex flex-column align-items-center justify-content-center gap-3 m-3" >
+                            {/* <div className={{hideEditBtn ? "flex flex-column align-items-center justify-content-center gap-3 m-3" : ''}} > */}
+                            {/* <div style={{ display: (hideEditBtn ? 'block' : 'none') }}  className={`${hideEditBtn ? "flex flex-column align-items-center justify-content-center gap-3 m-3" : ""}`}> */}
+                            {/* <div className={`banner ${active ? "active" : ""}`}>{children}</div> */}
+
                                 <h5>Select a research</h5>
                                 <Dropdown value={selectedResearch} options={availableResearches}
                                           onChange={onResearchChange}
@@ -265,25 +273,27 @@ export const Profile = () => {
                                 </div>
                             </div>
                         </SplitterPanel>
-                        </div>
+                        {/* </div> */}
 
-                        <div style={{ display: (hideEditBtn ? 'block' : 'none') }}>
-                        <SplitterPanel className="flex align-items-center justify-content-center" size={20} minSize={5}>
+                        {/* <div style={{ display: (hideEditBtn ? 'block' : 'none') }}> */}
+                        {/* <SplitterPanel className="flex align-items-center justify-content-center" size={20} minSize={5}> */}
+                        <SplitterPanel style={{ display: (hideEditBtn ? 'block' : 'none') }} className={`${hideEditBtn ? "flex align-items-center justify-content-center" : ""}`} size={20} minSize={5}>
                             <div className="flex flex-column align-items-center justify-content-center gap-3">
                                 <h3 className="align-items-center">Update A Meeting</h3>
                                 <Button onClick={onUpdateMeeting} label="Update Meeting" className="p-button-rounded"/>
                             </div>
                         </SplitterPanel>
-                        </div>
+                        {/* </div> */}
 
-                        <div style={{ display: (hideEditBtn ? 'block' : 'none') }}>
-                        <SplitterPanel className="flex align-items-center justify-content-center" size={20} minSize={5}>
+                        {/* <div style={{ display: (hideEditBtn ? 'block' : 'none') }}> */}
+                        {/* <SplitterPanel className="flex align-items-center justify-content-center" size={20} minSize={5}> */}
+                        <SplitterPanel style={{ display: (hideEditBtn ? 'block' : 'none') }} className={`${hideEditBtn ? "flex align-items-center justify-content-center" : ""}`} size={20} minSize={5}>
                             <div className="flex flex-column align-items-center justify-content-center gap-3">
                                 <h3 className="align-items-center">Add A Comment</h3>
                                 <Button onClick={onComment} label="Add A Comment" className="p-button-rounded"/>
                             </div>
                         </SplitterPanel>
-                        </div>
+                        {/* </div> */}
 
                     </Splitter>   
                 </SplitterPanel>   
