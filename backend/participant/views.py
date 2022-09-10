@@ -34,9 +34,7 @@ class ParticipantAPI(generics.UpdateAPIView):
 
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
-        return Response(
-            {"user": ParticipantSerializer(instance, context=self.get_serializer_context()).data}
-        )
+        return Response({"user": ParticipantSerializer(instance, context=self.get_serializer_context()).data})
 
     def update(self, request, *args, **kwargs):
         try:
@@ -66,7 +64,11 @@ class ParticipantAttendingAPI(generics.GenericAPIView):
 
         instance = self.get_object()
         response = []
-        list_res = ResearchAttending.get_research_list(instance.id)
+
+        request_status = None
+        if "status" in request.query_params:
+            request_status = request.query_params["status"]
+        list_res = ResearchAttending.get_research_list(participant_id=instance.id, status=request_status)
         for entry in list_res:
             data = {}
             data.update(ResearchSerializer(entry.research, context=self.get_serializer_context()).data)
