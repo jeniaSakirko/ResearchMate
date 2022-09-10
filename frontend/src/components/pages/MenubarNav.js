@@ -23,8 +23,8 @@ export const MenubarNav = () => {
             setToken(myToken);
         })
             .then(() => {
-                getUserType().then(userTpe => {
-                    selectNav(userTpe);
+                getUserType().then(userType => {
+                    selectNav(userType);
                 })
             });
     }, []);
@@ -54,23 +54,14 @@ export const MenubarNav = () => {
             ]
         },
         {
-            label: 'Users',
+            label: 'Participant',
             icon: 'pi pi-fw pi-user',
             items: [
-                {
-                    label: 'Users profile',
-                    icon: 'pi pi-fw pi-user-plus',
-                    command: (e) => {
-                        window.location = "/profile"
-                    }
-
-
-                },
                 {
                     label: 'participant List',
                     icon: 'pi pi-fw pi-user-minus',
                     command: (e) => {
-                        window.location = "/participantList"
+                        window.location = "/participants/"
                     }
 
                 },
@@ -132,24 +123,31 @@ export const MenubarNav = () => {
             ]
         },
         {
-            label: 'Users',
+            label: 'Profile',
             icon: 'pi pi-fw pi-user',
             items: [
                 {
-                    label: 'Users profile',
+                    label: 'profile page',
                     icon: 'pi pi-fw pi-user-plus',
                     command: (e) => {
-                        window.location = "/profile"
+                        window.location = "/participants/1"
                     }
 
 
                 },
+            ]
+        },
+        {
+            label: 'Forms',
+            icon: 'pi pi-fw pi-user',
+            items: [
                 {
-                    label: 'participant List',
-                    icon: 'pi pi-fw pi-user-minus',
+                    label: 'Forms Forms to signed',
+                    icon: 'pi pi-fw pi-user-plus',
                     command: (e) => {
-                        window.location = "/participantList"
+                        window.location = "/forms"
                     }
+
 
                 },
             ]

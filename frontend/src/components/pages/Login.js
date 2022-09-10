@@ -4,13 +4,13 @@ import {Button} from 'primereact/button';
 import {Link} from 'react-router-dom';
 import {login} from "../api/auth";
 import {Navigate} from 'react-router-dom';
-
+var navigateRouth ='/participants/';
 
 export const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [userToken, setUserToken] = useState('');
-
+    
 
     const onLogin = async () => {
         const data = await login(username, password);
@@ -18,11 +18,19 @@ export const Login = () => {
         setUserToken(data.token);
 
         localStorage.setItem("userType", data.user.type);
+
+        if (data.user.type && data.user.type.toLowerCase() === "researcher") {
+            navigateRouth = "/participants/";
+        } else if (data.user.type && data.user.type.toLowerCase() === "participant") {
+            navigateRouth= "/participants/1";
+        } else {
+            navigateRouth = "";
+        }
     }
 
     return (
         <div className="flex justify-content-center aligned-items-center vertical-align-middle">
-            {userToken ? <Navigate to="/participants/"/> : null}
+            {userToken ? <Navigate to={navigateRouth}/> : null}
             <div className="card">
                 <div className="flex flex-column align-items-center justify-content-center card-container gap-3
                 surface-overlay border-round border-1 shadow-1 p-5 py-0 m-3 ">
