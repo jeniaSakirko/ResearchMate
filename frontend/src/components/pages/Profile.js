@@ -79,72 +79,7 @@ export const Profile = () => {
         console.log ("participanttttttttttttttttttt")
 
     ];
-//########################################################################################
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // const checkIfParticipant = () => {
-    //     // let newItem = false;
-    //     // let icon = "pi pi-eye"
-    //     // let className = "p-button-success"
-    //     if (getUserType.value == "Researcher") {
-    //         setParticipant(false);
-    //     }
-    //     if (getUserType.value == "Participant") {
-    //         setParticipant(true);
-    //     }
-    //     // return <Button type="button" onClick={() => showFullDialog(rowData, newItem)} icon={icon}
-    //     //                className={className}></Button>;
-    // }
-    
-    // useEffect(() => {
-    //     checkIfParticipant();
-    //     // useEffect().then()
-    // }, []);
-
-
-
-//########################################################################################
-//########################################################################################
-//########################################################################################
-//########################################################################################
-//########################################################################################
-//########################################################################################
-//########################################################################################
-//########################################################################################
-//########################################################################################
-//########################################################################################
-//########################################################################################
-
-    // console.log (myData)
     const currentUser = myData[0];
     // console.log (currentUser);
 
@@ -198,6 +133,16 @@ export const Profile = () => {
         setPastResearch(pastInfo);
     }
 
+
+
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+
+    const onLogin = async () => {
+        const data = await login(username, password);
+        localStorage.setItem("userToken", data.token);
+    }
 
     const onSuspendUser = async () => {
         console.log("onSuspendUser");
