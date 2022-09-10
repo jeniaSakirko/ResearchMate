@@ -131,7 +131,7 @@ export const Profile = () => {
     console.log ({items})
 
 
-
+ 
 
 
 
@@ -214,7 +214,9 @@ export const Profile = () => {
     }
 
     return (
+        
         <div className="card">
+            {/* <div style={{ display: (items ? 'block' : 'none') }}>testtttttttttttttt</div> */}
             <Splitter style={{height: '740px'}}>
                 <SplitterPanel className="flex flex-column align-items-center justify-content-center gap-3" size={80}
                                minSize={20}>
@@ -238,6 +240,7 @@ export const Profile = () => {
                         <Button onClick={onDisable} label="Disable User" className="p-button-rounded"/>
                     </div>
                 </SplitterPanel>
+
                 <SplitterPanel size={80}>
                     <Splitter layout="vertical">
                         <SplitterPanel className="flex align-items-center justify-content-center" size={20} minSize={5}>
@@ -252,9 +255,10 @@ export const Profile = () => {
                                 </DataTable>
                             </div>
                         </SplitterPanel>
-
+                        
+                        <div style={{ display: (items ? null : 'none') }}>
                         <SplitterPanel className="flex align-items-center justify-content-center" size={20} minSize={5}>
-                            <div className="flex flex-column align-items-center justify-content-center gap-3 m-3">
+                            <div className="flex flex-column align-items-center justify-content-center gap-3 m-3" >
                                 <h5>Select a research</h5>
                                 <Dropdown value={selectedResearch} options={availableResearches}
                                           onChange={onResearchChange}
@@ -266,24 +270,29 @@ export const Profile = () => {
                                             className="p-button-rounded"/>
                                 </div>
                             </div>
-
                         </SplitterPanel>
+                        </div>
 
+                        <div style={{ display: (items ? 'block' : 'none') }}>
                         <SplitterPanel className="flex align-items-center justify-content-center" size={20} minSize={5}>
                             <div className="flex flex-column align-items-center justify-content-center gap-3">
                                 <h3 className="align-items-center">Update A Meeting</h3>
                                 <Button onClick={onUpdateMeeting} label="Update Meeting" className="p-button-rounded"/>
                             </div>
                         </SplitterPanel>
+                        </div>
 
+                        <div style={{ display: (items ? 'block' : 'none') }}>
                         <SplitterPanel className="flex align-items-center justify-content-center" size={20} minSize={5}>
                             <div className="flex flex-column align-items-center justify-content-center gap-3">
                                 <h3 className="align-items-center">Add A Comment</h3>
                                 <Button onClick={onComment} label="Add A Comment" className="p-button-rounded"/>
                             </div>
                         </SplitterPanel>
-                    </Splitter>
-                </SplitterPanel>
+                        </div>
+
+                    </Splitter>   
+                </SplitterPanel>   
             </Splitter>
         </div>
     );
