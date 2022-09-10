@@ -53,35 +53,9 @@ export const Profile = () => {
     
 
     // const [isParticipant, setParticipant] = useState('');
+
+    const [userResearches, setUserResearches] = useState(null);
     const [items, setItems] = useState('');
-    useEffect(() => {
-        getUserType().then(userType => {selectRole(userType);
-        
-        });
-    }, []);
-
-    const selectRole = (userType) => {
-        if (userType && userType.toLowerCase() === "researcher") {
-            setItems(resaercherProfile);
-        } else if (userType && userType.toLowerCase() === "participant") {
-            setItems(participantProfile);
-        } else {
-            setItems([]);
-        }
-    };
-
-    const resaercherProfile = [
-     console.log ("resaercherrrrrrrrrrrrrrrrrrrrrrrr")
-
-    ];
-
-    const participantProfile = [
-        console.log ("participanttttttttttttttttttt")
-
-    ];
-
-    // const currentUserFromFile = myData[0];
-    // console.log (currentUser);
 
     useEffect(() => {
         getParticipant(participantId).then(data => {
@@ -132,6 +106,55 @@ export const Profile = () => {
         }
         setPastResearch(pastInfo);
     }
+
+        getParticipantResearchHistory(participantId, "all").then(data => {
+            setUserResearches(data);
+        });
+        getUserType().then(userType => {selectRole(userType)});
+    }, [])
+
+    const selectRole = (userType) => {
+        if (userType && userType.toLowerCase() === "researcher") {
+            // setItems(resaercherProfile);
+            // console.log ("resaercherrrrrrrrrrrrrrrrrrrrrrrr");
+            setItems(true);
+        } else if (userType && userType.toLowerCase() === "participant") {
+            // setItems(participantProfile);
+            // console.log ("participanttttttttttttttttttt");
+            setItems(false);
+        } else {
+            setItems([]);
+        }
+    };
+
+    console.log ("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
+    console.log ({items})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
