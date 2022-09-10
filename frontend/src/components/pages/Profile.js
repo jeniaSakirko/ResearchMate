@@ -55,12 +55,12 @@ export const Profile = () => {
     // const [isParticipant, setParticipant] = useState('');
     const [items, setItems] = useState('');
     useEffect(() => {
-        getUserType().then(userType => {selectNav(userType);
+        getUserType().then(userType => {selectRole(userType);
         
         });
     }, []);
 
-    const selectNav = (userType) => {
+    const selectRole = (userType) => {
         if (userType && userType.toLowerCase() === "researcher") {
             setItems(resaercherProfile);
         } else if (userType && userType.toLowerCase() === "participant") {
@@ -69,6 +69,47 @@ export const Profile = () => {
             setItems([]);
         }
     };
+
+    const resaercherProfile = [
+     console.log ("resaercherrrrrrrrrrrrrrrrrrrrrrrr")
+
+    ];
+
+    const participantProfile = [
+        console.log ("participanttttttttttttttttttt")
+
+    ];
+//########################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // const checkIfParticipant = () => {
     //     // let newItem = false;
@@ -90,49 +131,6 @@ export const Profile = () => {
     // }, []);
 
 
-    const resaercherProfile = [
- 
-    ];
-
-//########################################################################################
-
-    const participantProfile = [
- 
-    ];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //########################################################################################
 //########################################################################################
@@ -146,9 +144,9 @@ export const Profile = () => {
 //########################################################################################
 //########################################################################################
 
-    console.log (myData)
+    // console.log (myData)
     const currentUser = myData[0];
-    console.log (currentUser);
+    // console.log (currentUser);
 
     useEffect(() => {
         getParticipant(participantId).then(data => {
