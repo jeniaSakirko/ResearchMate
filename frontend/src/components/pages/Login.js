@@ -4,6 +4,7 @@ import {Button} from 'primereact/button';
 import {Link} from 'react-router-dom';
 import {login} from "../api/auth";
 import {Navigate} from 'react-router-dom';
+import {participantInfo} from '../api/participant'
 var navigateRouth ='/participants/';
 
 export const Login = () => {
@@ -21,13 +22,12 @@ export const Login = () => {
 
         if (data.user.type && data.user.type.toLowerCase() === "researcher") {
             navigateRouth = "/participants/";
-        } else if (data.user.type && data.user.type.toLowerCase() === "participant") {
-            navigateRouth= "/participants/1";
+        } else if (data.user.type && data.user.type.toLowerCase() === "participant") {    
+            navigateRouth =  "/participants/"+ data.user.id;
         } else {
             navigateRouth = "";
         }
     }
-עא
     return (
         <div className="flex justify-content-center aligned-items-center vertical-align-middle">
             {userToken ? <Navigate to={navigateRouth}/> : null}

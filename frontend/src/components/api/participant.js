@@ -62,7 +62,7 @@ export const getAllForms = async () => {
     
 };
 
-export const participantinfo = async () => {
+export const participantInfo = async () => {
     return getHeader(true).then(async config => {
         try {
             const res = await axios
