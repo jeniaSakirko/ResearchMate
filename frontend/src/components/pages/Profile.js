@@ -52,6 +52,99 @@ export const Profile = () => {
     }
     
 
+    // const [isParticipant, setParticipant] = useState('');
+    const [items, setItems] = useState('');
+    useEffect(() => {
+        getUserType().then(userType => {selectNav(userType);
+        
+        });
+    }, []);
+
+    const selectNav = (userType) => {
+        if (userType && userType.toLowerCase() === "researcher") {
+            setItems(resaercherProfile);
+        } else if (userType && userType.toLowerCase() === "participant") {
+            setItems(participantProfile);
+        } else {
+            setItems([]);
+        }
+    };
+
+    // const checkIfParticipant = () => {
+    //     // let newItem = false;
+    //     // let icon = "pi pi-eye"
+    //     // let className = "p-button-success"
+    //     if (getUserType.value == "Researcher") {
+    //         setParticipant(false);
+    //     }
+    //     if (getUserType.value == "Participant") {
+    //         setParticipant(true);
+    //     }
+    //     // return <Button type="button" onClick={() => showFullDialog(rowData, newItem)} icon={icon}
+    //     //                className={className}></Button>;
+    // }
+    
+    // useEffect(() => {
+    //     checkIfParticipant();
+    //     // useEffect().then()
+    // }, []);
+
+
+    const resaercherProfile = [
+ 
+    ];
+
+//########################################################################################
+
+    const participantProfile = [
+ 
+    ];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//########################################################################################
+//########################################################################################
+//########################################################################################
+//########################################################################################
+//########################################################################################
+//########################################################################################
+//########################################################################################
+//########################################################################################
+//########################################################################################
+//########################################################################################
+//########################################################################################
 
     console.log (myData)
     const currentUser = myData[0];
