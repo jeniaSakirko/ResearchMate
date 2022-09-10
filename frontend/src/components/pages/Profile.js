@@ -17,11 +17,11 @@ import {Link} from 'react-router-dom';
 import {login} from "../api/auth";
 import {Navigate} from 'react-router-dom';
 //####
-import myData from "./customers-large-backend.json";
-import '../css/OrderListDemo.css';
+// import myData from "./customers-large-backend.json";
+// import '../css/OrderListDemo.css';
 //####
 import {getUserType} from "../common/UserContext";
-import {useEffect} from 'react';
+// import {useEffect} from 'react';
 
 export const Profile = () => {
     const {participantId} = useParams()
@@ -80,7 +80,7 @@ export const Profile = () => {
 
     ];
 
-    const currentUserFromFile = myData[0];
+    // const currentUserFromFile = myData[0];
     // console.log (currentUser);
 
     useEffect(() => {
