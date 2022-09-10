@@ -80,7 +80,7 @@ export const Profile = () => {
 
     ];
 
-    const currentUser = myData[0];
+    const currentUserFromFile = myData[0];
     // console.log (currentUser);
 
     useEffect(() => {
