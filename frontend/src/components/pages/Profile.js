@@ -37,19 +37,19 @@ export const Profile = () => {
 
     const [isParticipant, setParticipant] = useState('');
 
-    const checkIfParticipant = () => {
-        // let newItem = false;
-        // let icon = "pi pi-eye"
-        // let className = "p-button-success"
-        if (getUserType.value == "Researcher") {
-            setParticipant(false);
-        }
-        if (getUserType.value == "Participant") {
-            setParticipant(true);
-        }
-        // return <Button type="button" onClick={() => showFullDialog(rowData, newItem)} icon={icon}
-        //                className={className}></Button>;
-    }
+    // const checkIfParticipant = () => {
+    //     // let newItem = false;
+    //     // let icon = "pi pi-eye"
+    //     // let className = "p-button-success"
+    //     if (getUserType.value == "Researcher") {
+    //         setParticipant(false);
+    //     }
+    //     if (getUserType.value == "Participant") {
+    //         setParticipant(true);
+    //     }
+    //     // return <Button type="button" onClick={() => showFullDialog(rowData, newItem)} icon={icon}
+    //     //                className={className}></Button>;
+    // }
     
 
     // const [isParticipant, setParticipant] = useState('');
@@ -75,7 +75,7 @@ export const Profile = () => {
         getAll().then(data => {
             setAvailableResearches(data);
         });
-
+        getUserType().then(userType => {selectRole(userType)});
     }, [])
 
     const generateUserInfoTable = async (data) => {
@@ -107,28 +107,22 @@ export const Profile = () => {
         setPastResearch(pastInfo);
     }
 
-        getParticipantResearchHistory(participantId, "all").then(data => {
-            setUserResearches(data);
-        });
-        getUserType().then(userType => {selectRole(userType)});
-    }, [])
+    // const selectRole = (userType) => {
+    //     if (userType && userType.toLowerCase() === "researcher") {
+    //         // setItems(resaercherProfile);
+    //         // console.log ("resaercherrrrrrrrrrrrrrrrrrrrrrrr");
+    //         setItems(true);
+    //     } else if (userType && userType.toLowerCase() === "participant") {
+    //         // setItems(participantProfile);
+    //         // console.log ("participanttttttttttttttttttt");
+    //         setItems(false);
+    //     } else {
+    //         setItems([]);
+    //     }
+    // };
 
-    const selectRole = (userType) => {
-        if (userType && userType.toLowerCase() === "researcher") {
-            // setItems(resaercherProfile);
-            // console.log ("resaercherrrrrrrrrrrrrrrrrrrrrrrr");
-            setItems(true);
-        } else if (userType && userType.toLowerCase() === "participant") {
-            // setItems(participantProfile);
-            // console.log ("participanttttttttttttttttttt");
-            setItems(false);
-        } else {
-            setItems([]);
-        }
-    };
-
-    console.log ("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
-    console.log ({items})
+    // console.log ("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
+    // console.log ({items})
 
 
  
@@ -256,7 +250,7 @@ export const Profile = () => {
                             </div>
                         </SplitterPanel>
                         
-                        <div style={{ display: (items ? null : 'none') }}>
+                        <div style={{ display: (hideEditBtn ? null : 'none') }}>
                         <SplitterPanel className="flex align-items-center justify-content-center" size={20} minSize={5}>
                             <div className="flex flex-column align-items-center justify-content-center gap-3 m-3" >
                                 <h5>Select a research</h5>
@@ -273,7 +267,7 @@ export const Profile = () => {
                         </SplitterPanel>
                         </div>
 
-                        <div style={{ display: (items ? 'block' : 'none') }}>
+                        <div style={{ display: (hideEditBtn ? 'block' : 'none') }}>
                         <SplitterPanel className="flex align-items-center justify-content-center" size={20} minSize={5}>
                             <div className="flex flex-column align-items-center justify-content-center gap-3">
                                 <h3 className="align-items-center">Update A Meeting</h3>
@@ -282,7 +276,7 @@ export const Profile = () => {
                         </SplitterPanel>
                         </div>
 
-                        <div style={{ display: (items ? 'block' : 'none') }}>
+                        <div style={{ display: (hideEditBtn ? 'block' : 'none') }}>
                         <SplitterPanel className="flex align-items-center justify-content-center" size={20} minSize={5}>
                             <div className="flex flex-column align-items-center justify-content-center gap-3">
                                 <h3 className="align-items-center">Add A Comment</h3>
