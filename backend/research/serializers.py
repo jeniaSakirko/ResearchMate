@@ -4,6 +4,7 @@ from rest_framework.exceptions import MethodNotAllowed
 
 from .models import Research, ResearchAttending, ResearchAttendingStatus
 from participant.serializers import ParticipantSerializer
+from mails.views import assign_mail, un_assign_mail
 
 
 class ResearchSerializer(serializers.ModelSerializer):
@@ -42,9 +43,14 @@ class ResearchAssignSerializer(serializers.Serializer):
                 if self.context["operation"] == "assign":
                     instance.update_participant(participant_id=validated_data["participant_id"],
                                                 status=ResearchAttendingStatus.assigned)
+                    assign_mail(participant_id=validated_data["participant_id"], research_id=instance.id,
+                                researcher_id=self.context["request"].user.baseuser.researcher.id)
                 elif self.context["operation"] == "unassign":
                     instance.update_participant(participant_id=validated_data["participant_id"],
                                                 status=ResearchAttendingStatus.drop)
+                    un_assign_mail(participant_id=validated_data["participant_id"], research_id=instance.id,
+                                   researcher_id=self.context["request"].user.baseuser.researcher.id)
+
                 return instance
         except Exception as e:
             raise serializers.ValidationError(e)
