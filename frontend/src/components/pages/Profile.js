@@ -21,6 +21,7 @@ export const Profile = () => {
     const [editingRows, setEditingRows] = useState({});
     const [hideEditBtn, setHideEditBtn] = useState(true);
     const [pastResearch, setPastResearch] = useState([]);
+    const [inResearch, setInResearch] = useState(false);
     let currentResearch = ""
 
 
@@ -31,6 +32,7 @@ export const Profile = () => {
                 for (const res of data) {
                     if (currentResearch === res.name) {
                         setSelectedResearch(res);
+                        setInResearch(true);
                     }
                 }
             });
@@ -190,10 +192,10 @@ export const Profile = () => {
                                           optionLabel="name" placeholder="Select a research"/>
                                 <div className="gap-2">
                                     <Button onClick={onAssign} label="Register To Research"
-                                            className="p-button-rounded"/>
+                                            className="p-button-rounded" hidden={!inResearch}/>
                                     &emsp;
                                     <Button onClick={onUnAssign} label="Cancel Register To Research"
-                                            className="p-button-rounded"/>
+                                            className="p-button-rounded" hidden={inResearch}/>
                                 </div>
                             </div>
                         </SplitterPanel>
