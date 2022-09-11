@@ -10,7 +10,6 @@ import {Column} from 'primereact/column';
 import {getParticipant, getParticipantResearchHistory} from "../api/participant";
 import {assign, getAll, unassign} from "../api/research";
 import {getUserType} from "../common/UserContext";
-
 import "../css/DataTable.css"
 
 export const Profile = () => {
@@ -22,7 +21,6 @@ export const Profile = () => {
     const [editingRows, setEditingRows] = useState({});
     const [hideEditBtn, setHideEditBtn] = useState(true);
     const [pastResearch, setPastResearch] = useState([]);
-
 
     useEffect(() => {
         getParticipant(participantId).then(data => {
@@ -42,7 +40,6 @@ export const Profile = () => {
         getAll().then(data => {
             setAvailableResearches(data);
         });
-
     }, [])
 
     const generateUserInfoTable = async (data) => {
@@ -73,7 +70,6 @@ export const Profile = () => {
         }
         setPastResearch(pastInfo);
     }
-
 
     const onSuspendUser = async () => {
         console.log("onSuspendUser");
@@ -122,7 +118,9 @@ export const Profile = () => {
     }
 
     return (
+        
         <div className="card">
+
             <Splitter style={{height: '740px'}}>
                 <SplitterPanel className="flex flex-column align-items-center justify-content-center gap-3" size={80}
                                minSize={20}>
@@ -140,11 +138,14 @@ export const Profile = () => {
                         <Column rowEditor headerStyle={{width: '10%', minWidth: '8rem'}}
                                 bodyStyle={{textAlign: 'center'}} hidden={hideEditBtn} style={{border: "none"}}/>
                     </DataTable>
+
                     <div>
                         <Button onClick={onSuspendUser} label="Suspend User" className="p-button-rounded"/>
+                        &emsp;
                         <Button onClick={onDisable} label="Disable User" className="p-button-rounded"/>
                     </div>
                 </SplitterPanel>
+
                 <SplitterPanel size={80}>
                     <Splitter layout="vertical">
                         <SplitterPanel className="flex align-items-center justify-content-center" size={20} minSize={5}>
@@ -159,38 +160,39 @@ export const Profile = () => {
                                 </DataTable>
                             </div>
                         </SplitterPanel>
-
-                        <SplitterPanel className="flex align-items-center justify-content-center" size={20} minSize={5}>
-                            <div className="flex flex-column align-items-center justify-content-center gap-3 m-3">
-                                <h5>Select a research</h5>
+                        
+                        <SplitterPanel style={{ display: (hideEditBtn ? 'block' : 'none') }} className={`${hideEditBtn ? "flex align-items-center justify-content-center" : ""}`} size={20} minSize={5}>
+                            <div className="flex flex-column align-items-center justify-content-center gap-3 m-3" >
+                                <h3>Select a research</h3>
                                 <Dropdown value={selectedResearch} options={availableResearches}
                                           onChange={onResearchChange}
                                           optionLabel="name" placeholder="Select a research"/>
                                 <div className="gap-2">
                                     <Button onClick={onAssign} label="Register To Research"
                                             className="p-button-rounded"/>
+                                    &emsp;
                                     <Button onClick={onUnAssign} label="Cancel Register To Research"
                                             className="p-button-rounded"/>
                                 </div>
                             </div>
-
                         </SplitterPanel>
 
-                        <SplitterPanel className="flex align-items-center justify-content-center" size={20} minSize={5}>
+                        <SplitterPanel style={{ display: (hideEditBtn ? 'block' : 'none') }} className={`${hideEditBtn ? "flex align-items-center justify-content-center" : ""}`} size={20} minSize={5}>
                             <div className="flex flex-column align-items-center justify-content-center gap-3">
                                 <h3 className="align-items-center">Update A Meeting</h3>
                                 <Button onClick={onUpdateMeeting} label="Update Meeting" className="p-button-rounded"/>
                             </div>
                         </SplitterPanel>
 
-                        <SplitterPanel className="flex align-items-center justify-content-center" size={20} minSize={5}>
+                        <SplitterPanel style={{ display: (hideEditBtn ? 'block' : 'none') }} className={`${hideEditBtn ? "flex align-items-center justify-content-center" : ""}`} size={20} minSize={5}>
                             <div className="flex flex-column align-items-center justify-content-center gap-3">
                                 <h3 className="align-items-center">Add A Comment</h3>
                                 <Button onClick={onComment} label="Add A Comment" className="p-button-rounded"/>
                             </div>
                         </SplitterPanel>
-                    </Splitter>
-                </SplitterPanel>
+
+                    </Splitter>   
+                </SplitterPanel>   
             </Splitter>
         </div>
     );
