@@ -5,12 +5,14 @@ import {useNavigate} from 'react-router-dom';
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {logout} from "../api/auth";
+import {participantInfo} from '../api/participant'
 import {getUserToken, getUserType} from "../common/UserContext";
-
+var id = 0;
 
 export const MenubarNav = () => {
     const [token, setToken] = useState('');
     const [items, setItems] = useState('');
+    const [Participant, setParticipant] = useState('');
 
     const onLogout = async () => {
         const data = await logout(token);
@@ -34,6 +36,9 @@ export const MenubarNav = () => {
             setItems(resaercherNav);
         } else if (userType && userType.toLowerCase() === "participant") {
             setItems(participantNav);
+            participantInfo().then(data => {
+                id = (data.user.id);
+            });
         } else {
             setItems([]);
         }
@@ -130,7 +135,7 @@ export const MenubarNav = () => {
                     label: 'profile page',
                     icon: 'pi pi-fw pi-user-plus',
                     command: (e) => {
-                        window.location = "/participants/1"
+                        window.location = "/participants/"+id
                     }
 
 

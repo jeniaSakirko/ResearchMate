@@ -6,6 +6,7 @@ import {login} from "../api/auth";
 import {Navigate} from 'react-router-dom';
 import {participantInfo} from '../api/participant'
 var navigateRouth ='/participants/';
+var id = 0;
 
 export const Login = () => {
     const [username, setUsername] = useState('');
@@ -22,15 +23,18 @@ export const Login = () => {
 
         if (data.user.type && data.user.type.toLowerCase() === "researcher") {
             navigateRouth = "/participants/";
-        } else if (data.user.type && data.user.type.toLowerCase() === "participant") {    
-            navigateRouth =  "/participants/"+ data.user.id;
+        } else if (data.user.type && data.user.type.toLowerCase() === "participant") {  
+            await participantInfo().then(data1 => {      
+               navigateRouth =  "/participants/"+ data1.user.id;
+            });  
         } else {
             navigateRouth = "";
         }
+        window.location = navigateRouth;
     }
     return (
-        <div className="flex justify-content-center aligned-items-center vertical-align-middle">
-            {userToken ? <Navigate to={navigateRouth}/> : null}
+        <div className="flex justify-content-center aligned-items-center vertical-align-middle">      
+            
             <div className="card">
                 <div className="flex flex-column align-items-center justify-content-center card-container gap-3
                 surface-overlay border-round border-1 shadow-1 p-5 py-0 m-3 ">
