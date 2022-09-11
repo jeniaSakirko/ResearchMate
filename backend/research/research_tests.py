@@ -46,7 +46,7 @@ class TestResearchModel:
 
     def test_assign_participant(self, research_gal, participant_fixture):
         assert len(ResearchAttending.objects.filter(research=research_gal)) == 0
-        research_gal.assign_participant(participant_id=participant_fixture.id)
+        research_gal.update_participant(participant_id=participant_fixture.id, status=ResearchAttendingStatus.assigned)
         assert len(ResearchAttending.objects.filter(research=research_gal)) == 1
 
     @pytest.mark.parametrize('value, expected_value', [
