@@ -31,9 +31,12 @@ class ParticipantRegisterAPI(generics.GenericAPIView):
     serializer_class = ParticipantCleanSerializer
 
     def post(self, request, *args, **kwargs):
+        from mails import views
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        instance = serializer.save()
+
+        views.registration_mail(participant_id=instance.id)
         return Response()
 
 
