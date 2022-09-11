@@ -2,6 +2,7 @@ from base_user.models import BaseUser
 from django.db import models
 from research.models import Research
 
+
 # from validators import ValidateUser
 
 
@@ -30,6 +31,10 @@ class Researcher(models.Model):
             return True
         except Exception:
             return False
+
+    @staticmethod
+    def get_by_id(researcher_id):
+        return Researcher.objects.get(id=researcher_id)
 
 
 class ManageResearch(models.Model):
