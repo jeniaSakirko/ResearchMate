@@ -40,9 +40,11 @@ class ResearchAssignSerializer(serializers.Serializer):
                 return ResearchAttending.get_participant_list(instance.id, status=search_status)
             if self.context["method"] == "POST":
                 if self.context["operation"] == "assign":
-                    instance.assign_participant(participant_id=validated_data["participant_id"])
+                    instance.update_participant(participant_id=validated_data["participant_id"],
+                                                status=ResearchAttendingStatus.assigned)
                 elif self.context["operation"] == "unassign":
-                    instance.un_assign_participant(participant_id=validated_data["participant_id"])
+                    instance.update_participant(participant_id=validated_data["participant_id"],
+                                                status=ResearchAttendingStatus.drop)
                 return instance
         except Exception as e:
             raise serializers.ValidationError(e)

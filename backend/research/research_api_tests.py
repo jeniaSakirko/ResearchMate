@@ -66,4 +66,4 @@ class TestResearchModelAPI:
             **researcher_token_fixture
         )
 
-        assert response.status_code == 400
+        assert response.status_code == 200

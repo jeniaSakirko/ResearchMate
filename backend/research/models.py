@@ -82,14 +82,14 @@ class Research(models.Model):
     def get_all():
         return Research.objects.all()
 
-    def assign_participant(self, participant_id):
+    def update_participant(self, participant_id, status):
         from form.models import FormParticipantMap
-
-        ResearchAttending.create(research=self, participant_id=participant_id)
-        FormParticipantMap.create(research=self, participant_id=participant_id)
-
-    def un_assign_participant(self, participant_id):
-        ResearchAttending.drop_participant(research_id=self.id, participant_id=participant_id)
+        instance = ResearchAttending.get_participant_research_object(participant_id=participant_id, research_id=self.id)
+        if status == ResearchAttendingStatus.assigned and instance is None:
+            ResearchAttending.create(research=self, participant_id=participant_id)
+            FormParticipantMap.create(research=self, participant_id=participant_id)
+        else:
+            instance.update_status(status=status)
 
 
 class ResearchAttendingStatus(models.TextChoices):
@@ -142,6 +142,13 @@ class ResearchAttending(models.Model):
         return True
 
     @staticmethod
+    def get_participant_research_object(participant_id, research_id):
+        try:
+            return ResearchAttending.objects.get(participant_id=participant_id, research_id=research_id)
+        except Exception:
+            return None
+
+    @staticmethod
     def get_participant_list(research_id, status=None):
         if status is None:
             return ResearchAttending.objects.filter(research_id=research_id,
@@ -179,11 +186,9 @@ class ResearchAttending(models.Model):
                   ") (All)"
         raise Exception(message)
 
-    @staticmethod
-    def drop_participant(research_id, participant_id):
-        entry = ResearchAttending.objects.get(research_id=research_id, participant_id=participant_id)
-        entry.status = ResearchAttendingStatus.drop
-        entry.save()
-
     def get_status_full_name(self):
         return ResearchAttendingStatus.get_full_name_from_status(self.status)
+
+    def update_status(self, status):
+        self.status = ResearchAttendingStatus.get_valid_name_from_status(status=status)
+        self.save()
