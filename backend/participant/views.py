@@ -21,10 +21,13 @@ class ParticipantInfoAPI(generics.UpdateAPIView):
     ]
     serializer_class = ParticipantCleanSerializer
 
+    def get(self, request, *args, **kwargs):
+        instance = self.get_object()
+        return Response({"user": ParticipantSerializer(instance, context=self.get_serializer_context()).data})
+
     def get_object(self):
         instance = self.request.user.baseuser.participant
-        data = ParticipantSerializer(instance, context=self.get_serializer_context()).data
-        return Response({"user": data})
+        return instance
 
 
 class ParticipantRegisterAPI(generics.GenericAPIView):
@@ -103,6 +106,7 @@ class ParticipantFormAPI(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         from form.models import FormParticipantMap
         from form.serializers import FormMetadataSerializer
+
         instance = request.user
         response = []
         status = None
@@ -120,9 +124,10 @@ class ParticipantFormAPI(generics.GenericAPIView):
     def put(self, request, *args, **kwargs):
         try:
             from form.models import FormParticipantMap
+
             # TODO: fix the user this should be using Participant.objects.filter(base_user__user=request.user)
             instance = request.user
-            FormParticipantMap.update_form_status(instance.id, request.data['form_id'], "R")
+            FormParticipantMap.update_form_status(instance.id, request.data["form_id"], "R")
             return Response("Ok")
         except Exception as e:
             logging.warning("Exception in update participant [{0}]".format(str(e)))

@@ -3,7 +3,8 @@ import {
     PARTICIPANT_GET_ALL_URL,
     PARTICIPANT_GET_ALL_FORMS_URL,
     PARTICIPANT_PUT_AGREE_ON_FORM_URL,
-    BASE_PARTICIPANT_API, PARTICIPANT_GET_RESEARCH
+    BASE_PARTICIPANT_API, PARTICIPANT_GET_RESEARCH,
+    PARTICIPANT_INFO
 } from "../common/consts";
 import axios from "axios";
 import {getHeader} from "./common";
@@ -58,6 +59,20 @@ export const getAllForms = async () => {
             console.log(e);
         }
     });
+    
+};
+
+export const participantInfo = async () => {
+    return getHeader(true).then(async config => {
+        try {
+            const res = await axios
+                .get(PARTICIPANT_INFO, config);
+            return res.data;
+        } catch (e) {
+            console.log(e);
+        }
+    });
+    
 };
 
 export const agreeOnForm = async (form_id) => {

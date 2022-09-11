@@ -1,16 +1,18 @@
-import { Menubar } from 'primereact/menubar';
-import { InputText } from 'primereact/inputtext';
+import {Menubar} from 'primereact/menubar';
+import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
 import {useNavigate} from 'react-router-dom';
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {logout} from "../api/auth";
-import {getUserToken} from "../common/UserContext";
-
+import {participantInfo} from '../api/participant'
+import {getUserToken, getUserType} from "../common/UserContext";
+var id = 0;
 
 export const MenubarNav = () => {
-
     const [token, setToken] = useState('');
+    const [items, setItems] = useState('');
+    const [Participant, setParticipant] = useState('');
 
     const onLogout = async () => {
         const data = await logout(token);
@@ -21,13 +23,28 @@ export const MenubarNav = () => {
     useEffect(() => {
         getUserToken().then(myToken => {
             setToken(myToken);
-        
-        });
+        })
+            .then(() => {
+                getUserType().then(userType => {
+                    selectNav(userType);
+                })
+            });
     }, []);
 
+    const selectNav = (userType) => {
+        if (userType && userType.toLowerCase() === "researcher") {
+            setItems(resaercherNav);
+        } else if (userType && userType.toLowerCase() === "participant") {
+            setItems(participantNav);
+            participantInfo().then(data => {
+                id = (data.user.id);
+            });
+        } else {
+            setItems([]);
+        }
+    };
 
-
-    const items = [
+    const resaercherNav = [
         {
             label: 'Research',
             icon: 'pi pi-fw pi-file',
@@ -35,30 +52,21 @@ export const MenubarNav = () => {
                 {
                     label: 'Lets see some of our research',
                     icon: 'pi pi-fw pi-users',
-                    command:(e) => {
+                    command: (e) => {
                         window.location = "/ResearchDataView"
                     }
                 },
             ]
         },
         {
-            label: 'Users',
+            label: 'Participant',
             icon: 'pi pi-fw pi-user',
             items: [
                 {
-                    label: 'Users profile',
-                    icon: 'pi pi-fw pi-user-plus',                   
-                    command:(e) => {
-                        window.location = "/profile"
-                    }
-
-
-                },
-                {
                     label: 'participant List',
                     icon: 'pi pi-fw pi-user-minus',
-                    command:(e) => {
-                        window.location = "/participantList"
+                    command: (e) => {
+                        window.location = "/participants/"
                     }
 
                 },
@@ -97,18 +105,78 @@ export const MenubarNav = () => {
         {
             label: 'Logout',
             icon: 'pi pi-fw pi-power-off',
-            command:(e) => {
-                onLogout().then(()=>{window.location = "/login" })
+            command: (e) => {
+                onLogout().then(() => {
+                    window.location = "/login"
+                })
             }
         }
     ];
-    const start = <img alt="logo" src="images/product/logo.jpg" onError={(e) => e.target.src='https://blog.optimalworkshop.com/wp-content/uploads/2020/03/Qualitative-research-methods.png'} height="40" className="mr-2"></img>;
-    const end = <InputText placeholder="Search" type="text" />;
+
+    const participantNav = [
+        {
+            label: 'Research',
+            icon: 'pi pi-fw pi-file',
+            items: [
+                {
+                    label: 'Lets see some of our research',
+                    icon: 'pi pi-fw pi-users',
+                    command: (e) => {
+                        window.location = "/ResearchDataView"
+                    }
+                },
+            ]
+        },
+        {
+            label: 'Profile',
+            icon: 'pi pi-fw pi-user',
+            items: [
+                {
+                    label: 'profile page',
+                    icon: 'pi pi-fw pi-user-plus',
+                    command: (e) => {
+                        window.location = "/participants/"+id
+                    }
+
+
+                },
+            ]
+        },
+        {
+            label: 'Forms',
+            icon: 'pi pi-fw pi-user',
+            items: [
+                {
+                    label: 'Forms Forms to signed',
+                    icon: 'pi pi-fw pi-user-plus',
+                    command: (e) => {
+                        window.location = "/forms"
+                    }
+
+
+                },
+            ]
+        },
+        {
+            label: 'Logout',
+            icon: 'pi pi-fw pi-power-off',
+            command: (e) => {
+                onLogout().then(() => {
+                    window.location = "/login"
+                })
+            }
+        }
+    ];
+
+
+    const start = <img alt="logo" src="images/product/logo.jpg"
+                       onError={(e) => e.target.src = 'https://blog.optimalworkshop.com/wp-content/uploads/2020/03/Qualitative-research-methods.png'}
+                       height="40" className="mr-2"></img>;
 
     return (
         <div>
             <div className="card">
-                <Menubar model={items} start={start} end={end} />
+                <Menubar model={items} start={start}/>
             </div>
         </div>
     );
