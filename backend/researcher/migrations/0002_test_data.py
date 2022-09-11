@@ -15,17 +15,14 @@ class Migration(migrations.Migration):
         from researcher.models import Researcher
 
         with transaction.atomic():
-            name_prefix = "researcher"
-            for i in range(1, 11):
-                name = "{}_{}".format(name_prefix, i)
-                Researcher.create(
-                    email="{}@gmail.com".format(name),
-                    username=name,
-                    password=name,
-                    first_name=name_prefix,
-                    last_name=str(i),
-                    phone_number=str(random.randint(1000000000, 9999999999)),
-                )
+            Researcher.create(
+                email="mta.researchmate@gmail.com",
+                username="gal",
+                password="123456",
+                first_name="Gal",
+                last_name="Lior",
+                phone_number=str(random.randint(1000000000, 9999999999)),
+            )
 
     operations = [
         migrations.RunPython(generate_data),
