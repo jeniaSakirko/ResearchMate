@@ -21,9 +21,24 @@ export const Profile = () => {
     const [editingRows, setEditingRows] = useState({});
     const [hideEditBtn, setHideEditBtn] = useState(true);
     const [pastResearch, setPastResearch] = useState([]);
+    let currentResearch = ""
+
 
     useEffect(() => {
-        getParticipant(participantId).then(data => {
+        reloadParticipantInfo().then(() => {
+            getAll().then(data => {
+                setAvailableResearches(data);
+                for (const res of data) {
+                    if (currentResearch === res.name) {
+                        setSelectedResearch(res);
+                    }
+                }
+            });
+        });
+    }, [])
+
+    const reloadParticipantInfo = async () => {
+        return getParticipant(participantId).then(data => {
             generateUserInfoTable(data).then(userInfo => {
                 getParticipantResearchHistory(participantId, "all").then(data => {
                     getUserType().then(res => {
@@ -37,10 +52,7 @@ export const Profile = () => {
                 });
             });
         });
-        getAll().then(data => {
-            setAvailableResearches(data);
-        });
-    }, [])
+    }
 
     const generateUserInfoTable = async (data) => {
         let userInfo = []
@@ -56,6 +68,8 @@ export const Profile = () => {
         for (const res of data) {
             if (res.status.toLocaleString() === "Assigned" || res.status.toLocaleString() === "In Progress") {
                 userInfo.push({id: userInfo.length + 1, key: "Research", value: res.name + " (" + res.status + ")"})
+                setSelectedResearch(res.name);
+                currentResearch = res.name;
             }
         }
         setUserInfoTbl(userInfo);
@@ -92,11 +106,16 @@ export const Profile = () => {
     }
 
     const onAssign = async () => {
-        await assign(participantId, selectedResearch.id)
+        assign(participantId, selectedResearch.id).then(() => {
+            reloadParticipantInfo();
+        });
     }
 
     const onUnAssign = async () => {
-        await unassign(participantId, selectedResearch.id)
+        unassign(participantId, selectedResearch.id).then(() => {
+            reloadParticipantInfo();
+            setSelectedResearch(null);
+        })
     }
 
     const onRowEditComplete = (e) => {
@@ -118,7 +137,7 @@ export const Profile = () => {
     }
 
     return (
-        
+
         <div className="card">
 
             <Splitter style={{height: '740px'}}>
@@ -160,9 +179,11 @@ export const Profile = () => {
                                 </DataTable>
                             </div>
                         </SplitterPanel>
-                        
-                        <SplitterPanel style={{ display: (hideEditBtn ? 'block' : 'none') }} className={`${hideEditBtn ? "flex align-items-center justify-content-center" : ""}`} size={20} minSize={5}>
-                            <div className="flex flex-column align-items-center justify-content-center gap-3 m-3" >
+
+                        <SplitterPanel style={{display: (hideEditBtn ? 'block' : 'none')}}
+                                       className={`${hideEditBtn ? "flex align-items-center justify-content-center" : ""}`}
+                                       size={20} minSize={5}>
+                            <div className="flex flex-column align-items-center justify-content-center gap-3 m-3">
                                 <h3>Select a research</h3>
                                 <Dropdown value={selectedResearch} options={availableResearches}
                                           onChange={onResearchChange}
@@ -177,22 +198,26 @@ export const Profile = () => {
                             </div>
                         </SplitterPanel>
 
-                        <SplitterPanel style={{ display: (hideEditBtn ? 'block' : 'none') }} className={`${hideEditBtn ? "flex align-items-center justify-content-center" : ""}`} size={20} minSize={5}>
+                        <SplitterPanel style={{display: (hideEditBtn ? 'block' : 'none')}}
+                                       className={`${hideEditBtn ? "flex align-items-center justify-content-center" : ""}`}
+                                       size={20} minSize={5}>
                             <div className="flex flex-column align-items-center justify-content-center gap-3">
                                 <h3 className="align-items-center">Update A Meeting</h3>
                                 <Button onClick={onUpdateMeeting} label="Update Meeting" className="p-button-rounded"/>
                             </div>
                         </SplitterPanel>
 
-                        <SplitterPanel style={{ display: (hideEditBtn ? 'block' : 'none') }} className={`${hideEditBtn ? "flex align-items-center justify-content-center" : ""}`} size={20} minSize={5}>
+                        <SplitterPanel style={{display: (hideEditBtn ? 'block' : 'none')}}
+                                       className={`${hideEditBtn ? "flex align-items-center justify-content-center" : ""}`}
+                                       size={20} minSize={5}>
                             <div className="flex flex-column align-items-center justify-content-center gap-3">
                                 <h3 className="align-items-center">Add A Comment</h3>
                                 <Button onClick={onComment} label="Add A Comment" className="p-button-rounded"/>
                             </div>
                         </SplitterPanel>
 
-                    </Splitter>   
-                </SplitterPanel>   
+                    </Splitter>
+                </SplitterPanel>
             </Splitter>
         </div>
     );
