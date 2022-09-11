@@ -6,7 +6,9 @@ echo "--------------------------"
 echo 
 echo "Running docker compose down"
 sudo docker-compose down
-
+echo
+echo "--------------------------"
+echo
 echo "Undo all local changes"
 git checkout -- .
 echo 
@@ -28,6 +30,11 @@ sed -i "s,http://localhost:8000,http://vmedu259.mtacloud.co.il:8080,g" frontend/
 echo 
 echo "--------------------------"
 echo 
+echo "Change server address"
+sed -i 's,env="local",env="prod",g' frontend/src/index.js
+echo
+echo "--------------------------"
+echo
 echo "The money time! lets start the server"
 sudo docker-compose up -d
 
