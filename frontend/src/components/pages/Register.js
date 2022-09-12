@@ -79,7 +79,7 @@ export const Register = () => {
 
     const dialogFooter = <div className="flex justify-content-center"><Button label="OK" className="p-button-text"
                                                                               autoFocus
-                                                                              onClick={() => setShowMessage(false)}/>
+                                                                              onClick={() => window.location ="/login"}/>
     </div>;
     const dialogFooter1 = <div className="flex justify-content-center"><Button label="OK" className="p-button-text"
                                                                                autoFocus
@@ -107,8 +107,9 @@ export const Register = () => {
                     <i className="pi pi-check-circle" style={{fontSize: '5rem', color: 'var(--green-500)'}}></i>
                     <h5>Registration Successful!</h5>
                     <p style={{lineHeight: 1.5, textIndent: '1rem'}}>
-                        Your account is registered under name <b>{formData.name}</b> ; it'll be valid next 30 days
-                        without activation. Please check <b>{formData.email}</b> for activation instructions.
+                        Your account is registered under name <b>{formData.username}</b> 
+                        <br></br>
+                         Please check <b>{formData.email}</b> for registration Email.
                     </p>
                 </div>
             </Dialog>
