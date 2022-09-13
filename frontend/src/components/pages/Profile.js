@@ -199,25 +199,6 @@ export const Profile = () => {
                                 </div>
                             </div>
                         </SplitterPanel>
-
-                        <SplitterPanel style={{display: (hideEditBtn ? 'block' : 'none')}}
-                                       className={`${hideEditBtn ? "flex align-items-center justify-content-center" : ""}`}
-                                       size={20} minSize={5}>
-                            <div className="flex flex-column align-items-center justify-content-center gap-3">
-                                <h3 className="align-items-center">Update A Meeting</h3>
-                                <Button onClick={onUpdateMeeting} label="Update Meeting" className="p-button-rounded"/>
-                            </div>
-                        </SplitterPanel>
-
-                        <SplitterPanel style={{display: (hideEditBtn ? 'block' : 'none')}}
-                                       className={`${hideEditBtn ? "flex align-items-center justify-content-center" : ""}`}
-                                       size={20} minSize={5}>
-                            <div className="flex flex-column align-items-center justify-content-center gap-3">
-                                <h3 className="align-items-center">Add A Comment</h3>
-                                <Button onClick={onComment} label="Add A Comment" className="p-button-rounded"/>
-                            </div>
-                        </SplitterPanel>
-
                     </Splitter>
                 </SplitterPanel>
             </Splitter>
