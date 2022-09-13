@@ -7,7 +7,7 @@ import {Dropdown} from "primereact/dropdown";
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 
-import {getParticipant, getParticipantResearchHistory} from "../api/participant";
+import {getParticipant, getParticipantResearchHistory, disableParticipant, enableParticipant} from "../api/participant";
 import {assign, getAll, unassign} from "../api/research";
 import {getUserType} from "../common/UserContext";
 import "../css/DataTable.css"
@@ -22,6 +22,7 @@ export const Profile = () => {
     const [hideEditBtn, setHideEditBtn] = useState(true);
     const [pastResearch, setPastResearch] = useState([]);
     const [inResearch, setInResearch] = useState(false);
+    const [isActive, setIsActive] = useState(true);
     let currentResearch = ""
 
 
@@ -41,6 +42,7 @@ export const Profile = () => {
 
     const reloadParticipantInfo = async () => {
         return getParticipant(participantId).then(data => {
+            setIsActive(data.base_user?.user.is_active);
             generateUserInfoTable(data).then(userInfo => {
                 getParticipantResearchHistory(participantId, "all").then(data => {
                     getUserType().then(res => {
@@ -86,21 +88,19 @@ export const Profile = () => {
         }
         setPastResearch(pastInfo);
     }
-
-    const onSuspendUser = async () => {
-        console.log("onSuspendUser");
+    const OnDisableParticipant = async () => {
+        disableParticipant(participantId).then(() => {
+            reloadParticipantInfo();
+        })
+    }
+    const OnEnableParticipant = async () => {
+        enableParticipant(participantId).then(() => {
+            reloadParticipantInfo();
+        })
     }
 
     const onDisable = async () => {
         console.log("onDisable");
-    }
-
-    const onUpdateMeeting = async () => {
-        console.log("onUpdateMeeting");
-    }
-
-    const onComment = async () => {
-        console.log("onComment");
     }
 
     const onResearchChange = (e) => {
@@ -161,9 +161,13 @@ export const Profile = () => {
                     </DataTable>
 
                     <div>
-                        <Button onClick={onSuspendUser} label="Suspend User" className="p-button-rounded"/>
+                        <Button style={{display: (hideEditBtn ? 'none' : 'block')}} onClick={onDisable} label="update"
+                                className="p-button-rounded"/>
                         &emsp;
-                        <Button onClick={onDisable} label="Disable User" className="p-button-rounded"/>
+                        <Button hidden={!isActive} onClick={OnDisableParticipant}
+                                label="Disable User" className="p-button-rounded"/>
+                        <Button hidden={isActive} onClick={OnEnableParticipant}
+                                label="Enable User" className="p-button-rounded"/>
                     </div>
                 </SplitterPanel>
 
