@@ -10,6 +10,7 @@ djangorestframework = "*"
 django-rest-knox = "*"
 django-phonenumbers = "*"
 django-phonenumber-field = "*"
+names = "*"
 
 [dev-packages]
 flake8 = "*"
