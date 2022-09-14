@@ -14,6 +14,10 @@ export const PARTICIPANT_GET_ALL_FORMS_URL = BASE_PARTICIPANT_API + '/forms';
 export const PARTICIPANT_PUT_AGREE_ON_FORM_URL = PARTICIPANT_GET_ALL_FORMS_URL + '/agree';
 export const PARTICIPANT_GET_RESEARCH = '/research';
 export const PARTICIPANT_INFO = BASE_PARTICIPANT_API + '/info';
+export const PARTICIPANT_DISABLE = BASE_API+'/researcher/participant/disable';
+export const PARTICIPANT_ENABLE = BASE_API+ '/researcher/participant/enable';
+
+
 
 //Research
 export const  RESEARCH_GET_ALL = '/api/research';
