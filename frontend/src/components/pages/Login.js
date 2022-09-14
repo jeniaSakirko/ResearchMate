@@ -54,6 +54,10 @@ export const Login = () => {
         localStorage.setItem("userType", data.user.type);
         window.location = await getNavPath(data.user.type);
     }
+    else
+        {
+            setShowMessage1(true);
+        }
     }
     const dialogFooter1 = <div className="flex justify-content-center"><Button label="OK" className="p-button-text" 
                                 autoFocus onClick={() => setShowMessage1(false)}/> </div>;
