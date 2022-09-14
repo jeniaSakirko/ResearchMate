@@ -41,7 +41,7 @@ class TestResearchModelAPI:
     def test_assign_api_non_existing_participant(self, client, research_gal, researcher_token_fixture):
         response = client.post(
             "/api/research/{}/assign".format(research_gal.id),
-            data={"participant_id": 100},
+            data={"participant_id": 1000},
             content_type="application/json",
             **researcher_token_fixture
         )
