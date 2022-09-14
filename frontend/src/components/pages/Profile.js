@@ -110,6 +110,7 @@ export const Profile = () => {
     const onAssign = async () => {
         assign(participantId, selectedResearch.id).then(() => {
             reloadParticipantInfo();
+            setInResearch(true);
         });
     }
 
@@ -117,6 +118,7 @@ export const Profile = () => {
         unassign(participantId, selectedResearch.id).then(() => {
             reloadParticipantInfo();
             setSelectedResearch(null);
+            setInResearch(false);
         })
     }
 
@@ -196,10 +198,10 @@ export const Profile = () => {
                                           optionLabel="name" placeholder="Select a research"/>
                                 <div className="gap-2">
                                     <Button onClick={onAssign} label="Register To Research"
-                                            className="p-button-rounded" hidden={!inResearch}/>
+                                            className="p-button-rounded" hidden={inResearch}/>
                                     &emsp;
                                     <Button onClick={onUnAssign} label="Cancel Register To Research"
-                                            className="p-button-rounded" hidden={inResearch}/>
+                                            className="p-button-rounded" hidden={!inResearch}/>
                                 </div>
                             </div>
                         </SplitterPanel>
