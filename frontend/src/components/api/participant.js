@@ -79,9 +79,10 @@ export const enableParticipant = async (participant_id) => {
 };
 
 
-export const getAllForms = async () => {
+export const getAllParticipantForms = async () => {
     return getHeader(true).then(async config => {
         try {
+            config.params = {status: "all"};
             const res = await axios
                 .get(PARTICIPANT_GET_ALL_FORMS_URL, config);
             return res.data;
