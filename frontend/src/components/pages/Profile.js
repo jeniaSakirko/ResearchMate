@@ -19,7 +19,7 @@ export const Profile = () => {
     const [availableResearches, setAvailableResearches] = useState(null);
     const [userProfileLoading, setUserProfileLoading] = useState(true);
     const [editingRows, setEditingRows] = useState({});
-    const [hideEditBtn, setHideEditBtn] = useState(true);
+    const [isResearcher, setIsResearcher] = useState(true);
     const [pastResearch, setPastResearch] = useState([]);
     const [inResearch, setInResearch] = useState(false);
     const [isActive, setIsActive] = useState(true);
@@ -47,7 +47,7 @@ export const Profile = () => {
                 getParticipantResearchHistory(participantId, "all").then(data => {
                     getUserType().then(res => {
                         if (res.toLowerCase() === "participant") {
-                            setHideEditBtn(false);
+                            setIsResearcher(false);
                         }
                         setUserProfileLoading(false);
                     });
@@ -159,14 +159,13 @@ export const Profile = () => {
                         <Column field="value" header="value" editor={(options) => textEditor(options)}
                                 style={{border: "none"}}/>
                         <Column rowEditor headerStyle={{width: '10%', minWidth: '8rem'}}
-                                bodyStyle={{textAlign: 'center'}} hidden={hideEditBtn} style={{border: "none"}}/>
+                                bodyStyle={{textAlign: 'center'}} hidden={isResearcher} style={{border: "none"}}/>
                     </DataTable>
 
                     <div>
-                        <Button style={{display: (hideEditBtn ? 'none' : 'block')}} onClick={onDisable} label="update"
+                        <Button style={{display: (isResearcher ? 'none' : 'block')}} onClick={onDisable} label="update"
                                 className="p-button-rounded"/>
-                        &emsp;
-                        <Button hidden={!isActive} onClick={OnDisableParticipant}
+                        <Button hidden={(!isActive || !isResearcher)} onClick={OnDisableParticipant}
                                 label="Disable User" className="p-button-rounded"/>
                         <Button hidden={isActive} onClick={OnEnableParticipant}
                                 label="Enable User" className="p-button-rounded"/>
@@ -188,8 +187,8 @@ export const Profile = () => {
                             </div>
                         </SplitterPanel>
 
-                        <SplitterPanel style={{display: (hideEditBtn ? 'block' : 'none')}}
-                                       className={`${hideEditBtn ? "flex align-items-center justify-content-center" : ""}`}
+                        <SplitterPanel style={{display: (isResearcher ? 'block' : 'none')}}
+                                       className={`${isResearcher ? "flex align-items-center justify-content-center" : ""}`}
                                        size={20} minSize={5}>
                             <div className="flex flex-column align-items-center justify-content-center gap-3 m-3">
                                 <h3>Select a research</h3>
