@@ -143,3 +143,4 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "mta.researchmate@gmail.com"
 EMAIL_HOST_PASSWORD = "ldffipovhhsstwbe"
+SEND_EMAIL = False

@@ -35,6 +35,12 @@ sed -i 's,env="local",env="prod",g' frontend/src/index.js
 echo
 echo "--------------------------"
 echo
+echo "Update send mail"
+sed -i 's,SEND_EMAIL = False,SEND_EMAIL = True,g' backend/backend/settings.py
+echo
+
+echo "--------------------------"
+echo
 echo "The money time! lets start the server"
 sudo docker-compose up -d
 
