@@ -8,6 +8,7 @@ import {participantInfo} from '../api/participant'
 import {getUserToken, getUserType} from "../common/UserContext";
 
 import {Dialog} from 'primereact/dialog';
+import {ProgressSpinner} from "primereact/progressspinner";
 
 
 export const Login = () => {
@@ -15,6 +16,7 @@ export const Login = () => {
     const [password, setPassword] = useState('');
     const [userToken, setUserToken] = useState('');
     const [navPath, setNavPath] = useState('');
+    const [hideSpinner, setHideSpinner] = useState(true);
 
     useEffect(() => {
         getUserToken().then(token => {
@@ -42,36 +44,38 @@ export const Login = () => {
 
     const [showMessage1, setShowMessage1] = useState(false);
     const onLogin = async () => {
+        setHideSpinner(false);
         const data = await login(username, password);
-        if (typeof data !== 'undefined')
-        {
+        if (typeof data !== 'undefined') {
             localStorage.setItem("userToken", data.token);
             setUserToken(data.token);
 
-        localStorage.setItem("userType", data.user.type);
-        window.location = await getNavPath(data.user.type);
-    }
-    else
-        {
+            localStorage.setItem("userType", data.user.type);
+            window.location = await getNavPath(data.user.type);
+        } else {
             setShowMessage1(true);
         }
     }
-    const dialogFooter1 = <div className="flex justify-content-center"><Button label="OK" className="p-button-text" 
-                                autoFocus onClick={() => setShowMessage1(false)}/> </div>;
+    const dialogFooter1 = <div className="flex justify-content-center"><Button label="OK" className="p-button-text"
+                                                                               autoFocus
+                                                                               onClick={() => setShowMessage1(false)}/>
+    </div>;
     return (
 
-        <div className="flex justify-content-center aligned-items-center vertical-align-middle">  
-        {userToken ? <Navigate to={navPath}/> : null}    
+        <div className="flex justify-content-center aligned-items-center vertical-align-middle">
+            {userToken ? <Navigate to={navPath}/> : null}
             <Dialog visible={showMessage1} onHide={() => setShowMessage1(false)} position="top" footer={dialogFooter1}
                     showHeader={false} breakpoints={{'960px': '80vw'}} style={{width: '30vw'}}>
                 <div className="flex align-items-center flex-column pt-6 px-3">
                     <i style={{fontSize: '5rem', color: 'var(--green-500)'}}></i>
                     <h5>Oops! Username or password incorrect </h5>
-                    <p style={{lineHeight: 1.5, textIndent: '1rem'}}>                      
+                    <p style={{lineHeight: 1.5, textIndent: '1rem'}}>
                     </p>
                 </div>
             </Dialog>
-            <div className="card">
+            <ProgressSpinner hidden={hideSpinner}/>
+
+            <div className="card" hidden={!hideSpinner}>
                 <div className="flex flex-column align-items-center justify-content-center card-container gap-3
                 surface-overlay border-round border-1 shadow-1 p-5 py-0 m-3 ">
                     <h3 className="align-items-center">Login</h3>
