@@ -5,13 +5,10 @@ import {Link} from 'react-router-dom';
 import {login} from "../api/auth";
 import {Navigate} from 'react-router-dom';
 import {participantInfo} from '../api/participant'
-
 import {getUserToken, getUserType} from "../common/UserContext";
-// var navigateRouth ='/participants/';
 
 import {Dialog} from 'primereact/dialog';
-var navigateRouth ='/participants/';
-var id = 0;
+
 
 export const Login = () => {
     const [username, setUsername] = useState('');
