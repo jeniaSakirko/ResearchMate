@@ -7,7 +7,7 @@ import {Dropdown} from "primereact/dropdown";
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 
-import {getParticipant, getParticipantResearchHistory, disableParticipant, enableParticipant} from "../api/participant";
+import {getParticipant, getParticipantResearchHistory, disableParticipant, enableParticipant,UpdateParticipant} from "../api/participant";
 import {assign, getAll, unassign} from "../api/research";
 import {getUserType} from "../common/UserContext";
 import "../css/DataTable.css"
@@ -120,6 +120,10 @@ export const Profile = () => {
             setSelectedResearch(null);
             setInResearch(false);
         })
+    }
+
+    const Update = async()=>{
+        await UpdateParticipant(participant_id,username, password, email, first_name, last_name, phone_number);
     }
 
     const onRowEditComplete = (e) => {
