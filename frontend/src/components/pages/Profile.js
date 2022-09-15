@@ -122,8 +122,30 @@ export const Profile = () => {
         })
     }
 
-    const Update = async()=>{
-        await UpdateParticipant(participant_id,username, password, email, first_name, last_name, phone_number);
+    const Update = async () => {
+        let username;
+        let first_name;
+        let last_name;
+        let email;
+        let phone_number;
+        for (const entry of userInfoTbl) {
+            if (entry.key == "Username") {
+                username =entry.value;
+            }
+            else if (entry.key == "First Name") {
+                first_name =entry.value;
+            }
+            else if (entry.key == "Last Name") {
+                last_name =entry.value;
+            }
+            else if (entry.key == "Emil") {
+                email =entry.value;
+            }
+            else if (entry.key == "Phone") {
+                phone_number =entry.value;
+            }
+        }
+        await UpdateParticipant(participantId,username, email, first_name, last_name, phone_number);
     }
 
     const onRowEditComplete = (e) => {

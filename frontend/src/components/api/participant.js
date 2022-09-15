@@ -121,6 +121,19 @@ export const agreeOnForm = async (form_id) => {
     });
 };
 
+export const UpdateParticipant = async (participant_id,username, email, first_name, last_name, phone_number) => {
+    return getHeader(true).then(async config => {
+        const body = JSON.stringify({username, email, first_name, last_name, phone_number});
+        try {
+            const res = await axios
+                .put(BASE_PARTICIPANT_API + '/'+ participant_id, body, config);
+            return res.data;
+        } catch (e) {
+            console.log(e);
+        }
+    });
+};
+
 export const getParticipantResearchHistory = async (participantId, query_status = null) => {
     return getHeader(true).then(async config => {
         try {
@@ -136,15 +149,3 @@ export const getParticipantResearchHistory = async (participantId, query_status 
     });
 };
 
-export const UpdateParticipant = async (participant_id,username, password, email, first_name, last_name, phone_number) => {
-    return getHeader(true).then(async config => {
-        const body = JSON.stringify({username, password, email, first_name, last_name, phone_number});
-        try {
-            const res = await axios
-                .put(BASE_PARTICIPANT_API + participant_id, body, config);
-            return res.data;
-        } catch (e) {
-            console.log(e);
-        }
-    });
-};
