@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 password="123456",
                 first_name="Gal",
                 last_name="Lior",
-                phone_number=str(random.randint(1000000000, 9999999999)),
+                phone_number="05" + str(random.randint(0, 5)) + str(random.randint(1000000, 9999999)),
             )
 
     operations = [

@@ -24,19 +24,18 @@ class Migration(migrations.Migration):
                 Participant.create(
                     email="{}.{}@gmail.com".format(first_name, last_name),
                     username="{}.{}".format(first_name, last_name),
-                    password=first_name,
+                    password="123456",
                     first_name=first_name,
                     last_name=last_name,
-                    phone_number=str(random.randint(1000000000, 9999999999)),
+                    phone_number="05" + str(random.randint(0, 5)) + str(random.randint(1000000, 9999999)),
                 )
-
             Participant.create(
                 email="party@gmail.com",
                 username="party",
                 password="123456",
                 first_name="Party",
                 last_name="Participant",
-                phone_number=str(random.randint(1000000000, 9999999999)),
+                phone_number="05" + str(random.randint(0, 5)) + str(random.randint(1000000, 9999999)),
             )
 
     operations = [
