@@ -5,6 +5,7 @@ import {participantInfo} from '../api/participant'
 import {getUserToken, getUserType} from "../common/UserContext";
 
 var id = 0;
+var varFullName = '';
 
 export const MenubarNav = () => {
     const [token, setToken] = useState('');
@@ -36,7 +37,8 @@ export const MenubarNav = () => {
             setItems(participantNav);
             participantInfo().then(data => {
                 id = (data.user.id);
-                setFullName(data.user.base_user.user.first_name + " " + data.user.base_user.user.last_name)
+                varFullName = data.user.base_user.user.first_name + " " + data.user.base_user.user.last_name;
+                setFullName(varFullName);
             });
         } else {
             setItems([]);
@@ -130,7 +132,7 @@ export const MenubarNav = () => {
     const start = <img alt="logo" src="images/product/logo.jpg"
                        onError={(e) => e.target.src = 'https://blog.optimalworkshop.com/wp-content/uploads/2020/03/Qualitative-research-methods.png'}
                        height="40" className="mr-2"></img>;
-     const end = <label>Hello {fullName}!</label>
+     const end = <label>Hello {varFullName}!</label>
 
     return (
         <div>
