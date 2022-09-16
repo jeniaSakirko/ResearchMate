@@ -13,7 +13,9 @@ import {Button} from 'primereact/button';
 import {Dropdown} from 'primereact/dropdown';
 import {Dialog} from 'primereact/dialog';
 
-import {getAllForms, agreeOnForm} from '../api/participant'
+import {getAllParticipantForms, agreeOnForm} from '../api/participant'
+import {getUserType} from "../common/UserContext";
+import {approveOnForm, getAllResearchForms} from "../api/research";
 
 export const FormTable = () => {
     const [displayForm, setDisplayForm] = useState(false);
@@ -37,6 +39,9 @@ export const FormTable = () => {
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     const [loading, setLoading] = useState(true);
     const statuses = ['new', 'underreview', 'done'];
+    const [isParticipant, setIsParticipant] = useState(true);
+    const [acceptedStatus, setAcceptedStatus] = useState('');
+
 
     useEffect(() => {
         reloadForms();
@@ -44,11 +49,24 @@ export const FormTable = () => {
 
     const reloadForms = () => {
         setLoading(true)
-        getAllForms().then(data => {
-            setFormsList(data);
-            setLoading(false)
+        getUserType().then(userType => {
+            if (userType && userType.toLowerCase() === "researcher") {
+                return getAllResearchForms(1).then(data => {
+                    setFormsList(data);
+                    setLoading(false);
+                    setIsParticipant(false);
+                })
+            } else if (userType && userType.toLowerCase() === "participant") {
+                return getAllParticipantForms().then(data => {
+                    setFormsList(data);
+                    setLoading(false);
+                    setIsParticipant(true);
+                });
+            }
         });
-    }
+
+
+    };
 
     const onGlobalFilterChange = (e) => {
         const value = e.target.value;
@@ -76,10 +94,17 @@ export const FormTable = () => {
     }
 
     const acceptForm = () => {
-        agreeOnForm(formRow.id).then(() => {
-            setDisplayForm(false)
-            reloadForms();
-        })
+        if (isParticipant) {
+            return agreeOnForm(formRow.id).then(() => {
+                setDisplayForm(false)
+                return reloadForms();
+            });
+        } else {
+            return approveOnForm(formRow.research.id, formRow.user.id, formRow.id).then(() => {
+                setDisplayForm(false)
+                return reloadForms();
+            });
+        }
     }
 
     const renderFooter = () => {
@@ -93,29 +118,41 @@ export const FormTable = () => {
         }
         return (
             <div>
-                <Button label="Done" icon="pi pi-check" onClick={() => acceptForm()} autoFocus/>
+                <Button label="Done" icon="pi pi-check" onClick={() => onHide()} autoFocus/>
             </div>
         );
     }
 
-    const showFullDialog = (rowData, newItem) => {
+    const showDialog = (rowData, newItem) => {
         setFormRow(rowData);
         setIsNewForm(newItem);
         setDisplayForm(true);
     }
 
-
     const actionBodyTemplate = (rowData) => {
-        let newItem = false;
-        let icon = "pi pi-eye"
-        let className = "p-button-success"
-        if (rowData.status === "New") {
-            newItem = true;
-            icon = "pi pi-check-square"
-            className = ""
+        if (isParticipant) {
+            let newItem = false;
+            let icon = "pi pi-eye"
+            let className = "p-button-success"
+            if (rowData.status === "New") {
+                newItem = true;
+                icon = "pi pi-check-square"
+                className = ""
+            }
+            return <Button type="button" onClick={() => showDialog(rowData, newItem)} icon={icon}
+                           className={className}></Button>;
+        } else {
+            let isDone = true;
+            let icon = "pi pi-eye"
+            let className = "p-button-success"
+            if (rowData.status === "Under Review") {
+                isDone = false;
+                icon = "pi pi-check-square"
+                className = ""
+            }
+            return <Button type="button" onClick={() => showDialog(rowData, !isDone)} icon={icon}
+                           className={className}></Button>
         }
-        return <Button type="button" onClick={() => showFullDialog(rowData, newItem)} icon={icon}
-                       className={className}></Button>;
     }
 
     const statusBodyTemplate = (rowData) => {
@@ -136,6 +173,62 @@ export const FormTable = () => {
 
     const header = renderHeader();
 
+    const renderParticipantTable = () => {
+        return (
+            <DataTable value={formsList} paginator className="p-datatable-form-participant" header={header}
+                       rows={10}
+                       paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                       rowsPerPageOptions={[10, 25, 50]} dataKey="id" rowHover filters={filters}
+                       filterDisplay="menu"
+                       loading={loading} responsiveLayout="scroll"
+                       globalFilterFields={['name', 'research.name', 'status']}
+                       emptyMessage="No forms found."
+                       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                <Column field="name" header="Form Name" sortable style={{minWidth: '14rem'}}/>
+                <Column field="research.name" header="Research Name" sortable style={{minWidth: '14rem'}}/>
+                <Column field="status" header="Status" sortable filterMenuStyle={{width: '14rem'}}
+                        style={{minWidth: '10rem'}} body={statusBodyTemplate} filter
+                        filterElement={statusFilterTemplate}/>
+                <Column headerStyle={{width: '4rem', textAlign: 'center'}}
+                        bodyStyle={{textAlign: 'center', overflow: 'visible'}} body={actionBodyTemplate}/>
+            </DataTable>
+        )
+    }
+
+    const renderResearchTable = () => {
+        return (
+            <DataTable value={formsList} paginator className="p-datatable-form-researcher" header={header}
+                       rows={10}
+                       paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                       rowsPerPageOptions={[10, 25, 50]} dataKey="id" rowHover filters={filters}
+                       filterDisplay="menu"
+                       loading={loading} responsiveLayout="scroll"
+                       globalFilterFields={['base_user.user.first_name', 'base_user.user.last_name', 'base_user.user.email', 'base_user.phone_number']}
+                       emptyMessage="No forms found."
+                       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                <Column field="user.base_user.user.first_name" header="First Name" sortable
+                        style={{minWidth: '14rem'}}/>
+                <Column field="user.base_user.user.last_name" header="Last Name" sortable
+                        style={{minWidth: '14rem'}}/>
+                <Column field="user.base_user.user.email" header="Email" sortable style={{minWidth: '14rem'}}/>
+                <Column field="user.base_user.phone_number" header="Phone" sortable dataType="numeric"
+                        style={{minWidth: '8rem'}}/>
+                <Column field="name" header="Form Name" sortable style={{minWidth: '14rem'}}/>
+                <Column field="research.name" header="Research Name" sortable style={{minWidth: '14rem'}}/>
+                <Column field="status" header="Status" sortable filterMenuStyle={{width: '14rem'}}
+                        style={{minWidth: '10rem'}} body={statusBodyTemplate} filter
+                        filterElement={statusFilterTemplate}/>
+
+                <Column headerStyle={{width: '4rem', textAlign: 'center'}}
+                        bodyStyle={{textAlign: 'center', overflow: 'visible'}} body={actionBodyTemplate}/>
+            </DataTable>
+        )
+    }
+
+    const formsTable = isParticipant ? renderParticipantTable() : renderResearchTable();
+    // const formsTable = renderParticipantTable();
+
+
     return (
         <div className="datatable-base">
             <div className="card">
@@ -147,22 +240,7 @@ export const FormTable = () => {
                         src={formRow.url}
                     />
                 </Dialog>
-                <DataTable value={formsList} paginator className="p-datatable-customers" header={header} rows={10}
-                           paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                           rowsPerPageOptions={[10, 25, 50]}
-                           dataKey="id" rowHover
-                           filters={filters} filterDisplay="menu" loading={loading} responsiveLayout="scroll"
-                           globalFilterFields={['name', 'research.name', 'status']}
-                           emptyMessage="No participants found."
-                           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                    <Column field="name" header="Form Name" sortable style={{minWidth: '14rem'}}/>
-                    <Column field="research.name" header="Research Name" sortable style={{minWidth: '14rem'}}/>
-                    <Column field="status" header="Status" sortable filterMenuStyle={{width: '14rem'}}
-                            style={{minWidth: '10rem'}} body={statusBodyTemplate} filter
-                            filterElement={statusFilterTemplate}/>
-                    <Column headerStyle={{width: '4rem', textAlign: 'center'}}
-                            bodyStyle={{textAlign: 'center', overflow: 'visible'}} body={actionBodyTemplate}/>
-                </DataTable>
+                {formsTable}
             </div>
         </div>
     );

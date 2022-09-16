@@ -60,6 +60,21 @@ export const MenubarNav = () => {
             ]
         },
         {
+            label: 'Forms',
+            icon: 'pi pi-fw pi-user',
+            items: [
+                {
+                    label: 'Forms Forms to signed',
+                    icon: 'pi pi-fw pi-user-plus',
+                    command: (e) => {
+                        window.location = "/forms"
+                    }
+
+
+                },
+            ]
+        },
+        {
             label: 'Logout',
             icon: 'pi pi-fw pi-power-off',
             command: (e) => {

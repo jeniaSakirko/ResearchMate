@@ -86,6 +86,23 @@ class FormParticipantMap(models.Model):
                   ") (All)"
         raise Exception(message)
 
+    @staticmethod
+    def get_research_forms(research_id, status=None):
+        if status is None:
+            return FormParticipantMap.objects.filter(form__research_id=research_id,
+                                                     status__in=[Status.done, Status.under_review])
+        if status == 'all':
+            return FormParticipantMap.objects.filter(form__research_id=research_id)
+        status = Status.get_valid_name_from_status(status=status)
+
+        if status in Status.values:
+            return FormParticipantMap.objects.filter(form__research_id=research_id, status=status)
+
+        message = "Status is invalid, valid options are: (" + \
+                  "), (".join(map(lambda opt: str(opt[0]) + ' / ' + str(opt[1]), Status.choices)) + \
+                  ") (All)"
+        raise Exception(message)
+
     def get_status_full_name(self):
         return Status.get_full_name_from_status(self.status)
 

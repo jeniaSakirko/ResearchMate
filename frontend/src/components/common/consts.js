@@ -23,4 +23,5 @@ export const PARTICIPANT_ENABLE = BASE_API+ '/researcher/participant/enable';
 export const  RESEARCH_GET_ALL = '/api/research';
 export const  RESEARCH_ASSIGH = '/assign';
 export const  RESEARCH_UNASSIGH = '/unassign';
+export const  RESEARCH_FORMS = '/forms';
 
