@@ -1,23 +1,21 @@
 import {Menubar} from 'primereact/menubar';
-import {InputText} from 'primereact/inputtext';
-import {Button} from 'primereact/button';
-import {useNavigate} from 'react-router-dom';
 import React, {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
 import {logout} from "../api/auth";
 import {participantInfo} from '../api/participant'
 import {getUserToken, getUserType} from "../common/UserContext";
+
 var id = 0;
 
 export const MenubarNav = () => {
     const [token, setToken] = useState('');
     const [items, setItems] = useState('');
-    const [Participant, setParticipant] = useState('');
+    const [fullName, setFullName] = useState('');
 
     const onLogout = async () => {
-        const data = await logout(token);
+        logout(token);
         localStorage.removeItem("userToken");
         localStorage.removeItem("userType");
+
     }
 
     useEffect(() => {
@@ -38,6 +36,7 @@ export const MenubarNav = () => {
             setItems(participantNav);
             participantInfo().then(data => {
                 id = (data.user.id);
+                setFullName(data.user.base_user.user.first_name + " " + data.user.base_user.user.last_name)
             });
         } else {
             setItems([]);
@@ -94,7 +93,7 @@ export const MenubarNav = () => {
                     label: 'profile page',
                     icon: 'pi pi-fw pi-user-plus',
                     command: (e) => {
-                        window.location = "/participants/"+id
+                        window.location = "/participants/" + id
                     }
 
 
@@ -131,11 +130,12 @@ export const MenubarNav = () => {
     const start = <img alt="logo" src="images/product/logo.jpg"
                        onError={(e) => e.target.src = 'https://blog.optimalworkshop.com/wp-content/uploads/2020/03/Qualitative-research-methods.png'}
                        height="40" className="mr-2"></img>;
+     const end = <label>Hello {fullName}!</label>
 
     return (
         <div>
             <div className="card">
-                <Menubar model={items} start={start}/>
+                <Menubar model={items} start={start} end={end}/>
             </div>
         </div>
     );
