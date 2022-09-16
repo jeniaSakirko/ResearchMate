@@ -23,21 +23,18 @@ class ParticipantCleanSerializer(serializers.Serializer):
     phone_number = serializers.CharField()
 
     def update(self, instance, validated_data):
-        try:
-            req_user = self.context["request"].user
-            can_update = False
-            if Researcher.objects.filter(base_user=req_user.baseuser).exists():
-                can_update = True
-            elif req_user.id == instance.id:
-                can_update = True
+        req_user = self.context["request"].user
+        can_update = False
+        if Researcher.objects.filter(base_user=req_user.baseuser).exists():
+            can_update = True
+        elif req_user.id == instance.base_user.user.id:
+            can_update = True
 
-            if can_update:
-                instance.update_data(validated_data)
-            else:
-                raise PermissionDenied()
-            return instance
-        except Exception as e:
-            raise Exception("Internal Error {}".format(str(e)))
+        if can_update:
+            instance.update_data(validated_data)
+        else:
+            raise PermissionDenied()
+        return instance
 
     def create(self, validated_data):
         try:

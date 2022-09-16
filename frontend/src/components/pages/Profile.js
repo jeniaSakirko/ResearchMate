@@ -7,7 +7,13 @@ import {Dropdown} from "primereact/dropdown";
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 
-import {getParticipant, getParticipantResearchHistory, disableParticipant, enableParticipant,UpdateParticipant} from "../api/participant";
+import {
+    getParticipant,
+    getParticipantResearchHistory,
+    disableParticipant,
+    enableParticipant,
+    UpdateParticipant
+} from "../api/participant";
 import {assign, getAll, unassign} from "../api/research";
 import {getUserType} from "../common/UserContext";
 import "../css/DataTable.css"
@@ -23,6 +29,7 @@ export const Profile = () => {
     const [pastResearch, setPastResearch] = useState([]);
     const [inResearch, setInResearch] = useState(false);
     const [isActive, setIsActive] = useState(true);
+    const [disableUpdate, setDisableUpdate] = useState(false);
     let currentResearch = ""
 
 
@@ -99,10 +106,6 @@ export const Profile = () => {
         })
     }
 
-    const onDisable = async () => {
-        console.log("onDisable");
-    }
-
     const onResearchChange = (e) => {
         setSelectedResearch(e.value);
     }
@@ -122,7 +125,7 @@ export const Profile = () => {
         })
     }
 
-    const Update = async () => {
+    const onUpdate = async () => {
         let username;
         let first_name;
         let last_name;
@@ -130,22 +133,18 @@ export const Profile = () => {
         let phone_number;
         for (const entry of userInfoTbl) {
             if (entry.key == "Username") {
-                username =entry.value;
-            }
-            else if (entry.key == "First Name") {
-                first_name =entry.value;
-            }
-            else if (entry.key == "Last Name") {
-                last_name =entry.value;
-            }
-            else if (entry.key == "Emil") {
-                email =entry.value;
-            }
-            else if (entry.key == "Phone") {
-                phone_number =entry.value;
+                username = entry.value;
+            } else if (entry.key == "First Name") {
+                first_name = entry.value;
+            } else if (entry.key == "Last Name") {
+                last_name = entry.value;
+            } else if (entry.key == "Emil") {
+                email = entry.value;
+            } else if (entry.key == "Phone") {
+                phone_number = entry.value;
             }
         }
-        await UpdateParticipant(participantId,username, email, first_name, last_name, phone_number);
+        await UpdateParticipant(participantId, username, email, first_name, last_name, phone_number);
     }
 
     const onRowEditComplete = (e) => {
@@ -158,6 +157,11 @@ export const Profile = () => {
     }
 
     const onRowEditChange = (e) => {
+        if (Object.keys(e.data).length === 0) {
+            setDisableUpdate(false);
+        } else {
+            setDisableUpdate(true);
+        }
         setEditingRows(e.data);
     }
 
@@ -189,8 +193,8 @@ export const Profile = () => {
                     </DataTable>
 
                     <div>
-                        <Button style={{display: (isResearcher ? 'none' : 'block')}} onClick={onDisable} label="update"
-                                className="p-button-rounded"/>
+                        <Button style={{display: (isResearcher ? 'none' : 'block')}} onClick={onUpdate} label="update"
+                                className="p-button-rounded" disabled={disableUpdate}/>
                         <Button hidden={(!isActive || !isResearcher)} onClick={OnDisableParticipant}
                                 label="Disable User" className="p-button-rounded"/>
                         <Button hidden={isActive} onClick={OnEnableParticipant}
