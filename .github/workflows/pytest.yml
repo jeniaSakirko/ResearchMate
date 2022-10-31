@@ -4,7 +4,7 @@ jobs:
   pytest:
     name: PyTest
     runs-on: ubuntu-20.04
-    container: nikolaik/python-nodejs:latest
+    container: nikolaik/python-nodejs:python3.10-nodejs19
     steps:
 #      - name: Install Pipenv and git
 #        run: dnf install -y pipenv git
