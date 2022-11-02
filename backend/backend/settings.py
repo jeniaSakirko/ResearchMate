@@ -142,5 +142,5 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "sadna20223W85@gmail.com"
-EMAIL_HOST_PASSWORD = "uvaghidckcculllk"
+EMAIL_HOST_PASSWORD = "PLACEHOLDER"
 SEND_EMAIL = False

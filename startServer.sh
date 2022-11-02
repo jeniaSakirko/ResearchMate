@@ -37,8 +37,8 @@ echo "--------------------------"
 echo
 echo "Update send mail"
 sed -i 's,SEND_EMAIL = False,SEND_EMAIL = True,g' backend/backend/settings.py
+sed -i 's,PLACEHOLDER,$SADNA_PASS,g' backend/backend/settings.py
 echo
-
 echo "--------------------------"
 echo
 echo "The money time! lets start the server"
